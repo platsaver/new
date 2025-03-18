@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị - PNews</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="../dist/css/styles.css">
+    <style>
+        .login-btn {
+            background-color: #337ab7;
+            color: white !important;
+            padding: 5px 15px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .login-btn:hover {
+            background-color: #286090;
+            text-decoration: none;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .btn-edit, .btn-delete, .btn-save {
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-edit {
+            background-color: #5cb85c;
+        }
+        .btn-edit:hover {
+            background-color: #4cae4c;
+        }
+        .btn-delete {
+            background-color: #d9534f;
+        }
+        .btn-delete:hover {
+            background-color: #c9302c;
+        }
+        .btn-save {
+            background-color: #337ab7;
+        }
+        .btn-save:hover {
+            background-color: #286090;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="thoisu.html">Thời sự</a></li>
+            <li><a href="kinhdoanh.html">Kinh doanh</a></li>
+            <li><a href="batdongsan.html">Bất động sản</a></li>
+            <li><a href="phapluat.html">Pháp luật</a></li>
+        </ul>
+    </div>
+
+    <div id="page-content-wrapper">
+        <div class="mobile-head visible-xs-block">
+            <nav class="navbar">
+                <a class="menu-toggle" type="button" href="#">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="container">
+            <div class="masthead hidden-xs">
+                <div id="masthead-cap">
+                    <nav class="navbar">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a class="menu-toggle" type="button" href="#">
+                                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                                    Danh mục
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px">
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px; border: 1px solid #ccc">
+                                </form>
+                            </li>
+                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="masthead-meta">
+                    <h2 class="branding" style="text-align: center;"><a href="index.html">PNews</a></h2>
+                </div>
+                <nav id="mini-navigation">
+                    <ul class="nav nav-justified">
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="thoisu.html">Thời sự</a></li>
+                        <li><a href="kinhdoanh.html">Kinh doanh</a></li>
+                        <li><a href="batdongsan.html">Bất động sản</a></li>
+                        <li><a href="phapluat.html">Pháp luật</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="main">
+                <section style="padding: 50px 0;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>Trang Quản trị</h2>
+                            <p>Chào mừng đến với trang quản trị. Chỉ tài khoản admin mới có thể truy cập.</p>
+
+                            <!-- Quản trị bài viết -->
+                            <h3>Quản trị bài viết</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Danh mục</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="post-list">
+                                    <!-- Dữ liệu bài viết sẽ được thêm bằng JavaScript -->
+                                </tbody>
+                            </table>
+
+                            <!-- Quản trị người dùng -->
+                            <h3>Quản trị người dùng</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên người dùng</th>
+                                        <th>Email</th>
+                                        <th>Hành động</th>
+                                        <th>Quyền</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-list">
+                                    <!-- Dữ liệu người dùng sẽ được thêm bằng JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Modal chỉnh sửa bài viết -->
+        <div id="editPostModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('editPostModal')">×</span>
+                <h3>Chỉnh sửa bài viết</h3>
+                <form id="editPostForm">
+                    <label>ID: <input type="text" id="postId" readonly></label><br><br>
+                    <label>Tiêu đề: <input type="text" id="postTitle"></label><br><br>
+                    <label>Danh mục: <input type="text" id="postCategory"></label><br><br>
+                    <button type="button" class="btn-save" onclick="savePost()">Lưu</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal chỉnh sửa người dùng -->
+        <div id="editUserModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('editUserModal')">×</span>
+                <h3>Chỉnh sửa người dùng</h3>
+                <form id="editUserForm">
+                    <label>ID: <input type="text" id="userId" readonly></label><br><br>
+                    <label>Tên người dùng: <input type="text" id="userName"></label><br><br>
+                    <label>Email: <input type="email" id="userEmail"></label><br><br>
+                    <label>Quyền: 
+                        <select id="userRole">
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </label><br><br>
+                    <button type="button" class="btn-save" onclick="saveUser()">Lưu</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <footer class="footer">
+                <nav class="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">© 2025 PNews</a></li>
+                    </ul>
+                </nav>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../dist/js/scripts.min.js" async></script>
+<script src="../dist/js/auth.js"></script>
+<script src="../dist/js/admin-check.js"></script>
+
+<!-- Script để hiển thị dữ liệu và xử lý chỉnh sửa -->
+<script>
+    // Dữ liệu mẫu cho bài viết (từ folder /posts)
+    let posts = [
+        { id: 1, title: "Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM", category: "Thời sự" },
+        { id: 2, title: "Khu tập thể Thành Công sẽ được cải tạo", category: "Thời sự" },
+        { id: 3, title: "Số đơn vị hành chính cấp tỉnh cần sáp nhập đã được xác định", category: "Thời sự" },
+        { id: 4, title: "Ôtô tông 10 xe máy ở ngã tư Thủ Đức", category: "Thời sự" },
+        { id: 5, title: "Đề xuất bố trí nhà và xe công vụ cho nhà khoa học đầu ngành", category: "Thời sự" },
+        { id: 6, title: "Giá vàng nhẫn lập kỷ lục gần 97 triệu đồng", category: "Kinh doanh" },
+        { id: 7, title: "Bộ trưởng Tài chính Mỹ: Không loại trừ nguy cơ kinh tế suy thoái", category: "Kinh doanh" },
+        { id: 8, title: "Giá vàng có thể tiếp tục vượt 3.000 USD", category: "Kinh doanh" },
+        { id: 9, title: "Gỡ khó cho doanh nghiệp - chìa khóa để TP HCM tăng trưởng 10%", category: "Kinh doanh" },
+        { id: 10, title: "Đất trúng đấu giá huyện ven Hà Nội tiếp tục giảm nhiệt.", category: "Bất động sản" },
+        { id: 11, title: "Dự án bất động sản phát triển song hành quy hoạch TP Thủ Đức", category: "Bất động sản" },
+        { id: 12, title: "Tiềm năng cho địa ốc khi nút giao Tân Vạn sắp về đích.", category: "Bất động sản" },
+        { id: 13, title: "22 năm đưa mô hình trị liệu - tái tạo vào đô thị của Ecopark.", category: "Bất động sản" },
+        { id: 14, title: "Cựu vụ phó khai thông thầu với AIC do áp lực từ cựu bộ trưởng Trương Minh Tuấn.", category: "Pháp luật" },
+        { id: 15, title: "Lừa làm bùa yêu, cắt vong", category: "Pháp luật" },
+        { id: 16, title: "Cảnh sát Mỹ phá đường dây mại dâm cao cấp, giao dịch bí mật.", category: "Pháp luật" },
+        { id: 17, title: "Đề nghị Bộ Công an điều tra hai dự án nhà ở tại Vĩnh Long.", category: "Pháp luật" },
+    ];
+
+    // Dữ liệu mẫu cho người dùng với thuộc tính role
+    let users = [
+        { id: 1, username: "user1", email: "user1@example.com", role: "User" },
+        { id: 2, username: "admin", email: "admin@example.com", role: "Admin" }
+    ];
+
+    // Hiển thị danh sách bài viết
+    function renderPosts() {
+        const postList = document.getElementById("post-list");
+        postList.innerHTML = "";
+        posts.forEach(post => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${post.id}</td>
+                <td>${post.title}</td>
+                <td>${post.category}</td>
+                <td>
+                    <a href="#" class="btn-edit" onclick="editPost(${post.id})">Chỉnh sửa</a>
+                    <a href="#" class="btn-delete" onclick="deletePost(${post.id})">Xóa</a>
+                </td>
+            `;
+            postList.appendChild(row);
+        });
+    }
+
+    // Hiển thị danh sách người dùng với cột Quyền
+    function renderUsers() {
+        const userList = document.getElementById("user-list");
+        userList.innerHTML = "";
+        users.forEach(user => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.email}</td>
+                <td>
+                    <a href="#" class="btn-edit" onclick="editUser(${user.id})">Chỉnh sửa</a>
+                    <a href="#" class="btn-delete" onclick="deleteUser(${user.id})">Xóa</a>
+                </td>
+                <td>${user.role}</td>
+            `;
+            userList.appendChild(row);
+        });
+    }
+
+    // Mở modal chỉnh sửa bài viết
+    function editPost(id) {
+        const post = posts.find(p => p.id === id);
+        document.getElementById("postId").value = post.id;
+        document.getElementById("postTitle").value = post.title;
+        document.getElementById("postCategory").value = post.category;
+        document.getElementById("editPostModal").style.display = "block";
+    }
+
+    // Mở modal chỉnh sửa người dùng
+    function editUser(id) {
+        const user = users.find(u => u.id === id);
+        document.getElementById("userId").value = user.id;
+        document.getElementById("userName").value = user.username;
+        document.getElementById("userEmail").value = user.email;
+        document.getElementById("userRole").value = user.role;
+        document.getElementById("editUserModal").style.display = "block";
+    }
+
+    // Đóng modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    // Lưu bài viết đã chỉnh sửa
+    function savePost() {
+        const id = parseInt(document.getElementById("postId").value);
+        const title = document.getElementById("postTitle").value;
+        const category = document.getElementById("postCategory").value;
+        const postIndex = posts.findIndex(p => p.id === id);
+        posts[postIndex] = { id, title, category };
+        renderPosts();
+        closeModal("editPostModal");
+        alert("Đã lưu bài viết ID: " + id);
+    }
+
+    // Lưu người dùng đã chỉnh sửa
+    function saveUser() {
+        const id = parseInt(document.getElementById("userId").value);
+        const username = document.getElementById("userName").value;
+        const email = document.getElementById("userEmail").value;
+        const role = document.getElementById("userRole").value;
+        const userIndex = users.findIndex(u => u.id === id);
+        users[userIndex] = { id, username, email, role };
+        renderUsers();
+        closeModal("editUserModal");
+        alert("Đã lưu người dùng ID: " + id);
+    }
+
+    // Xóa bài viết
+    function deletePost(id) {
+        if (confirm("Bạn có chắc muốn xóa bài viết ID: " + id + "?")) {
+            posts = posts.filter(p => p.id !== id);
+            renderPosts();
+            alert("Đã xóa bài viết ID: " + id);
+        }
+    }
+
+    // Xóa người dùng
+    function deleteUser(id) {
+        if (confirm("Bạn có chắc muốn xóa người dùng ID: " + id + "?")) {
+            users = users.filter(u => u.id !== id);
+            renderUsers();
+            alert("Đã xóa người dùng ID: " + id);
+        }
+    }
+
+    // Khởi tạo danh sách
+    renderPosts();
+    renderUsers();
+</script>
+</body>
+</html>
