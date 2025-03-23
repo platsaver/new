@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
     <script src="../dist/js/search.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
 
@@ -46,7 +47,7 @@
                                 <li>
                                     <a class="menu-toggle" type="button" href="#">
                                         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                        Danh mục
+                                        <span class="menu-text">Danh mục</span>
                                     </a>
                                 </li>
                             </ul>
@@ -54,13 +55,18 @@
                                 <li><h2 class="branding"><a href="category.html">The Hanoi Times</a></h2></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                            <!-- Thêm search bar -->
-                            <li>
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px">
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px; border: 1px solid #ccc">
+                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                            <li style="margin-top: 10px">
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px; position: relative;">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn mặc định -->
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                  display: none; position: absolute; right: 20px; top: 0;">
                                 </form>
                             </li>
-                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
                         </ul>
                         </div>
                     </nav>
@@ -103,7 +109,7 @@
                                     <p>Mục tiêu đầu tư nhằm đảm bảo khả năng giám sát, phân tích dữ liệu 1.000 sự cố, 60 trang/Cổng thông tin điện tử phục vụ Chính phủ điện tử, phân tích, giải mã, phát hiện tấn công mạng...</p>
                                     <p>Song trước khi có quyết định cho VNCERT xây dựng dự án, ông có dự buổi họp do Bộ trưởng Thông tin Truyền thông khi đó là ông Trương Minh Tuấn chủ trì. Tại đây theo lời khai của ông Đường, ông Tuấn giới thiệu Công ty AIC trình bày hệ thống giám sát an toàn mạng có giá 300 tỷ đồng.</p>
                                     <p>"Bộ trưởng Tuấn chỉ đạo AIC là đối tác của bộ, yêu cầu các đơn vị phải hợp tác và xem xét mua hệ thống", ông Đường khai và cho hay sau đó thấy giá quá cao, không tương thích với hệ thống hiện có của VNCERT, gây lãng phí nên từ chối mua.</p>
-                                    <p>"Bị cáo từng cam đoan với bộ trưởng là tiền đầu tư như vậy chỉ dưới 100 tỷ, do đó đã yêu cầu tổ công tác khống chế danh mục đầu tư không quá 100 tỷ đồng, chứ không chỉ đạo hợp tác với AIC", ông Đường khai.</p>
+                                    <p>"Bị cáo từng cam đoan với bộ trưởng là tiền đầu tư như vậy chỉ dưới 100 tỷ, do đó đã yêu cầu tổ công tác khống chế <span class="menu-text">Danh mục</span> đầu tư không quá 100 tỷ đồng, chứ không chỉ đạo hợp tác với AIC", ông Đường khai.</p>
                                     <p>Khi trình văn bản đề nghị Bộ Tài chính cấp vốn, ông Đường khẳng định VNCERT trình phương án nâng cấp hệ thống hiện có, tổng chi phí 95 tỷ đồng. Song trong văn bản cấp trên gửi Bộ Tài chính, vẫn yêu cầu cấp 300 tỷ đồng, "gây áp lực rất lớn cho VNCERT".</p>
                                     <p>Nhiều lần nhắc việc "bị áp lực" do có chỉ đạo từ ông Tuấn, ông Đường khai sau đó vẫn kiên quyết thuyết phục lãnh đạo theo phương án 95 tỷ đồng.</p>
                                     <p>Ông Đường nói không chỉ đạo cấp dưới, nhưng có truyền đạt lại là "AIC là đối tác của bộ trưởng giới thiệu". Ông thừa nhận khi nói như vậy có nghĩa là "anh em cấp dưới sẽ hiểu là phải tạo điều kiện cho AIC".</p>
@@ -121,13 +127,13 @@
                                     <p>Theo đó, AIC gửi gói quà Tết qua lễ tân và được lễ tân VNCERT đưa lại cho ông Đường. Thấy bên trong túi quà có tiền, ông Đường nói đã gọi cho Sơn nói đến cầm tiền về. Song Sơn từ chối nói đó tiền cảm ơn VNCERT đã "bảo vệ an toàn thông tin cho AIC trong 2 năm và đào tạo huấn luyện cho đội ngũ AIC về an toàn mạng", cựu vụ phó khai.</p>
                                     <p>Ông nhận thức "vì bất cứ lý do gì thì nhận tiền cũng là sai", nhưng sau khi nói mà Sơn không đến nhận lại tiền về thì đã chuyển toàn bộ cho kế toán chi cho hoạt động chung. Tết 2019, tiền đó được phân bổ vào quỹ để chia thưởng Tết cho anh em, trong đó ông Đường được 200 triệu đồng.</p>
                                     <p>Về các sai phạm khác trong quá trình thực hiện dự án, ông Đường nhận sai khi cho Công ty Khang Phát vào làm đơn vị tư vấn khi chưa có quyết định chỉ định thầu, nhưng do được cấp dưới giới thiệu.</p>
-                                    <p>Về việc các thiết bị mua sắm bị AIC nâng khống 40% giá nhưng vẫn được trúng thầu và thanh toán đầy đủ, ông Đường nói danh mục thiết bị được Tổ công tác lập, bị cáo không tham gia, nhưng không chỉ đạo, không trao đổi gì với AIC về danh mục này. Ông "không biết là giá các thiết bị cao hơn bình thường", sau này làm việc với cơ quan điều tra mới biết.</p>
+                                    <p>Về việc các thiết bị mua sắm bị AIC nâng khống 40% giá nhưng vẫn được trúng thầu và thanh toán đầy đủ, ông Đường nói <span class="menu-text">Danh mục</span> thiết bị được Tổ công tác lập, bị cáo không tham gia, nhưng không chỉ đạo, không trao đổi gì với AIC về <span class="menu-text">Danh mục</span> này. Ông "không biết là giá các thiết bị cao hơn bình thường", sau này làm việc với cơ quan điều tra mới biết.</p>
                                     <p>"Với trách nhiệm người đứng đầu, bị cáo nhận sai nhưng thực tế là vậy", ông trình bày.</p>
                                     <p>VKS cáo buộc, ông Đường phân công cấp dưới tại VNCERT phối hợp cùng với Công ty Khang Phát và nhân viên AIC khảo sát hiện trạng, tập hợp nhu cầu mua sắm thiết bị.</p>
                                     <p>Bà Nhàn chỉ đạo nhân viên AIC liên hệ khảo giá thiết bị để cộng thêm 40% để ra giá dự toán và thống nhất với VNCERT đưa vào Báo cáo nghiên cứu khả thi của dự án.</p>
                                     <p>Tháng 6/2017, khi dự án được phê duyệt, bà Nhàn phân công nhân viên liên hệ với ông Đường để trao đổi, xây dựng hồ sơ mời thầu đảm bảo cho AIC trúng thầu.</p>
                                     <p>Công ty Khang Phát tiếp tục được VNCERT chỉ định là đơn vị tư vấn lập hồ sơ mời thầu và đánh giá hồ sơ dự thầu.</p>
-                                    <p>Khi lập hồ sơ mời thầu, theo chỉ đạo của ông Đường, Khang Phát sử dụng danh mục thiết bị, phần mềm đã thống nhất với Công ty AIC, loại bỏ thông tin nguồn gốc, xuất xứ.</p>
+                                    <p>Khi lập hồ sơ mời thầu, theo chỉ đạo của ông Đường, Khang Phát sử dụng <span class="menu-text">Danh mục</span> thiết bị, phần mềm đã thống nhất với Công ty AIC, loại bỏ thông tin nguồn gốc, xuất xứ.</p>
                                     <p>Để đảm bảo tiến độ xây dựng hồ sơ mời thầu, ông Đường cũng chỉ đạo cấp dưới bàn bạc, thống nhất với nhân viên AIC xây dựng hồ sơ mời thầu, tạo lợi thế cho AIC trúng thầu.</p>
                                     <p>Dù đã đăng tải thông báo mời thầu trên báo song 2 ngày sau, các bị cáo thuộc ban quản lý dự án vẫn thống nhất chỉnh sửa yêu cầu kỹ thuật trong hồ sơ mời thầu, tạo thêm lợi thế cho Công ty AIC trúng thầu, VKS cáo buộc.</p>
                                     <p>Bà Nhàn chỉ đạo Công ty Mopha làm "quân xanh" dự thầu, đồng thời chỉ đạo nhân viên AIC làm khống tài liệu thể hiện năng lực chuyên môn trong lĩnh vực công nghệ thông tin (tăng thời gian làm việc của nhân sự chủ chốt).</p>

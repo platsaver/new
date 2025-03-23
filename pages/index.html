@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
     <script src="../dist/js/search.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     
 </head>
 <body>
@@ -44,21 +45,26 @@
                 <div id="masthead-cap">
                     <nav class="navbar">
                         <ul class="nav navbar-nav">
-                            <li>
+                            <li style="margin-top: 10px; font-size: 14px">
                                 <a class="menu-toggle" type="button" href="#">
                                     <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                    Danh mục
+                                    <span class="menu-text">Danh mục</span>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <!-- Thêm search bar -->
-                            <li>
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px">
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px; border: 1px solid #ccc">
+                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                            <li style="margin-top: 10px">
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px; position: relative;">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn mặc định -->
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                  display: none; position: absolute; right: 20px; top: 0;">
                                 </form>
                             </li>
-                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -67,11 +73,11 @@
                 </div>
                 <nav id="mini-navigation">
                     <ul class="nav nav-justified">
-                        <li><a href="../pages/index.html">Trang chủ</a></li>
-                        <li><a href="../pages/thoisu.html">Thời sự</a></li>
-                        <li><a href="../pages/kinhdoanh.html">Kinh doanh</a></li>
-                        <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
-                        <li><a href="../pages/phapluat.html">Pháp luật</a></li>
+                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
+                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
+                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
+                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
+                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
                     </ul>
                 </nav>
             </div>
@@ -162,8 +168,9 @@
                 </section>
                 <section class="subsection">
                     <div class="row">
-                        <div class="section-header col-md-12">
-                            <h2>Kinh doanh</h2>
+                        <div class="section-header col-md-12" style="display: flex;">
+                            <h2><box-icon name='candles' color="red"></box-icon><h2>
+                            <h2 style="padding-top: 2px; padding-left: 4px">Kinh doanh</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -208,8 +215,9 @@
                 </section>
                 <section class="subsection">
                     <div class="row">
-                        <div class="section-header col-md-12">
-                            <h2>Bất Động Sản</h2>
+                        <div class="section-header col-md-12" style="display: flex">
+                            <h2><box-icon name='building-house' type='solid' color='red'></box-icon></h2>
+                            <h2 style="padding-top: 2px; padding-left: 4px">Bất Động Sản</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -254,8 +262,9 @@
                 </section>
                 <section class="subsection">
                     <div class="row">
-                        <div class="section-header col-md-12">
-                            <h2>Pháp Luật</h2>
+                        <div class="section-header col-md-12" style="display: flex;">
+                            <h2><box-icon type='solid' name='briefcase-alt' color="red"></box-icon></h2>
+                            <h2 style="padding-top: 2px; padding-left: 4px">Pháp Luật</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -300,8 +309,9 @@
                 </section>
                 <section class="latest">
                     <div class="row">
-                        <div class="section-header col-md-12">
-                            <h2>Mới nhất</h2>
+                        <div class="section-header col-md-12" style="display: flex">
+                            <h2><box-icon name='hot' type='solid' color='red'></box-icon></h2>
+                            <h2 style="padding-top: 2px; padding-left: 4px">Mới nhất</h2>
                         </div>
                     </div>
                     <div class="collection">

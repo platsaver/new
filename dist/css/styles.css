@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 html {
   font-family: sans-serif;
@@ -5854,9 +5855,29 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
   h1 a:hover, h1 a:focus, h2 a:hover, h2 a:focus, h3 a:hover, h3 a:focus, h4 a:hover, h4 a:focus, .nav a:hover, .nav a:focus, .navbar a:hover, .navbar a:focus {
     color: black; }
 
-.menu-toggle {
-  text-transform: uppercase;
-  font-weight: bolder; }
+    .menu-toggle {
+      text-transform: uppercase;
+      font-weight: bolder;
+      font-family: Arial, sans-serif;
+      font-size: 19px;
+      display: inline-flex; /* Sử dụng inline-flex để căn chỉnh các phần tử con */
+      align-items: flex-start; /* Căn chỉnh các phần tử con (biểu tượng và chữ) lên trên */
+      padding-top: 0; /* Đảm bảo không có khoảng cách phía trên */
+  }
+  
+  .menu-text {
+      font-size: 17px;
+      position: relative; /* Sử dụng position: relative để điều chỉnh vị trí */
+      top: -2px; /* Kéo chữ "Danh mục" lên trên 5px */
+      margin-left: 5px; /* Thêm khoảng cách giữa biểu tượng và chữ */
+  }
+  
+  /* Đảm bảo biểu tượng glyphicon không ảnh hưởng đến căn chỉnh */
+  .glyphicon {
+      font-size: 19px; /* Đảm bảo biểu tượng có kích thước phù hợp */
+      line-height: 1; /* Giảm line-height để không ảnh hưởng đến vị trí */
+  }
+
 
 .branding {
   font-family: 'UnifrakturMaguntia';
@@ -5870,8 +5891,7 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #a81817;
     padding: 8px 0;
-    font-size: 0.8em;
-    border-bottom: 1px solid #e2e2e2; }
+    font-size: 0.8em;}
 
 .mobile-head {
   padding: 15px 15px 13px 15px;
@@ -6027,7 +6047,7 @@ section.subsection {
 .home .masthead #mini-navigation {
   border-top: 2px solid black;
   padding: 4px 60px;
-  border-bottom: 1px solid #e2e2e2; }
+  border-bottom: 2px solid black; }
   .home .masthead #mini-navigation .nav li a {
     margin: 5px 2px 5px 0;
     padding: 0 4px; }
@@ -6035,8 +6055,7 @@ section.subsection {
 .category section {
   border-bottom: none; }
 
-.category .masthead #masthead-cap {
-  border-bottom: 1px solid #e2e2e2; }
+
 
 .category .masthead .branding {
   font-size: 2em;
@@ -6075,8 +6094,7 @@ section.subsection {
   .category .masthead #mini-navigation .nav li + li:before {
     content: " | "; }
 
-.article-details .masthead #masthead-cap {
-  border-bottom: 1px solid #e2e2e2; }
+
 
 .article-details .masthead .branding {
   font-size: 2em;
@@ -6156,7 +6174,7 @@ h1, h2, h3, h4, h5, h6,
   font-family: 'Roboto', 'Arial', sans-serif;
 }
 
-/* Phông chữ cho danh mục */
+/* Phông chữ cho <span class="menu-text">Danh mục</span> */
 .article ul.categories li a {
   font-family: 'Roboto', 'Arial', sans-serif;
 }
@@ -6178,4 +6196,129 @@ h1, h2, h3, h4, h5, h6,
   .article, .article h1, .article h2, .article ul.categories li a {
     font-family: 'Roboto', 'Arial', sans-serif !important;
   }
+}
+
+/* Trạng thái bình thường của <a> trong #mini-navigation */
+#mini-navigation li a {
+  color: #333;
+  text-decoration: none;
+  display: block; /* Lấp đầy chiều rộng của <li> */
+  text-align: center; /* Căn giữa văn bản */
+  transition: color 0.3s ease 0.1s; /* Hiệu ứng chuyển màu chữ */
+  font-size: 15px;
+}
+
+/* Định dạng cho <span> bọc văn bản */
+#mini-navigation li a span {
+  position: relative; /* Để định vị ::after */
+  display: inline-block; /* Đảm bảo chiều rộng của span chỉ bằng văn bản */
+}
+
+/* Tạo đường kẻ bằng ::after trên <span> */
+#mini-navigation li a span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: red;
+  bottom: -2px;
+  left: 50%; /* Bắt đầu từ giữa */
+  transform: translateX(-50%); /* Căn giữa đường kẻ */
+  transition: width 0.3s ease 0.1s; /* Hiệu ứng đường kẻ, đồng bộ với màu chữ */
+}
+
+/* Trạng thái hover */
+#mini-navigation li a:hover {
+  color: red;
+  background-color: white;
+}
+
+#mini-navigation li a:hover span::after {
+  width: 100%; /* Đường kẻ kéo dài theo chiều rộng của văn bản */
+}
+
+
+
+/* Định dạng cho <span> bọc văn bản */
+#mini-navigation1 li a span {
+  position: relative; /* Để định vị ::after */
+  display: inline-block; /* Đảm bảo chiều rộng của span chỉ bằng văn bản */
+}
+
+/* Tạo đường kẻ bằng ::after trên <span> */
+#mini-navigation1 li a span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: red;
+  bottom: -2px;
+  left: 50%; /* Bắt đầu từ giữa */
+  transform: translateX(-50%); /* Căn giữa đường kẻ */
+  transition: width 0.3s ease 0.1s; /* Hiệu ứng đường kẻ, đồng bộ với màu chữ */
+}
+
+/* Trạng thái hover */
+#mini-navigation1 li a:hover {
+  color: red;
+  background-color: white;
+}
+
+#mini-navigation1 li a:hover span::after {
+  width: 100%; /* Đường kẻ kéo dài theo chiều rộng của văn bản */
+}
+
+a{
+  font-weight: bold;
+}
+
+#mini-navigation1 {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+#mini-navigation1 {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 4px 60px; /* Thêm padding giống #mini-navigation */
+}
+
+#mini-navigation1 li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  transition: color 0.3s ease 0.1s;
+  font-size: 15px;
+}
+
+#mini-navigation1 .nav li a {
+  margin: 5px 2px 5px 0;
+  padding: 0 4px;
+}
+
+#mini-navigation1 li a span {
+  position: relative;
+  display: inline-block;
+}
+
+#mini-navigation1 li a span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: red;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease 0.1s;
+}
+
+#mini-navigation1 li a:hover {
+  color: red;
+  background-color: white;
+}
+
+#mini-navigation1 li a:hover span::after {
+  width: 100%;
 }

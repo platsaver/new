@@ -113,10 +113,10 @@
                 <div id="masthead-cap">
                     <nav class="navbar">
                         <ul class="nav navbar-nav">
-                            <li>
+                            <li style="margin-top: 10px; font-size: 14px">
                                 <a class="menu-toggle" type="button" href="#">
                                     <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                    Danh mục
+                                    <span class="menu-text">Danh mục</span>
                                 </a>
                             </li>
                         </ul>
@@ -131,7 +131,7 @@
                     </nav>
                 </div>
                 <div id="masthead-meta">
-                    <h2 class="branding" style="text-align: center;"><a href="index.html">The Hanoi Times</a></h2>
+                    <h2 class="branding" style="text-align: center;"></h2>
                 </div>
                 <nav id="mini-navigation">
                     <ul class="nav nav-justified">
@@ -158,7 +158,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Tiêu đề</th>
-                                        <th>Danh mục</th>
+                                        <th><span class="menu-text">Danh mục</span></th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -197,7 +197,7 @@
                 <form id="editPostForm">
                     <label>ID: <input type="text" id="postId" readonly></label><br><br>
                     <label>Tiêu đề: <input type="text" id="postTitle"></label><br><br>
-                    <label>Danh mục: <input type="text" id="postCategory"></label><br><br>
+                    <label><span class="menu-text">Danh mục</span>: <input type="text" id="postCategory"></label><br><br>
                     <button type="button" class="btn-save" onclick="savePost()">Lưu</button>
                 </form>
             </div>

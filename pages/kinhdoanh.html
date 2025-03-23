@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
     <script src="../dist/js/search.js"></script>
-    
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     
 </head>
@@ -48,28 +48,45 @@
                     <nav class="navbar">
                         <div class="navbar-inner">
                             <ul class="nav navbar-nav">
-                                <li>
+                                <li style="margin-top: 10px; font-size: 14px">
                                     <a class="menu-toggle" type="button" href="#">
                                         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                        Danh mục
+                                        <span class="menu-text">Danh mục</span>
                                     </a>
                                 </li>
                             </ul>
                             <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="index.html">The Hanoi Times</a></h2></li>
+                                <li><h2 class="branding"></h2></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                            <!-- Thêm search bar -->
-                            <li>
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px">
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px; border: 1px solid #ccc">
+                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                            <li style="margin-top: 10px">
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px; position: relative;">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn mặc định -->
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                  display: none; position: absolute; right: 20px; top: 0;">
                                 </form>
                             </li>
-                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
                         </ul>
                         </div>
                     </nav>
                 </div>
+                <div id="masthead-meta1">
+                    <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
+                </div>
+                <nav id="mini-navigation1">
+                    <ul class="nav nav-justified">
+                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
+                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
+                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
+                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
+                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
+                    </ul>
+                </nav>
                 <div id="masthead-meta">
                     <h1>Kinh doanh</h1>
                 </div>

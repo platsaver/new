@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
     <script src="../dist/js/search.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
 
@@ -46,7 +47,7 @@
                                 <li>
                                     <a class="menu-toggle" type="button" href="#">
                                         <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                        Danh mục
+                                        <span class="menu-text">Danh mục</span>
                                     </a>
                                 </li>
                             </ul>
@@ -54,13 +55,18 @@
                                 <li><h2 class="branding"><a href="category.html">The Hanoi Times</a></h2></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                            <!-- Thêm search bar -->
-                            <li>
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px">
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px; border: 1px solid #ccc">
+                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                            <li style="margin-top: 10px">
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:20px; position: relative;">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn mặc định -->
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                  display: none; position: absolute; right: 20px; top: 0;">
                                 </form>
                             </li>
-                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
                         </ul>
                         </div>
                     </nav>
@@ -96,7 +102,7 @@
                                     <h3>Quy hoạch mới của Thủ Đức</h3>
                                     <p>Thủ Đức là mô hình thành phố trong thành phố đầu tiên của Việt Nam. Sau hơn 4 năm phát triển, khu vực được đánh giá "lột xác" với rất nhiều công trình hạ tầng, bất động sản và dân sinh đưa vào vận hành.</p>
                                     <p>Quy hoạch mới mở ra cơ hội phát triển nhanh hơn cho TP Thủ Đức khi được tập trung nhiều nguồn lực. Hành trình phát triển để trở thành khu vực dẫn dắt kinh tế TP HCM sẽ tạo ra nhiều cơ hội và điều kiện thuận lợi cho những doanh nghiệp bất động sản như Masterise Homes.</p>
-                                    <p>Hiện, Thủ Đức đã hoạch định 9 phân vùng gắn với 11 trọng điểm phát triển. Dự kiến từ nay đến cuối tháng 8, các đồ án quy hoạch phân khu sẽ được hoàn thành thẩm định và phê duyệt. Từ đó, thành phố này tiếp tục hoàn chỉnh danh mục 535 dự án kêu gọi đầu tư với tổng vốn dự kiến trên 800.000 tỷ đồng và trình thông qua trong thời gian tới. Đây là cơ sở để các nhà đầu tư, nhà phát triển lên chiến lược và định hướng đồng hành cùng thành phố.</p>
+                                    <p>Hiện, Thủ Đức đã hoạch định 9 phân vùng gắn với 11 trọng điểm phát triển. Dự kiến từ nay đến cuối tháng 8, các đồ án quy hoạch phân khu sẽ được hoàn thành thẩm định và phê duyệt. Từ đó, thành phố này tiếp tục hoàn chỉnh <span class="menu-text">Danh mục</span> 535 dự án kêu gọi đầu tư với tổng vốn dự kiến trên 800.000 tỷ đồng và trình thông qua trong thời gian tới. Đây là cơ sở để các nhà đầu tư, nhà phát triển lên chiến lược và định hướng đồng hành cùng thành phố.</p>
                                     <figure>
                                         <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/Ha-tang-TP-Thu-Duc-phat-trien-9256-6627-1742197693.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=F3Qk2rRRmcLtQHij-Ea1Kg" alt="Hạ tầng TP Thủ Đức" class="thumbnail img-responsive">
                                         <figcaption>Hạ tầng TP Thủ Đức. Ảnh: Masterise Homes</figcaption>
