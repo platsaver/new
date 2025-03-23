@@ -6322,3 +6322,139 @@ a{
 #mini-navigation1 li a:hover span::after {
   width: 100%;
 }
+
+/* Định dạng chung cho footer */
+.footer1 {
+  background-color: #1a1a1a; /* Màu nền tối hiện đại */
+  padding: 60px 0; /* Giảm padding một chút để gọn gàng hơn */
+  color: #e0e0e0; /* Màu chữ nhạt để tăng độ tương phản */
+}
+
+/* Định dạng container */
+.container1 {
+  max-width: 1200px; /* Tăng nhẹ chiều rộng tối đa để phù hợp với thiết kế hiện đại */
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Định dạng row với flexbox */
+.row1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px; /* Thêm khoảng cách giữa các cột */
+  justify-content: space-between; /* Đảm bảo các cột phân bổ đều */
+}
+
+/* Định dạng cột */
+.footer-col1 {
+  flex: 1; /* Mỗi cột chiếm không gian đều nhau */
+  min-width: 250px; /* Đảm bảo cột không bị co quá nhỏ trên màn hình nhỏ */
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* Định dạng tiêu đề h4 */
+.footer-col1 h4 {
+  font-size: 20px; /* Tăng kích thước chữ cho tiêu đề */
+  color: #ffffff; /* Màu trắng để nổi bật */
+  margin-bottom: 30px;
+  font-weight: 600; /* Tăng độ đậm để trông mạnh mẽ hơn */
+  position: relative;
+  text-transform: uppercase; /* Chuyển thành chữ in hoa để trông chuyên nghiệp */
+}
+
+/* Thêm đường gạch dưới tiêu đề */
+.footer-col1 h4::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  width: 40px;
+  height: 2px;
+  background-color: #a81817; /* Màu đỏ để tạo điểm nhấn */
+  /* Đường gạch sẽ căn trái theo mặc định */
+  left: 0;
+  transform: none; /* Bỏ transform mặc định */
+}
+
+/* Nếu tiêu đề được căn giữa, đường gạch cũng căn giữa */
+.footer-col1 h4.text-center::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Định dạng danh sách ul */
+.footer-col1 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Định dạng liên kết trong ul */
+.footer-col1 ul li a {
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 15px; /* Giảm nhẹ kích thước chữ cho phù hợp */
+  text-decoration: none;
+  color: #e0e0e0; /* Màu chữ nhạt */
+  display: block;
+  margin-bottom: 12px; /* Thêm khoảng cách giữa các liên kết */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+}
+
+/* Hiệu ứng hover cho liên kết */
+.footer-col1 ul li a:hover {
+  color: #a81817; /* Màu đỏ khi hover, đồng bộ với giao diện */
+}
+
+/* Định dạng nội dung trong cột About Us */
+.footer-col1 ul li a[href="#"] {
+  line-height: 1.6; /* Tăng khoảng cách dòng cho đoạn văn */
+  font-size: 14px; /* Giảm kích thước chữ cho đoạn văn dài */
+  color: #cccccc; /* Màu xám nhạt để phân biệt với các liên kết khác */
+}
+
+/* Định dạng social-link */
+.social-link {
+  display: flex;
+  justify-content: flex-start; /* Căn trái biểu tượng */
+  gap: 15px; /* Khoảng cách giữa các biểu tượng */
+}
+
+/* Định dạng biểu tượng mạng xã hội */
+.social-link a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #333333; /* Nền xám đậm cho biểu tượng */
+  border-radius: 50%; /* Bo tròn biểu tượng */
+  transition: background-color 0.3s ease;
+}
+
+/* Định dạng box-icon */
+.social-link a box-icon {
+  width: 24px; /* Giảm kích thước biểu tượng để vừa với vòng tròn */
+  height: 24px;
+  color: white; /* Màu trắng cho biểu tượng */
+}
+
+/* Hiệu ứng hover cho biểu tượng */
+.social-link a:hover {
+  background-color: white; /* Màu đỏ khi hover */
+}
+
+/* Responsive cho thiết bị di động */
+@media (max-width: 767px) {
+  .footer1 {
+      padding: 40px 0; /* Giảm padding trên mobile */
+  }
+
+  .row1 {
+      flex-direction: column; /* Xếp chồng các cột */
+      gap: 40px; /* Tăng khoảng cách dọc giữa các cột */
+  }
+
+  .footer-col1 {
+      flex: 100%; /* Mỗi cột chiếm toàn bộ chiều rộng */
+  }
+}
