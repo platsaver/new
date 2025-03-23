@@ -5786,10 +5786,10 @@ body {
     color: black; }
 
     @font-face {
-      font-family: 'UnifrakturMaguntia';
+      font-family: 'Chomsky';
       font-style: normal;
       font-weight: 400;
-      src: local("UnifrakturMaguntia"), url(../fonts/unifraktur-maguntia/unifraktur-maguntia.woff2) format("woff2");
+      src: local("Chomsky"), url(../fonts/chomsky-font/misc/Chomsky-399c.woff) format("woff");
     }
 a {
   text-decoration: underline; }
@@ -6133,18 +6133,6 @@ section.subsection {
   background-color: #286090;
 }
 
-/* Tải phông chữ UnifrakturMaguntia */
-@font-face {
-  font-family: 'UnifrakturMaguntia';
-  font-style: normal;
-  font-weight: 400;
-  src: local("UnifrakturMaguntia"),
-       url('../fonts/unifraktur-maguntia/unifraktur-maguntia.woff2') format('woff2'),
-       url('../fonts/unifraktur-maguntia/unifraktur-maguntia.woff') format('woff'),
-       url('../fonts/unifraktur-maguntia/unifraktur-maguntia.ttf') format('truetype');
-  font-display: swap;
-}
-
 /* Phông chữ mặc định cho body */
 body {
   font-family: 'Roboto', 'Arial', sans-serif;
@@ -6181,7 +6169,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* Phông chữ cho branding (logo) */
 .branding {
-  font-family: 'UnifrakturMaguntia';
+  font-family: 'Chomsky';
   color: black;
 }
 
