@@ -6323,6 +6323,8 @@ a{
   width: 100%;
 }
 
+
+/*Footer*/
 /* Định dạng chung cho footer */
 .footer1 {
   background-color: #1a1a1a; /* Màu nền tối hiện đại */
@@ -6455,5 +6457,75 @@ a{
 
   .footer-col1 {
       flex: 100%; /* Mỗi cột chiếm toàn bộ chiều rộng */
+  }
+}
+
+
+/*Newsletter*/
+/* Định dạng đoạn văn mô tả trong newsletter */
+.footer-col1 p {
+  font-size: 14px;
+  color: #cccccc; /* Màu xám nhạt đồng bộ với phần About Us */
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Định dạng form newsletter */
+.newsletter-form {
+  display: flex;
+  gap: 10px; /* Khoảng cách giữa input và button */
+}
+
+/* Định dạng input email */
+.newsletter-form input[type="email"] {
+  width: 100%;
+  max-width: 200px; /* Giới hạn chiều rộng tối đa */
+  padding: 10px;
+  font-size: 14px;
+  color: #e0e0e0;
+  background-color: #333333; /* Nền xám đậm giống social icons */
+  border: none;
+  border-radius: 5px; /* Bo góc nhẹ */
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Placeholder trong input */
+.newsletter-form input[type="email"]::placeholder {
+  color: #999999; /* Màu placeholder nhạt */
+}
+
+/* Hiệu ứng focus cho input */
+.newsletter-form input[type="email"]:focus {
+  background-color: #444444; /* Sáng hơn khi focus */
+}
+
+/* Định dạng nút đăng ký */
+.newsletter-form button {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #a81817; /* Màu đỏ đồng bộ với giao diện */
+  border: none;
+  border-radius: 5px; /* Bo góc nhẹ */
+  cursor: pointer;
+  text-transform: uppercase; /* Chữ in hoa cho nút */
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+/* Hiệu ứng hover cho nút */
+.newsletter-form button:hover {
+  background-color: #c91c1b; /* Sáng hơn khi hover */
+}
+
+/* Responsive cho newsletter trên mobile */
+@media (max-width: 767px) {
+  .newsletter-form {
+      flex-direction: column; /* Xếp dọc input và button trên mobile */
+  }
+
+  .newsletter-form input[type="email"] {
+      max-width: 100%; /* Chiếm toàn bộ chiều rộng trên mobile */
   }
 }
