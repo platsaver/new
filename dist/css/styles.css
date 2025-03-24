@@ -6529,3 +6529,7 @@ a{
       max-width: 100%; /* Chiếm toàn bộ chiều rộng trên mobile */
   }
 }
+
+.col-md-12 h1{
+  font-weight: bold;
+}
