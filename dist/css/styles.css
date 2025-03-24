@@ -6391,7 +6391,6 @@ a{
 
 /* Định dạng liên kết trong ul */
 .footer-col1 ul li a {
-  font-family: 'Roboto', 'Arial', sans-serif;
   font-size: 15px; /* Giảm nhẹ kích thước chữ cho phù hợp */
   text-decoration: none;
   color: #e0e0e0; /* Màu chữ nhạt */
@@ -6424,8 +6423,8 @@ a{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: #333333; /* Nền xám đậm cho biểu tượng */
   border-radius: 50%; /* Bo tròn biểu tượng */
   transition: background-color 0.3s ease;
