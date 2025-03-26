@@ -7,6 +7,7 @@
     <title>Kết quả tìm kiếm - The Hanoi Times</title>
     <meta name="description" content="">
     <link rel="stylesheet" href="../dist/css/styles.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -35,26 +36,31 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <form class="search-form">
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm...">
-                                    <button type="submit" class="search-btn">Tìm</button>
+                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                            <li style="margin-top: 10px">
+                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn mặc định -->
+                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                  display: none; position: absolute; right: 0px; top: 0;">
                                 </form>
                             </li>
-                            <li><a href="login.html" class="login-btn">Đăng nhập</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div id="masthead-meta">
-                    <h2 class="branding" style="text-align: center;"></h2>
+                    <h2 class="branding" style="text-align: center;">The Hanoi Times</h2>
                 </div>
                 <nav id="mini-navigation">
                     <ul class="nav nav-justified">
-                        <li><a href="index.html">Trang chủ</a></li>
-                        <li><a href="thoisu.html">Thời sự</a></li>
-                        <li><a href="kinhdoanh.html">Kinh doanh</a></li>
-                        <li><a href="batdongsan.html">Bất động sản</a></li>
-                        <li><a href="phapluat.html">Pháp luật</a></li>
+                        <li><a href="../pages/index.html">Trang chủ</a></li>
+                        <li><a href="../pages/thoisu.html">Thời sự</a></li>
+                        <li><a href="../pages/kinhdoanh.html">Kinh doanh</a></li>
+                        <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
+                        <li><a href="../pages/phapluat.html">Pháp luật</a></li>
                     </ul>
                 </nav>
             </div>
@@ -71,14 +77,54 @@
             </div>
         </div>
 
-        <div class="container">
-            <footer class="footer">
-                <nav class="navbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#">© 2025 The Hanoi Times</a></li>
-                    </ul>
-                </nav>
-            </footer>
+        <div class="footer1">
+            <div class="container1">
+                <div class="row1">
+                    <div class="footer-col1">
+                        <h4>Về chúng tôi</h4>
+                        <ul>
+                            <li><a href="#">The Hanoi Times là trang tin tức trực tuyến tư 
+                                chuyên cập nhật nhanh chóng và chính xác các sự kiện trong nước 
+                                và quốc tế. Với đội ngũ phóng viên chuyên nghiệp, Hanoinews mang đến những bài viết 
+                                đa dạng về thời sự, kinh tế, bất động sản, pháp luật. Giao diện thân thiện, 
+                                dễ sử dụng giúp độc giả dễ dàng tiếp cận thông tin mọi lúc, mọi nơi.</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Menu</h4>
+                        <ul>
+                            <li><a href="./pages/thoisu.html">Thời sự</a></li>
+                            <li><a href="./pages/kinhdoanh.html">Kinh doanh</a></li>
+                            <li><a href="./pages/batdongsan.html">Bất động sản</a></li>
+                            <li><a href="./pages/phapluat.html">Pháp luật</a></li>
+                            <li><a href="./pages/login.html">Đăng nhập</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Thông tin liên hệ</h4>
+                        <ul>
+                            <li><a href="#">Địa chỉ: 96A Đ. Trần Phú, P. Mộ Lao, Hà Đông, Hà Nội</a></li>
+                            <li><a href="#">Số điện thoại: 0123456789</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Follow Us</h4>
+                        <div class="social-link">
+                            <a href="https://www.facebook.com/profile.php?id=100086006084010"><box-icon type='logo' name='facebook-circle'></box-icon></a>
+                            <a href="#"><box-icon type='logo' name='gmail'></box-icon></a>
+                            <a href="#"><box-icon name='github' type='logo' ></box-icon></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-col1">
+                    <h4>Đừng bỏ lỡ</h4>
+                    <p>Nhận tin tức mới nhất từ The Hanoi Times qua email của bạn.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Nhập email của bạn" required>
+                        <button type="submit">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -87,6 +133,5 @@
 <script src="../dist/js/scripts.min.js" async></script>
 <script src="../dist/js/auth.js"></script>
 <script src="../dist/js/search.js"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </body>
 </html>

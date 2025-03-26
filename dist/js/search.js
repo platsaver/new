@@ -1,5 +1,6 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Danh sách bài viết giả lập (thay bằng dữ liệu thực nếu có)
+// search.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Danh sách bài viết giả lập
     const posts = [
         { id: 1, title: "Tai nạn giao thông", url: "../posts/post1.html" },
         { id: 2, title: "Khu tập thể thành công sẽ được cải tạo", url: "../posts/post2.html" },
@@ -20,29 +21,60 @@ document.addEventListener("DOMContentLoaded", function() {
         { id: 17, title: "Thanh tra đề nghị Bộ Công an điều tra 2 dự án nhà tại Vĩnh Long", url: "../posts/post17.html" }
     ];
 
-    // Xử lý tìm kiếm từ tất cả các trang
-    const searchForms = document.querySelectorAll(".search-form"); 
-    searchForms.forEach(form => {
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-            const searchInput = form.querySelector(".search-input").value.trim().toLowerCase();
+    // Xử lý hiệu ứng tìm kiếm trên trang chủ (index.html)
+    const searchIcon = document.querySelector('.search-icon');
+    const searchInput = document.querySelector('.search-input');
+    const searchForm = document.querySelector('.search-form');
+    let isSearchVisible = false;
 
-            if (searchInput) {
-                // Lọc bài viết dựa trên từ khóa
-                const results = posts.filter(post => 
-                    post.title.toLowerCase().includes(searchInput)
-                );
-
-                // Lưu kết quả vào localStorage để hiển thị ở search.html
-                localStorage.setItem("searchResults", JSON.stringify(results));
-                
-                // Chuyển hướng đến trang kết quả
-                window.location.href = "../pages/search.html";
+    if (searchIcon && searchInput && searchForm) {
+        // Xử lý sự kiện click vào icon search
+        searchIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!isSearchVisible) {
+                searchInput.style.display = 'inline-block';
+                setTimeout(() => {
+                    searchInput.classList.add('expanded');
+                    searchInput.focus();
+                }, 10);
+                isSearchVisible = true;
             } else {
-                alert("Vui lòng nhập từ khóa tìm kiếm!");
+                if (searchInput.value.trim() === '') {
+                    searchInput.classList.remove('expanded');
+                    setTimeout(() => {
+                        searchInput.style.display = 'none';
+                    }, 300);
+                    isSearchVisible = false;
+                }
             }
         });
-    });
+
+        // Xử lý khi nhấn Enter trong input
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && searchInput.value.trim() !== '') {
+                e.preventDefault();
+                const searchValue = searchInput.value.trim().toLowerCase();
+                const results = posts.filter(post => 
+                    post.title.toLowerCase().includes(searchValue)
+                );
+                localStorage.setItem("searchResults", JSON.stringify(results));
+                window.location.href = "../pages/search.html";
+            }
+        });
+
+        // Ẩn input khi click ra ngoài
+        document.addEventListener('click', function(e) {
+            if (!searchForm.contains(e.target) && isSearchVisible) {
+                if (searchInput.value.trim() === '') {
+                    searchInput.classList.remove('expanded');
+                    setTimeout(() => {
+                        searchInput.style.display = 'none';
+                    }, 300);
+                    isSearchVisible = false;
+                }
+            }
+        });
+    }
 
     // Hiển thị kết quả trên trang search.html
     if (window.location.pathname.includes("search.html")) {
