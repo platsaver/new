@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function() {
             loginPopup.style.display = "none";
 
             if (username === "admin") {
-                window.location.href = "/pages/admin.html";
+                window.location.href = "../pages/admin.html";
             } else {
-                window.location.href = "/pages/index.html";
+                window.location.href = "../pages/index.html";
             }
         } else {
             errorMessage.textContent = "Tên đăng nhập hoặc mật khẩu không đúng!";
