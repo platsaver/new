@@ -143,11 +143,15 @@
                         </div>
                     </div>
                     <!-- Comment Section -->
-                    <div class="comment-section" style="padding-left: 16%; padding-right: 16%;">
-                        <h3>Bình luận</h3>
+                    <div class="comment-section">
+                        <div class="comment-header">
+                            <h3><box-icon name='message-rounded-dots' style="width: 35px; height: 35px"></box-icon><span style="top: 50px;">Bình luận</span></h3>
+                            <span class="login-register" style="color:black;"><a href="../pages/login.html">Đăng nhập</a>/ <a href="../pages/register.html">Đăng ký</a> để bình luận</span>
+                        </div>
                         <!-- Thông báo yêu cầu đăng nhập -->
-                        <div id="login-prompt" style="display: none;">
-                            <p>Vui lòng <a href="../pages/login.html">đăng nhập</a> để bình luận.</p>
+                        <div id="login-prompt">
+                            <textarea class="comment-textarea" placeholder="Hãy chia sẻ ý kiến của bạn" disabled></textarea>
+                            <button class="btn-submit">Gửi bình luận</button>
                         </div>
                         <!-- Form nhập bình luận -->
                         <form id="commentForm" class="comment-form" style="display: none;">
@@ -159,18 +163,16 @@
                                 <label for="comment">Bình luận:</label>
                                 <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="Nhập bình luận của bạn" required></textarea>
                             </div>
-                            <button type="submit" class="btn-submit">Gửi bình luận</button>
+                            <button type="submit" class="btn-submit">Gửi bình luận <i class='bx bx-right-arrow-alt'></i></button>
                         </form>
                         <!-- Khu vực hiển thị bình luận -->
                         <div class="comments-list">
-                            <h4>Các bình luận gần đây</h4>
-                            <!-- Bình luận sẽ được thêm vào đây -->
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-        <div class="same-category-section" style="margin-top: 40px; padding: 0 8%;">
+        <div class="same-category-section" style="margin-top: 40px; margin-bottom: 40px;padding: 0 8%;">
             <h3><span>Cùng chuyên mục</span></h3>
             <div class="same-category-container">
                 <div class="same-category-item">
