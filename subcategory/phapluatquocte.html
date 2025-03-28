@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Trong nước - The Hanoi Times</title>
+    <meta name="description" content="Tin tức trong nước mới nhất từ The Hanoi Times">
+
+    <link rel="stylesheet" href="../../dist/css/styles.css">
+    <script src="../../dist/js/auth.js"></script>
+    <script src="../../dist/js/search.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <style>
+        .article {
+        display: flex; /* Giữ layout flex để ảnh và nội dung nằm ngang */
+        margin-bottom: 20px; /* Khoảng cách giữa các bài viết */
+        align-items: flex-start; /* Căn chỉnh nội dung ở đầu */
+    }
+
+    .thumbnail {
+        width: 500px !important; /* Tăng kích thước ảnh lên 300px (có thể điều chỉnh) */
+        height: auto; /* Giữ tỷ lệ ảnh */
+        margin-right: 20px; /* Khoảng cách giữa ảnh và nội dung */
+        object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    }
+
+    .article div {
+        flex: 1; /* Nội dung chiếm phần còn lại của không gian */
+    }
+
+    /* Responsive: Giảm kích thước ảnh trên màn hình nhỏ */
+    @media (max-width: 768px) {
+        .thumbnail {
+            width: 200px !important; /* Giảm kích thước ảnh trên mobile */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .article {
+            flex-direction: column; /* Chuyển sang layout dọc trên màn hình rất nhỏ */
+        }
+        .thumbnail {
+            width: 100% !important; /* Ảnh chiếm toàn bộ chiều ngang */
+            margin-bottom: 15px; /* Khoảng cách dưới ảnh */
+            margin-right: 0; /* Xóa margin phải */
+        }
+    }
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li><a href="../../pages/index.html">Trang chủ</a></li>
+            <li><a href="../../pages/thoisu.html">Thời sự</a></li>
+            <li><a href="../../pages/kinhdoanh.html">Kinh doanh</a></li>
+            <li><a href="../../pages/batdongsan.html">Bất động sản</a></li>
+            <li><a href="../../pages/phapluat.html">Pháp luật</a></li>
+            <li><a href="../../pages/login.html">Đăng nhập</a></li>
+        </ul>
+    </div>
+
+    <div id="page-content-wrapper" class="category">
+        <div class="mobile-head visible-xs-block">
+            <nav class="navbar">
+                <a class="menu-toggle" type="button" href="#">
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                </a>
+                <h2 class="branding">The Hanoi Times</h2>
+            </nav>
+        </div>
+
+        <div class="container">
+            <div class="masthead hidden-xs">
+                <div id="masthead-cap">
+                    <nav class="navbar">
+                        <div class="navbar-inner">
+                            <ul class="nav navbar-nav">
+                                <li style="margin-top: 10px; font-size: 14px">
+                                    <a class="menu-toggle" type="button" href="#">
+                                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                                        <span class="menu-text">Danh mục</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-center">
+                                <li><h2 class="branding"></h2></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                                <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
+                                <li style="margin-top: 10px">
+                                    <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                                        <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
+                                        <input type="text" class="search-input" placeholder="Tìm kiếm..." 
+                                               style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
+                                                      display: none; position: absolute; right: 0px; top: 0;">
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div id="masthead-meta1">
+                    <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
+                </div>
+                <nav id="mini-navigation1">
+                    <ul class="nav nav-justified">
+                        <li><a href="../../pages/index.html"><span>Trang chủ</span></a></li>
+                        <li><a href="../../pages/thoisu.html"><span>Thời sự</span></a></li>
+                        <li><a href="../../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
+                        <li><a href="../../pages/batdongsan.html"><span>Bất động sản</span></a></li>
+                        <li><a href="../../pages/phapluat.html"><span>Pháp luật</span></a></li>
+                    </ul>
+                </nav>
+                <div id="masthead-meta">
+                    <h1>Pháp luật</h1>
+                </div>
+                <nav id="mini-navigation">
+                    <ul class="nav navbar-nav">
+                        <li><a href="../subcategory/phapluatquocte.html" style="color: red">Quốc tế</a></li>
+                        <li class="active" ><a href="../subcategory/phapluattrongnuoc.html" >Trong nước</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Main content -->
+            <div id="main">
+                <section class="subsection" style="padding-top: 30px;">
+                    <div class="row">
+                        <div class="section-header col-md-12">
+                            
+                        </div>
+                    </div>
+                    <div class="row" id="article-list">
+                        <!-- Bài viết hiển thị dạng cột -->
+                        <div class="col-md-12">
+                            <div class="collection">
+                                <div class="article" style="display: flex; margin-bottom: 20px;">
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/1-1742169826-7776-1742170458.png?w=680&h=0&q=100&dpr=1&fit=crop&s=qvqnU5JhTmGFE6Y4mMoAlA"
+                                         alt="image" class="thumbnail img-responsive" style="width: 200px; height: auto; margin-right: 20px;">
+                                    <div>
+                                        <h2><a href="#">Cảnh sát Mỹ phá đường dây mại dâm cao cấp, giao dịch bí mật</a></h2>
+                                        <p class="byline">By Tuệ Anh (Theo Nypost) <span class="timestamp">17/3/2025, 07:40 (GMT+7)</span></p>
+                                        <p>Công tố viên công khai danh tính nhiều khách mua dâm cùng chi tiết về cách thức giao dịch tại các nhà chứa hạng sang ở bang Massachusetts.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="collection">
+                                <div class="article" style="display: flex; margin-bottom: 20px;">
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/anhmanhinh20250316luc235654-17-6466-4164-1742144838.png?w=240&h=144&q=100&dpr=1&fit=crop&s=dMJR0rzwbMjSxYheu7n2sg"
+                                         alt="image" class="thumbnail img-responsive" style="width: 200px; height: auto; margin-right: 20px;">
+                                    <div>
+                                        <h2><a href="#">Công ty tài chính làm rò rỉ dữ liệu bí mật của 18.000 khách hàng</a></h2>
+                                        <p class="byline">By Hải Thư (Theo ASIC, CSO, CyberDaily) <span class="timestamp">17/3/2025, 00:22 (GMT+7)</span></p>
+                                        <p>Australia - Công ty FIIG Securities đối mặt cáo buộc không duy trì các biện pháp an ninh mạng đầy đủ trong hơn 4 năm khiến 385 GB dữ liệu bí mật của 18.000 khách bị đánh cắp.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="collection">
+                                <div class="article" style="display: flex; margin-bottom: 20px;">
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/14/a-nh-ma-n-hi-nh-2025-03-14-lu-9346-4457-1741942611.png?w=240&h=144&q=100&dpr=1&fit=crop&s=_4jIF4Ekitf1q9JqCI6kHQ"
+                                         alt="image" class="thumbnail img-responsive" style="width: 200px; height: auto; margin-right: 20px;">
+                                    <div>
+                                        <h2><a href="#">Chợ đấu giá online tài sản tịch thu từ tội phạm</a></h2>
+                                        <p class="byline">By Hải Thư (Theo Telegraph, The Crown Prosecution Service, Legislation Gov, Sussex Police) <span class="timestamp">17/3/2025, 09:25 (GMT+7)</span></p>
+                                        <p>ANH - Tại chợ đấu giá tài sản tịch thu từ tội phạm do cảnh sát tổ chức, bạn có thể mua được hàng xa xỉ với giá rẻ bằng nửa và nghe câu chuyện về những kẻ sừng sỏ từng sở hữu chúng.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="collection">
+                                <div class="article" style="display: flex; margin-bottom: 20px;">
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/14/1140tpss13x4partorg-1741949396-4519-7791-1741949630.png?w=240&h=144&q=100&dpr=1&fit=crop&s=QAbp7PMo7msD5nwg3O-LNQ"
+                                         alt="image" class="thumbnail img-responsive" style="width: 200px; height: auto; margin-right: 20px;">
+                                    <div>
+                                        <h2><a href="#">Hộp nữ trang của cụ bà gốc Việt hé lộ kẻ sát nhân hàng loạt</a></h2>
+                                        <p class="byline">By Tuệ Anh (Theo Oxygen) <span class="timestamp">15/3/2025, 00:00 (GMT+7)</span></p>
+                                        <p>MỸ - Sau nhiều cái chết tưởng như không có gì bất thường của những người già, cảnh sát phát hiện kẻ giết người hàng loạt từ hộp nữ trang của một nạn nhân gốc Việt.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation" style="text-align: center; margin-top: 20px;">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Site footer -->
+        <div class="footer1">
+            <div class="container1">
+                <div class="row1">
+                    <div class="footer-col1">
+                        <h4>Về chúng tôi</h4>
+                        <ul>
+                            <li><a href="#">The Hanoi Times là trang tin tức trực tuyến tư 
+                                chuyên cập nhật nhanh chóng và chính xác các sự kiện trong nước 
+                                và quốc tế...</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Menu</h4>
+                        <ul>
+                            <li><a href="../../pages/thoisu.html">Thời sự</a></li>
+                            <li><a href="../../pages/kinhdoanh.html">Kinh doanh</a></li>
+                            <li><a href="../../pages/batdongsan.html">Bất động sản</a></li>
+                            <li><a href="../../pages/phapluat.html">Pháp luật</a></li>
+                            <li><a href="../../pages/login.html">Đăng nhập</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Thông tin liên hệ</h4>
+                        <ul>
+                            <li><a href="#">Địa chỉ: 96A Đ. Trần Phú, P. Mộ Lao, Hà Đông, Hà Nội</a></li>
+                            <li><a href="#">Số điện thoại: 0123456789</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col1">
+                        <h4>Follow Us</h4>
+                        <div class="social-link">
+                            <a href="https://www.facebook.com/profile.php?id=100086006084010"><box-icon type='logo' name='facebook-circle'></box-icon></a>
+                            <a href="#"><box-icon type='logo' name='gmail'></box-icon></a>
+                            <a href="#"><box-icon name='github' type='logo' ></box-icon></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-col1">
+                    <h4>Đừng bỏ lỡ</h4>
+                    <p>Nhận tin tức mới nhất từ The Hanoi Times qua email của bạn.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Nhập email của bạn" required>
+                        <button type="submit">Đăng ký</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /#page-content-wrapper -->
+</div> <!-- /wrapper -->
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../dist/js/scripts.min.js" async></script>
+</body>
+</html>
