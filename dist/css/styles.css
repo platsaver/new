@@ -6564,3 +6564,139 @@ a{
 .col-md-12 h1{
   font-weight: bold;
 }
+
+
+/*Có thể bạn quan tâm*/
+.related-articles {
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.related-articles h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e60000; /* Màu đỏ */
+  text-transform: uppercase;
+  margin: 0 0 15px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid black; /* Đường viền đen tiêu đề */
+}
+
+.related-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.related-item:hover {
+  background-color: #e8e8e8; /* Nền sáng hơn khi hover */
+}
+
+.related-thumbnail {
+  width: 140px;
+  height: 90px;
+  margin-right: 10px;
+}
+
+.related-item span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.back-to-home {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #e60000; /* Màu đỏ */
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.back-to-home box-icon {
+  margin-right: 5px;
+  fill: #e60000; /* Màu đỏ cho biểu tượng */
+}
+
+.back-to-home:hover {
+  color: #b30000; /* Màu đỏ đậm hơn khi hover */
+}
+
+.back-to-home:hover box-icon {
+  fill: #b30000;
+}
+
+/*Cùng chuyên mục*/
+.same-category-section h3 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.same-category-section span{
+  padding-bottom: 3px;
+  border-bottom: 2px solid red;
+}
+
+/* Style for the container holding the items */
+.same-category-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Space between items */
+}
+
+/* Style for each item */
+.same-category-item {
+  flex: 1; /* Each item takes equal width */
+  max-width: 33%; /* Ensure three items fit in a row */
+}
+
+/* Style for the link inside each item */
+.same-category-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Style for the image */
+.same-category-item img {
+  width: 100%;
+  height: 200px; /* Fixed height for consistency */
+  object-fit: cover; /* Ensure the image scales properly */
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Style for the headline */
+.same-category-item h4 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* Optional: Add hover effect for the item */
+.same-category-item a:hover h4 {
+  color: red; /* Red color on hover */
+  transition: all 0.3s ease-in-out;
+}
+
