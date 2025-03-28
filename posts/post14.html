@@ -143,34 +143,88 @@
                                     <p>Phiên tòa tiếp tục chiều nay, dự kiến kéo dài 8 ngày.</p>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <aside class="related-articles">
+                                    <h3>Có thể bạn quan tâm</h3>
+                                    <ul class="related-list">
+                                        <li>
+                                            <a href="../pages/article1.html" class="related-item">
+                                                <img src="https://baogiaothong.mediacdn.vn/603483875699699712/2024/6/14/edit-img20240614151836-17183534416452124406790.jpeg" alt="Bài báo 1" class="related-thumbnail">
+                                                <span>Xe tải nổ lốp, lật ngửa trên cao tốc Hà Nội - Hải Phòng</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="../pages/article2.html" class="related-item">
+                                                <img src="https://image.plo.vn/w850/Uploaded/2025/liwbzivo/2025_01_22/vo-nguyen-giap-1-3737-9738.jpg.webp" alt="Bài báo 2" class="related-thumbnail">
+                                                <span>Đường Võ Nguyên Giáp, TP Thủ Đức đang kẹt xe kéo dài</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="../pages/article3.html" class="related-item">
+                                                <img src="https://i1-vnexpress.vnecdn.net/2025/03/28/tainan-copy-1743131776-4517-1743131852.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=Dz2djAApMuxCUs8DsHRb7A" alt="Bài báo 3" class="related-thumbnail">
+                                                <span>Nữ xe ôm tử vong sau va chạm xe khách ở Hà Nội</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a href="../pages/index.html" class="back-to-home">
+                                        <box-icon name='chevron-left' style="width: 20px; height: 20px; vertical-align: middle;"></box-icon>
+                                        QUAY LẠI TRANG CHỦ
+                                    </a>
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Comment Section -->
+                    <div class="comment-section">
+                        <div class="comment-header">
+                            <h3><box-icon name='message-rounded-dots' style="width: 35px; height: 35px"></box-icon><span style="top: 50px;">Bình luận</span></h3>
+                            <span class="login-register" style="color:black;"><a href="../pages/login.html">Đăng nhập</a>/ <a href="../pages/register.html">Đăng ký</a> để bình luận</span>
+                        </div>
+                        <!-- Thông báo yêu cầu đăng nhập -->
+                        <div id="login-prompt">
+                            <textarea class="comment-textarea" placeholder="Hãy chia sẻ ý kiến của bạn" disabled></textarea>
+                            <button class="btn-submit">Gửi bình luận</button>
+                        </div>
+                        <!-- Form nhập bình luận -->
+                        <form id="commentForm" class="comment-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="name">Họ và tên:</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Nhập tên của bạn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Bình luận:</label>
+                                <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="Nhập bình luận của bạn" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit">Gửi bình luận <i class='bx bx-right-arrow-alt'></i></button>
+                        </form>
+                        <!-- Khu vực hiển thị bình luận -->
+                        <div class="comments-list">
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-        <!-- Comment Section -->
-        <div class="comment-section" style="padding-left: 16%; padding-right: 16%;">
-            <h3>Bình luận</h3>
-            <!-- Thông báo yêu cầu đăng nhập -->
-            <div id="login-prompt" style="display: none;">
-                <p>Vui lòng <a href="../pages/login.html">đăng nhập</a> để bình luận.</p>
-            </div>
-            <!-- Form nhập bình luận -->
-            <form id="commentForm" class="comment-form" style="display: none;">
-                <div class="form-group">
-                    <label for="name">Họ và tên:</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Nhập tên của bạn" required>
+        <div class="same-category-section" style="margin-top: 40px; margin-bottom: 40px;padding: 0 8%;">
+            <h3><span>Cùng chuyên mục</span></h3>
+            <div class="same-category-container">
+                <div class="same-category-item">
+                    <a href="../pages/article4.html">
+                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ" alt="Bài báo 4">
+                        <h4>Số đơn vị hành chính cấp tỉnh cần sáp nhập đã được xác định</h4>
+                    </a>
                 </div>
-                <div class="form-group">
-                    <label for="comment">Bình luận:</label>
-                    <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="Nhập bình luận của bạn" required></textarea>
+                <div class="same-category-item">
+                    <a href="../pages/article4.html">
+                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w" alt="Bài báo 4">
+                        <h4>Nâng chiều cao tập thể Thành Công lên 40 tầng nhưng không tăng số dân</h4>
+                    </a>
                 </div>
-                <button type="submit" class="btn-submit">Gửi bình luận</button>
-            </form>
-            <!-- Khu vực hiển thị bình luận -->
-            <div class="comments-list">
-                <h4>Các bình luận gần đây</h4>
-                <!-- Bình luận sẽ được thêm vào đây -->
+                <div class="same-category-item">
+                    <a href="../pages/article4.html">
+                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ" alt="Bài báo 4">
+                        <h4>Ôtô tông 10 xe máy ở ngã tư Thủ Đức</h4>
+                    </a>
+                </div>
             </div>
         </div>
         
