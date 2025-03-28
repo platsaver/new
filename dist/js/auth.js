@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Thay thế nút "Đăng nhập" bằng "Welcome, [username]"
         loginButton.textContent = `Welcome, ${username}`;
         loginButton.href = "#"; // Xóa liên kết mặc định
-        loginButton.style.backgroundColor = "#5cb85c"; // Màu xanh để phân biệt (tùy chọn)
         loginButton.style.cursor = "pointer"; // Con trỏ chuột như nút
 
         // Thêm sự kiện nhấp để đăng xuất
@@ -23,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("username");
 
-            // Chuyển hướng về trang login.html
-            window.location.href = "../pages/login.html";
+            // Chuyển hướng về trang chủ
+            window.location.href = "../index.html";
         });
     }
 });

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
     <script src="../dist/js/search.js"></script>
+    <script src="../dist/js/login.js"></script>
+    <script src="../dist/js/register.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     
 </head>
@@ -40,13 +42,72 @@
         </div>
 
         <div class="container">
+            <!-- Popup Login -->
+            <div id="login-popup" class="login-popup">
+                <div class="login-popup-content">
+                    <span id="close-popup" class="close-popup">×</span>
+                    <div class="login-container">
+                        <div class="login-image">
+                            <img src="https://images.unsplash.com/photo-1631519952398-5b1d76b946e8?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Login Image">
+                        </div>
+                        <div class="login-form">
+                            <h3>Đăng nhập</h3>
+                            <form id="login-form">
+                                <div class="form-group">
+                                    <label for="username">Tên đăng nhập:</label>
+                                    <input type="text" id="username" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Mật khẩu:</label>
+                                    <input type="password" id="password" class="form-input" required>
+                                </div>
+                                <div id="error-message" class="error-message"></div>
+                                <button type="submit" class="btn-submit">Đăng nhập</button>
+                            </form>
+                            <p>Chưa có tài khoản? <a href="#" id="show-register">Đăng ký ngay</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popup Register -->
+            <div id="register-popup" class="login-popup">
+                <div class="login-popup-content">
+                    <span id="close-register-popup" class="close-popup">×</span>
+                    <div class="login-container">
+                        <div class="login-image">
+                            <img src="https://images.unsplash.com/photo-1631519952398-5b1d76b946e8?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Register Image">
+                        </div>
+                        <div class="login-form">
+                            <h3>Đăng ký</h3>
+                            <form id="register-form">
+                                <div class="form-group">
+                                    <label for="reg-username">Tên đăng nhập:</label>
+                                    <input type="text" id="reg-username" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg-password">Mật khẩu:</label>
+                                    <input type="password" id="reg-password" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Xác nhận mật khẩu:</label>
+                                    <input type="password" id="confirm-password" class="form-input" required>
+                                </div>
+                                <div id="reg-error-message" class="error-message"></div>
+                                <button type="submit" class="btn-submit">Đăng ký</button>
+                            </form>
+                            <p>Đã có tài khoản? <a href="#" id="show-login">Đăng nhập ngay</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
             <div class="masthead hidden-xs">
                 <div id="masthead-cap">
                     <nav class="navbar">
                         <ul class="nav navbar-nav">
-                            <li style="margin-top: 10px; font-size: 14px">
+                            <li style="margin-top: 8px; font-size: 14px">
                                 <a class="menu-toggle" type="button" href="#">
                                     <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
                                     <span class="menu-text">Danh mục</span>
@@ -54,7 +115,9 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="../pages/login.html" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a></li>
+                            <li>
+                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
+                            </li>
                             <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
                             <li style="margin-top: 10px">
                                 <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">

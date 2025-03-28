@@ -1,14 +1,44 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const registerForm = document.querySelector("#register-form form");
-    const usernameInput = document.querySelector("#username");
-    const passwordInput = document.querySelector("#password");
-    const confirmPasswordInput = document.querySelector("#confirm-password");
-    const errorMessage = document.querySelector("#error-message");
+    let users = JSON.parse(localStorage.getItem("users")) || [{ username: "admin", password: "123" }];
 
-    if (!registerForm) {
-        console.error("Không tìm thấy #register-form form trong DOM!");
+    function getElement(selector) {
+        const element = document.querySelector(selector);
+        if (!element) console.warn(`Không tìm thấy phần tử: ${selector}`);
+        return element;
+    }
+
+    const registerPopup = getElement("#register-popup");
+    const closeRegisterPopup = getElement("#close-register-popup");
+    const registerForm = getElement("#register-form");
+    const usernameInput = getElement("#reg-username");
+    const passwordInput = getElement("#reg-password");
+    const confirmPasswordInput = getElement("#confirm-password");
+    const errorMessage = getElement("#reg-error-message");
+    const showLogin = getElement("#show-login");
+    const loginPopup = getElement("#login-popup");
+
+    if (!registerPopup || !closeRegisterPopup || !registerForm || !usernameInput || !passwordInput || !confirmPasswordInput || !errorMessage || !showLogin || !loginPopup) {
+        console.error("Thiếu các phần tử cần thiết để chạy register popup!");
         return;
     }
+
+    closeRegisterPopup.addEventListener("click", function() {
+        registerPopup.style.display = "none";
+        errorMessage.style.display = "none";
+        usernameInput.value = "";
+        passwordInput.value = "";
+        confirmPasswordInput.value = "";
+    });
+
+    registerPopup.addEventListener("click", function(event) {
+        if (event.target === registerPopup) {
+            registerPopup.style.display = "none";
+            errorMessage.style.display = "none";
+            usernameInput.value = "";
+            passwordInput.value = "";
+            confirmPasswordInput.value = "";
+        }
+    });
 
     registerForm.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -32,32 +62,30 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // Lấy danh sách tài khoản hiện có từ localStorage
-        let users = JSON.parse(localStorage.getItem("users")) || [
-            { username: "admin", password: "123" }
-        ];
-
-        // Kiểm tra xem username đã tồn tại chưa
         if (users.some(u => u.username === username)) {
             errorMessage.textContent = "Tên đăng nhập đã tồn tại!";
             errorMessage.style.display = "block";
             return;
         }
 
-        // Tạo và thêm tài khoản mới
         const newUser = { username: username, password: password };
         users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users)); // Lưu vào localStorage
-
-        // Gửi thông điệp (tùy chọn, để tương thích với login.js nếu mở cùng lúc)
+        localStorage.setItem("users", JSON.stringify(users));
         window.postMessage({ type: "newUser", user: newUser }, "*");
 
         errorMessage.style.display = "none";
-        alert("Đăng ký thành công! Tài khoản: " + username + ". Vui lòng đăng nhập.");
-        window.location.href = "login.html";
+        alert("Đăng ký thành công! Vui lòng đăng nhập.");
+        registerPopup.style.display = "none";
+        loginPopup.style.display = "flex";
 
         usernameInput.value = "";
         passwordInput.value = "";
         confirmPasswordInput.value = "";
+    });
+
+    showLogin.addEventListener("click", function(event) {
+        event.preventDefault();
+        registerPopup.style.display = "none";
+        loginPopup.style.display = "flex";
     });
 });
