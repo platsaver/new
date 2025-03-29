@@ -3453,35 +3453,36 @@ a{
 /* Responsive */
 @media (max-width: 768px) {
   .login-popup-content {
-      max-width: 90%;
+    max-width: 90%;
   }
 
   .login-container {
-      flex-direction: column; /* Chuyển thành cột trên màn hình nhỏ */
-      height: auto;
+    flex-direction: column; /* Chuyển thành cột trên màn hình nhỏ */
+    height: auto; /* Bỏ chiều cao cố định */
   }
 
   .login-image {
-      height: 200px; /* Chiều cao cố định cho hình ảnh */
+    display: none; /* Ẩn hình ảnh trên màn hình nhỏ */
   }
 
   .login-form {
-      padding: 15px;
+    padding: 15px;
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng */
   }
 }
 
 @media (max-width: 460px) {
   .login-form h3 {
-      font-size: 18px;
+    font-size: 18px;
   }
 
   .form-input {
-      font-size: 14px;
+    font-size: 14px;
   }
 
   .btn-submit {
-      padding: 8px 15px;
-      font-size: 12px;
+    padding: 8px 15px;
+    font-size: 12px;
   }
 }
 
