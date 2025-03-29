@@ -3125,6 +3125,9 @@ a{
 }
 
 /*Cùng chuyên mục*/
+.same-category-section{
+  margin-top: 40px; margin-bottom: 40px;padding: 0 8%;
+}
 .same-category-section h3 {
   text-align: center;
   font-size: 24px;
@@ -3177,10 +3180,20 @@ a{
   line-height: 1.4;
 }
 
-/* Optional: Add hover effect for the item */
 .same-category-item a:hover h4 {
   color: red; /* Red color on hover */
   transition: all 0.3s ease-in-out;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 900px) {
+  .same-category-container {
+    flex-direction: column; /* Switch to column layout */
+  }
+  
+  .same-category-item {
+    max-width: 100%; /* Items take full width in column layout */
+  }
 }
 
 /*Search box*/
