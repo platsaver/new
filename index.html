@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title></title>
@@ -15,6 +15,8 @@
     <script src="./dist/js/auth.js"></script>
     <script src="./dist/js/search.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
 </head>
 <body>
 <div id="wrapper">
@@ -35,7 +37,7 @@
         <div class="mobile-head visible-xs-block">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
-                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    <i class="fa-solid fa-bars"></i>
                 </a>
             </nav>
         </div>
@@ -108,11 +110,11 @@
                         <ul class="nav navbar-nav">
                             <li style="margin-top: 8px; font-size: 14px">
                                 <a class="menu-toggle" type="button" href="#">
-                                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                                    <i class="fa-solid fa-bars"></i>
                                     <span class="menu-text">Danh mục</span>
                                 </a>
                             </li>
-                        </ul>
+                        </ul>                                              
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
@@ -229,7 +231,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="subsection" style="padding-top: 30px;">
+                <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12" style="display: flex;">
                             <h2><box-icon name='candles' color="red"></box-icon><h2>
@@ -276,7 +278,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="subsection" style="padding-top: 30px;">
+                <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12" style="display: flex">
                             <h2><box-icon name='building-house' type='solid' color='red'></box-icon></h2>
@@ -323,7 +325,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="subsection" style="padding-top: 30px;">
+                <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12" style="display: flex;">
                             <h2><box-icon type='solid' name='briefcase-alt' color="red"></box-icon></h2>
@@ -489,7 +491,6 @@
                             <li><a href="../pages/kinhdoanh.html">Kinh doanh</a></li>
                             <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
                             <li><a href="../pages/phapluat.html">Pháp luật</a></li>
-                            <li><a href="../pages/login.html">Đăng nhập</a></li>
                         </ul>
                     </div>
                     <div class="footer-col1">
@@ -525,6 +526,6 @@
 <!--JQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<script src="./dist/js/scripts.min.js" async></script>
+<script src="./dist/js/scripts.min.js" defer></script>
 </body>
 </html>

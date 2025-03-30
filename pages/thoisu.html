@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title></title>
@@ -10,10 +10,11 @@
 
     <link rel="stylesheet" href="../dist/css/styles.css">
     <script src="../dist/js/auth.js"></script>
-    <script src="../dist/js/search.js"></script>
-    <script src="../dist/js/login.js"></script>
-    <script src="../dist/js/register.js"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="../dist/js/search.js"></script>
+<script src="../dist/js/login.js"></script>
+<script src="../dist/js/register.js"></script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 
     
 </head>
@@ -29,7 +30,9 @@
             <li><a href="../pages/kinhdoanh.html">Kinh doanh</a></li>
             <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
             <li><a href="../pages/phapluat.html">Pháp luật</a></li>
-            <li><a href="../pages/login.html">Đăng nhập</a></li>
+            <li>
+                <a href="#" id="sidebar-login-btn" class="login-btn">Đăng nhập</a>
+            </li>
         </ul>
     </div>
 
@@ -37,7 +40,7 @@
         <div class="mobile-head visible-xs-block">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
-                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    <i class="fa-solid fa-bars"></i>
                 </a>
                 <h2 class="branding">The Hanoi Times</h2>
             </nav>
@@ -112,9 +115,9 @@
                             <ul class="nav navbar-nav">
                                 <li style="margin-top: 8px; font-size: 14px">
                                     <a class="menu-toggle" type="button" href="#">
-                                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                                        <span class="menu-text">Danh mục</span>
-                                    </a>
+                                    <i class="fa-solid fa-bars"></i>
+                                    <span class="menu-text">Danh mục</span>
+                                </a>
                                 </li>
                             </ul>
                             <ul class="nav nav-center">
@@ -232,7 +235,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="subsection" style="padding-top: 30px;">
+                <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12">
                             <h2>Trong nước</h2>
@@ -278,7 +281,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="subsection" style="padding-top: 30px;">
+                <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12">
                             <h2>Quốc tế</h2>
@@ -348,7 +351,6 @@
                             <li><a href="../pages/kinhdoanh.html">Kinh doanh</a></li>
                             <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
                             <li><a href="../pages/phapluat.html">Pháp luật</a></li>
-                            <li><a href="../pages/login.html">Đăng nhập</a></li>
                         </ul>
                     </div>
                     <div class="footer-col1">
