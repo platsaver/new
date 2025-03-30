@@ -5,7 +5,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Trong nước - The Hanoi Times</title>
+    <title>Bất động sản - The Hanoi Times</title>
     <meta name="description" content="Tin tức trong nước mới nhất từ The Hanoi Times">
 
     <link rel="stylesheet" href="../dist/css/styles.css">
@@ -141,58 +141,66 @@
                  Multiple lines will require custom code not provided by Bootstrap. -->
             <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
-                </div>
+                </div>   
                 <div id="masthead-meta1">
                     <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
                 </div>
                 <nav id="mini-navigation1">
-                    <ul class="nav nav-justified">
-                        <li><a href="../../pages/index.html"><span>Trang chủ</span></a></li>
-                        <li><a href="../../pages/thoisu.html"><span>Thời sự</span></a></li>
-                        <li><a href="../../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
-                        <li><a href="../../pages/batdongsan.html"><span>Bất động sản</span></a></li>
-                        <li><a href="../../pages/phapluat.html"><span>Pháp luật</span></a></li>
-                    </ul>
+                    <ul class="nav justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/index.html">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/thoisu.html">Thời sự</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/kinhdoanh.html">Kinh doanh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/batdongsan.html">Bất động sản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/phapluat.html">Pháp luật</a>
+                        </li>
+                    </ul>                    
                 </nav>
                 <div id="masthead-meta">
                     <h1>Bất động sản</h1>
                 </div>
                 <nav id="mini-navigation">
-                    <ul class="nav navbar-nav">
-                        <li><a href="../subcategory/chinhsach.html">Chính sách</a></li>
-                        <li><a href="../subcategory/thitruong.html">Thị trường</a></li>
-                        <li class="active" ><a href="../subcategory/duan.html"  style="color: red">Dự án</a></li>
+                    <ul class="nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="../subcategory/chinhsach.html">Chính sách</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/thitruong.html">Thị trường</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/duan.html">Dự án</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -336,7 +344,8 @@
 </div> <!-- /wrapper -->
 
 <!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 <script src="../../dist/js/scripts.min.js" async></script>
 </body>
 </html>
