@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,12 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                
             </nav>
         </div>
 
@@ -106,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -170,7 +163,7 @@
                                     <p>Theo xác minh ban đầu, từ đầu năm 2024 đến nay, nhóm lừa đảo đã sử dụng trang Facebook có tên là Thầy Minh Làm Bùa Yêu Miễn Phí và Thầy Hải Làm Bùa Yêu Miễn Phí để quảng cáo làm lễ cúng theo phong tục tập quán của người dân tộc Mường. Chúng cũng đăng tải nhiều hình ảnh một thầy mo trên địa bàn xóm Mận, xã Văn Sơn, huyện Lạc Sơn, đang làm lễ.</p>
                                     <p>Khi có người nhắn tin, chúng đề nghị kết bạn qua Zalo để nhắn tin tư vấn, hướng dẫn làm "bùa yêu" nhằm hàn gắn tình cảm, tình duyên, cầu tài lộc. Để bị hại không nghi ngờ, nhóm lừa đảo còn yêu cầu chuyển quần áo đến xóm Mận, xã Văn Sơn, huyện Lạc Sơn, để làm lễ, bùa yêu, cắt vong, giải bùa.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/1-1742185096-1310-1742185233.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=aXee1zWebuAFB4Ugckd4Mg" alt="Hình ảnh giả làm bùa yêu của nhóm lừa đảo" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/1-1742185096-1310-1742185233.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=aXee1zWebuAFB4Ugckd4Mg" alt="Hình ảnh giả làm bùa yêu của nhóm lừa đảo" class="img-fluid">
                                         <figcaption>Hình ảnh giả làm bùa yêu của nhóm lừa đảo. Ảnh: Công an</figcaption>
                                     </figure>
                                     <p>Nhà chức trách cáo buộc, nhóm này còn cho "con mồi" một số video làm lễ đã được cắt ghép, lồng tiếng. Mỗi một lễ, nhóm lừa đảo yêu cầu bị hại phải chuyển từ 300.000 đến 4 triệu đồng, rồi chiếm đoạt.</p>

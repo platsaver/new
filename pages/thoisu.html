@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     
 </head>
@@ -37,14 +38,13 @@
     </div>
 
     <div id="page-content-wrapper" class="category">
-        <div class="mobile-head visible-xs-block">
-            <nav class="navbar ">
-                <a class="menu-toggle" type="button" href="#">
+        <div class="mobile-head d-block d-sm-none">
+            <nav class="navbar">
+                <button class="btn menu-toggle" type="button">
                     <i class="fa-solid fa-bars"></i>
-                </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                </button>
             </nav>
-        </div>
+        </div>  
 
         <div class="container">
             <!-- Popup Login -->
@@ -108,37 +108,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -146,34 +138,48 @@
                     <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
                 </div>
                 <nav id="mini-navigation1">
-                    <ul class="nav nav-justified">
-                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
-                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
-                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
-                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
-                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
-                    </ul>
+                    <ul class="nav justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/index.html">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/thoisu.html">Thời sự</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/kinhdoanh.html">Kinh doanh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/batdongsan.html">Bất động sản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/phapluat.html">Pháp luật</a>
+                        </li>
+                    </ul>                    
                 </nav>
                 <div id="masthead-meta">
                     <h1>Thời sự</h1>
                 </div>
                 <nav id="mini-navigation">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="../subcategory/thoisuquocte.html">Quốc tế</a></li>
-                        <li><a href="../subcategory/thoisutrongnuoc.html">Trong nước</a></li>
+                    <ul class="nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="../subcategory/thoisuquocte.html">Quốc tế</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/thoisutrongnuoc.html">Trong nước</a>
+                        </li>
                     </ul>
-                </nav>
+                </nav>  
             </div>
 
             <!-- Example row of columns -->
             <div id="main">
                 <section class="featured">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/ae640bbd121aa344fa0b-174218577-4142-6528-1742185843.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=jKQ7WgLITYqJ_GIzCkHAaw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -187,11 +193,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -205,7 +211,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <ul class="categories">
@@ -241,40 +247,40 @@
                             <h2>Trong nước</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/ae640bbd121aa344fa0b-174218577-4142-6528-1742185843.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=jKQ7WgLITYqJ_GIzCkHAaw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post1.html">Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post3.html">Số đơn vị hành chính cấp tỉnh cần sáp nhập đã được xác định</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post2.html">Nâng chiều cao tập thể Thành Công lên 40 tầng nhưng không tăng số dân</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post4.html">Ôtô tông 10 xe máy ở ngã tư Thủ Đức</a></h2>
                                 </div>
                             </div>
@@ -282,45 +288,45 @@
                     </div>
                 </section>
                 <section class="subsection">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="section-header col-md-12">
                             <h2>Quốc tế</h2>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/cats-1742218042-2751-1742218176.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=7iIL6b8EGh4FzBUes8g-rA"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Người giữ thẻ xanh, du học sinh được khuyến cáo không rời Mỹ</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/cats-1742221747-3545-1742221786.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=4n7PBMIsIH8ZnMiPn1BLjQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Báo chí Mỹ phá vỡ truyền thống trăm năm với Tổng thống Trump</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/ap25060654037478-1742227906-17-9251-1125-1742228118.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=fc3OsUAJ8iJbmbVjt7nEag"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Thủ tướng Canada 'mời ông Zelensky dự hội nghị thượng đỉnh G7'</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/2024-08-17t162930z-1721563911-5901-1239-1742195105.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=0bksisucuD_6JCav9hE0Gw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Lính Ukraine kể quá trình rút quân ở Kursk</a></h2>
                                 </div>
                             </div>

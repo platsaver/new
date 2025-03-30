@@ -15,7 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
 </head>
 <body>
@@ -37,14 +37,13 @@
     </div>
 
     <div id="page-content-wrapper" class="category">
-        <div class="mobile-head visible-xs-block">
-            <nav class="navbar ">
-                <a class="menu-toggle" type="button" href="#">
+        <div class="mobile-head d-block d-sm-none">
+            <nav class="navbar">
+                <button class="btn menu-toggle" type="button">
                     <i class="fa-solid fa-bars"></i>
-                </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                </button>
             </nav>
-        </div>
+        </div>   
 
         <div class="container">
             <!-- Popup Login -->
@@ -108,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -146,35 +137,51 @@
                     <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
                 </div>
                 <nav id="mini-navigation1">
-                    <ul class="nav nav-justified">
-                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
-                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
-                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
-                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
-                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
-                    </ul>
+                    <ul class="nav justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/index.html">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/thoisu.html">Thời sự</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/kinhdoanh.html">Kinh doanh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/batdongsan.html">Bất động sản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/phapluat.html">Pháp luật</a>
+                        </li>
+                    </ul>                    
                 </nav>
                 <div id="masthead-meta">
                     <h1>Kinh doanh</h1>
                 </div>
                 <nav id="mini-navigation">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="../subcategory/kinhdoanhquocte.html">Quốc tế</a></li>
-                        <li><a href="../subcategory/chungkhoan.html">Chứng khoán</a></li>
-                        <li><a href="../subcategory/doanhnghiep.html">Doanh nghiệp</a></li>
+                    <ul class="nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="../subcategory/chinhsach.html">Quốc tế</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/thitruong.html">Chứng khoán</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/duan.html">Doanh nghiệp</a>
+                        </li>
                     </ul>
-                </nav>
+                </nav>  
             </div>
 
             <!-- Example row of columns -->
             <div id="main">
                 <section class="featured">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/DSC-6230-3942-1742186774.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Wh8c6rAVTKwBFBFN-Vf5sQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -188,11 +195,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -206,7 +213,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <ul class="categories">
@@ -242,40 +249,40 @@
                             <h2>Quốc tế</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                          <h2><a href="../posts/post7.html">Bộ trưởng Tài chính Mỹ: Không loại trừ nguy cơ kinh tế suy thoái</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/tiepnganhangstandar17422130293-9370-1778-1742219923.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=NONt5mUnAqE0OjgvKT1Rfw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Phó thủ tướng mời Standard Chartered tham gia trung tâm tài chính quốc tế tại Việt Nam</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/etf-insights-blog-jan-202001-1-6437-2322-1742223330.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=14j_6jQRf2D6TkRYkrc98g"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">'Cá mập' trăm tỷ USD VanEck muốn mở quỹ Bitcoin tại Việt Nam</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/aluminum-1742198219-1742198267-7964-1742198347.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=VWfU5GH2bN_Fzw4Koi1aow"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Ông Trump sẽ không áp dụng miễn trừ với thuế nhôm, thép</a></h2>
                                 </div>
                             </div>
@@ -288,40 +295,40 @@
                             <h2>Chứng khoán</h2>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/chungkhoan-24-JPG-5009-1742201448.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=wlSjjIwA6oFRv5vz2H1fdg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Cổ phiếu ngân hàng, bất động sản giúp VN-Index tăng vọt</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/1quan3102cfd4477747e99898fdeb0-7225-1535-1742199023.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=By_42RGybBoWnr_gmYMvUA"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Con trai ông Bùi Thành Nhơn muốn bán gần 3 triệu cổ phiếu Novaland</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/anhbds-1742134355-6183-1742137454.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=I1ZOtC1LfBM2GDr01Dk_3A"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Doanh nghiệp bất động sản trở lại cuộc đua bán hàng</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/nguyen-ho-nam-1740973752-5075-2661-2989-1742093113.png?w=240&h=144&q=100&dpr=1&fit=crop&s=zqjliNCrnfD_H36bub8sew"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Ông Nguyễn Hồ Nam bị bán giải chấp gần 11 triệu cổ phiếu Bamboo Capital</a></h2>
                                 </div>
                             </div>
@@ -334,40 +341,40 @@
                             <h2>Doanh nghiệp</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/DSC-6230-3942-1742186774.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Wh8c6rAVTKwBFBFN-Vf5sQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post6.html">Giá vàng nhẫn lập kỷ lục gần 97 triệu đồng </a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/3acmdn6prfj2xaapqmd2pf6x4q-174-1423-1425-1742139032.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=N8heancxaGF6sYUXobQCVQ"
-                                         alt="image" class="thumbnail img-responsive" style="height: 140px">
+                                         alt="image" class="img-fluid" style="height: 140px">
                                          <h2><a href="../posts/post8.html">Giá vàng có thể tiếp tục vượt 3.000 USD</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/15/dji-20250128073245-0097-d-1741-6415-9149-1741982916.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=bkMEK0GzQPe8amGJi4OAcg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="../posts/post9.html">Gỡ khó cho doanh nghiệp - chìa khóa để TP HCM tăng trưởng 10%</a></h2>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/bcg-2-jpg-1742205632-174220566-5172-6551-1742205671.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=W18H8sTLn0LsEKa0IUXsWg"
-                                         alt="image" class="thumbnail img-responsive" style="height: 140px">
+                                         alt="image" class="img-fluid" style="height: 140px">
                                     <h2><a href="article.html">Chủ tịch Bamboo Capital đột ngột qua đời</a></h2>
                                 </div>
                             </div>

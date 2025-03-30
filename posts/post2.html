@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,11 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
             </nav>
         </div>
 
@@ -106,37 +106,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -171,20 +163,20 @@
                                     <p>"Tăng chiều cao sẽ tạo ra quỹ đất sàn thương mại dịch vụ, giúp người dân tái định cư có nhu cầu mua thêm, đồng thời tăng sức hấp dẫn đối với các nhà đầu tư quan tâm đến cải tạo chung cư cũ", ông Thanh nói.</p>
                                     <p>Theo ông, thành phố đã giao quận phối hợp với đơn vị tư vấn hoàn thiện phương án và trình Sở Quy hoạch Kiến trúc thẩm định để phê duyệt trước ngày 25/3. Các khu tập thể mà quận đang nghiên cứu quy hoạch chi tiết cũng đã có nhà đầu tư khảo sát hiện trạng và điều tra xã hội học. Sau khi thành phố phê duyệt quy hoạch chi tiết, quận sẽ tổ chức hội nghị nhà chung cư để người dân lựa chọn nhà đầu tư và tiến hành các bước cải tạo.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/pho-i-ca-nh-kie-n-tru-c-174213-4973-2429-1742138501.png?w=680&h=0&q=100&dpr=2&fit=crop&s=tCQJQwznbUC40OxZ6mWWlQ" alt="Phối cảnh minh họa khu tập thể Thành Công sau cải tạo" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/pho-i-ca-nh-kie-n-tru-c-174213-4973-2429-1742138501.png?w=680&h=0&q=100&dpr=2&fit=crop&s=tCQJQwznbUC40OxZ6mWWlQ" alt="Phối cảnh minh họa khu tập thể Thành Công sau cải tạo" class="img-fluid">
                                         <figcaption>Phối cảnh minh họa khu tập thể Thành Công sau cải tạo. Nguồn: Quận Ba Đình</figcaption>
                                     </figure>
                                     <p>Khu chung cư Thành Công hiện có 68 tòa nhà cao 2-5 tầng, được xây dựng từ năm 1979-1982, tổng số dân khoảng 13.400. Trong đó có một chung cư thuộc diện nguy hiểm cấp độ D (cần di chuyển cư dân) là nhà G6A, 6 nguy hiểm cấp C (hư hại nặng) và 14 công trình nguy hiểm cấp B (có cấu kiện nguy hiểm). Một chung cư mới là C1 với 18 tầng đã được đưa vào sử dụng năm 2018. Trong khu vực còn có hơn 500 hộ dân sinh sống trong các công trình nhà ở riêng lẻ (nhà ở tập thể chia lô và nhà ở liền kề khác).</p>
                                     <p>Đồ án nghiên cứu quy hoạch khu tập thể Thành Công bao gồm hơn 23 ha, tổng dân số dự kiến hơn 19.500. Khu vực nghiên cứu có ranh giới phía tây đến phố Thành Công, giáp phố Láng Hạ; phía bắc giáp đường La Thành; phía đông giáp phố Nguyên Hồng (ranh giới phường Thành Công, tường rào ký túc xá Đại học Luật); và phía nam đến phố Thành Công, Nguyên Hồng, giáp phố Huỳnh Thúc Kháng.</p>
                                     <p>Dự kiến sau cải tạo, từ 68 tòa nhà hiện tại sẽ được quy gom lại còn 24 tòa cao tầng, trong đó cao nhất là 40 tầng. Tổng diện tích tái định cư dự kiến gần 520.000 m2, tương đương chỉ tiêu sử dụng căn hộ 29 m2/người, phù hợp với chỉ tiêu của Chương trình phát triển nhà ở của thành phố giai đoạn 2021-2030.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/tc1-1742138241-9458-1742138501.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=XIJPe-tPmcQkjaq19LfC6w" alt="Khu tập thể Thành Công nhìn từ trên cao" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/tc1-1742138241-9458-1742138501.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=XIJPe-tPmcQkjaq19LfC6w" alt="Khu tập thể Thành Công nhìn từ trên cao" class="img-fluid">
                                         <figcaption>Khu tập thể Thành Công nhìn từ trên cao. Ảnh: Lộc Chung</figcaption>
                                     </figure>
                                     <p>Hà Nội hiện có hơn 1.500 nhà chung cư cũ, trong đó có gần 1.300 nhà thuộc 76 khu chung cư và 306 chung cư độc lập được xây dựng từ những năm 1960-1994. Từ năm 2005, thành phố bắt đầu cải tạo các khu chung cư cũ, nhưng đến nay mới có 19 dự án hoàn thành và 14 dự án đang triển khai.</p>
                                     <p>Giai đoạn 2021-2025, Hà Nội dự định cải tạo 10 khu chung cư cũ, bao gồm 4 khu nhà cấp D (nguy cơ sụp đổ) và 6 khu có tính khả thi cao. Tuy nhiên, đến nay chưa có khu nào được cải tạo. Thành phố đặt mục tiêu khởi công 1-2 khu chung cư cũ trong năm 2025.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/vi-tri-1742137844-4535-1742138501.png?w=680&h=0&q=100&dpr=2&fit=crop&s=poJuT5zwtE5Fw0tZ5M9Llw" alt="Vị trí nghiên cứu cải tạo khu tập thể Thành Công" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/vi-tri-1742137844-4535-1742138501.png?w=680&h=0&q=100&dpr=2&fit=crop&s=poJuT5zwtE5Fw0tZ5M9Llw" alt="Vị trí nghiên cứu cải tạo khu tập thể Thành Công" class="img-fluid">
                                         <figcaption>Vị trí nghiên cứu cải tạo khu tập thể Thành Công. Nguồn: Quận Ba Đình</figcaption>
                                     </figure>
                                 </div>

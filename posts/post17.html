@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,12 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                
             </nav>
         </div>
 
@@ -106,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -177,7 +170,7 @@
                                     <p>Ngoài ra, thanh tra chỉ ra tại dự án Hoàng Hảo, chủ đầu tư đã sử dụng đất sai mục đích, xây dựng một số công trình trên diện tích được quy hoạch là đất giao thông, công viên cây xanh và đất giáo dục. Việc sử dụng đất không đúng quy hoạch đã được cấp thẩm quyền phê duyệt và việc xác định nghĩa vụ tài chính đất đai không đúng quy định của pháp luật tại dự án này có nguy cơ gây thất thoát ngân sách nhà nước.</p>
                                     <p>Sở Tài nguyên và Môi trường tỉnh còn cấp giấy chứng nhận quyền sử dụng đất chi tiết đến từng thửa đất là chưa đúng; cấp giấy chồng lấn toàn bộ hoặc một phần diện tích lên đất giao thông, đất cây xanh theo quy hoạch đã được cấp thẩm quyền phê duyệt.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hoa-lan-1742187919-7840-1742188069.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=ClA17Nm0s5gtB-ZJjLXq8w" alt="Một góc dự án khu nhà ở Hoa Lan, Vĩnh Long" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hoa-lan-1742187919-7840-1742188069.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=ClA17Nm0s5gtB-ZJjLXq8w" alt="Một góc dự án khu nhà ở Hoa Lan, Vĩnh Long" class="img-fluid">
                                         <figcaption>Một góc dự án khu nhà ở Hoa Lan, Vĩnh Long. Ảnh: BaoVinhLong</figcaption>
                                     </figure>
                                     <p>Với dự án khu nhà ở Hoa Lan tại phường 8, thành phố Vĩnh Long, thanh tra cho rằng Sở Tài nguyên và Môi trường đã cho phép tách 33 thửa đất với diện tích hơn 11.188 m2 trên đất được Sở Xây dựng thống nhất quy hoạch mặt bằng tổng thể dự án là đất giao thông và cây xanh. Từ đó để chủ đầu tư dự án khu nhà ở Hoa Lan chuyển nhượng trước khi xây dựng hạ tầng cho các hộ dân là không đúng quy định.</p>

@@ -15,6 +15,8 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
 </head>
 <body>
@@ -36,14 +38,14 @@
     </div>
 
     <div id="page-content-wrapper" class="category">
-        <div class="mobile-head visible-xs-block">
-            <nav class="navbar ">
-                <a class="menu-toggle" type="button" href="#">
+        <div class="mobile-head d-block d-sm-none">
+            <nav class="navbar">
+                <button class="btn menu-toggle" type="button">
                     <i class="fa-solid fa-bars"></i>
-                </a>
+                </button>
                 <h2 class="branding">The Hanoi Times</h2>
             </nav>
-        </div>
+        </div>        
 
         <div class="container">
             <!-- Popup Login -->
@@ -107,70 +109,81 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                                </li>
-                                <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                                <li style="margin-top: 10px">
-                                    <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
-                                        <!-- Biểu tượng kính lúp -->
-                                        <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                        <!-- Thanh tìm kiếm ẩn mặc định -->
-                                        <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                               style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                      display: none; position: absolute; right: 0px; top: 0;">
-                                    </form>
-                                </li>
-                            </ul>
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
+                                    <!-- Biểu tượng kính lúp -->
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
+                                </form>
+                            </div>
                         </div>
                     </nav>
-                </div>
+                </div>                  
                 <div id="masthead-meta1">
                     <h2 class="branding" style="text-align: center; padding-top: 10px; padding-bottom: 12px; font-size: 49px;"><a href="#">The Hanoi Times</a></h2>
                 </div>
                 <nav id="mini-navigation1">
-                    <ul class="nav nav-justified">
-                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
-                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
-                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
-                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
-                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
-                    </ul>
+                    <ul class="nav justify-content-around">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/index.html">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/thoisu.html">Thời sự</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/kinhdoanh.html">Kinh doanh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/batdongsan.html">Bất động sản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/phapluat.html">Pháp luật</a>
+                        </li>
+                    </ul>                    
                 </nav>
                 <div id="masthead-meta">
                     <h1>Bất động sản</h1>
                 </div>
                 <nav id="mini-navigation">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="../subcategory/chinhsach.html">Chính sách</a></li>
-                        <li><a href="../subcategory/thitruong.html">Thị trường</a></li>
-                        <li><a href="../subcategory/duan.html">Dự án</a></li>
+                    <ul class="nav justify-content-start">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="../subcategory/chinhsach.html">Chính sách</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/thitruong.html">Thị trường</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../subcategory/duan.html">Dự án</a>
+                        </li>
                     </ul>
-                </nav>
+                </nav>                
             </div>
 
             <!-- Example row of columns -->
             <div id="main">
                 <section class="featured">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/dat-thanh-oai-1742177929-17421-5891-9761-1742178052.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=bLbAdx5cld_T0apktIqNMg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -184,11 +197,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hinh-2-1742197528-1742197613-5971-1742197693.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=CvyaO2iebuC3CUjFYMG9PA"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <ul class="categories">
                                         <li>
                                             <a href="category.html" class="category">
@@ -202,7 +215,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <ul class="categories">
@@ -235,44 +248,44 @@
                 </section>
                 <section class="subsection">
                     <div class="row">
-                        <div class="section-header col-md-12">
+                        <div class="section-header col-12">
                             <h2>Dự án</h2>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    </div>                    
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/Hinh-2-1742197528-2865-1742197693.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=PwPbjdzK1JAvhV2ZYfXv3g"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                          <h2><a href="../posts/post11.html">Dự án bất động sản phát triển song hành quy hoạch TP Thủ Đức</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/AG1-1742122069-7240-1742122365.png?w=680&h=0&q=100&dpr=1&fit=crop&s=NFcNJ9PflZJoJn1s7NJ7MQ"
-                                         alt="image" class="thumbnail img-responsive" style="height: 143px">
+                                         alt="image" class="img-fluid" style="height: 143px">
                                          <h2><a href="../posts/post12.html">Tiềm năng cho địa ốc khi nút giao Tân Vạn sắp về đích.</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/BHD2106-1742122946-4650-1742123373.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=xLTA7DV42X-d9ywslRbArQ"
-                                         alt="image" class="thumbnail img-responsive" style="height: 143px">
+                                         alt="image" class="img-fluid" style="height: 143px">
                                          <h2><a href="../posts/post13.html">22 năm đưa mô hình trị liệu - tái tạo vào đô thị của Ecopark.</a></h2>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/18/hhh-1742255472-1742255598-4997-1742255700.png?w=240&h=144&q=100&dpr=1&fit=crop&s=19B5hAyjfIcbxQ-C3tq6fw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Haus Da Lat kết nối cư dân với cộng đồng tỷ phú toàn cầu
                                     </a></h2>
                                 </div>
@@ -282,44 +295,44 @@
                 </section>
                 <section class="subsection">
                     <div class="row">
-                        <div class="section-header col-md-12">
-                            <h2>Thị trường</h2>
+                        <div class="section-header col-12">
+                            <h2>Dự án</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/dat-thanh-oai-1742177929-17421-5891-9761-1742178052.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=bLbAdx5cld_T0apktIqNMg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Đất trúng đấu giá huyện ven Hà Nội tiếp tục giảm nhiệt.</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/anhbds-1742134355-6183-1742137454.jpg?w=300&h=180&q=100&dpr=1&fit=crop&s=HDgJK34kOc_QZoQnJcK-EQ"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Doanh nghiệp bất động sản trở lại cuộc đua bán hàng</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/15/a-nh-ma-n-hi-nh-2025-03-15-lu-1916-7505-1742038938.png?w=300&h=180&q=100&dpr=1&fit=crop&s=HGGlHCsGVLEl1klj6HATHA"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Loạt dự án của các ông lớn địa ốc đổ bộ thị trường phía Bắc</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/img9532-1742105790784121262191-7339-9013-1742112005.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=q5a-1Zfe6E2oBwWlR343zA"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Vĩnh Phúc dự kiến mỗi tháng khởi công 1 dự án nhà xã hội</a></h2>
                                 </div>
                             </div>
@@ -332,40 +345,40 @@
                             <h2>Chính sách</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/13/DJI-20241030161520-0043-D-7153-1741864693.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=ZqH0CEz8XFrhLAPJVQQqBw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">TP HCM muốn mở rộng trung tâm tài chính quốc tế về quận 1</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/13/phoc-3-1741859676-1741860067-2961-1741860080.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=E2Fy0VzDCy7hBu3uFJgWAg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Phó thủ tướng gợi ý cách gỡ vướng các dự án 'đất vàng' Nha Trang</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6380450103869-3c482bbd443ed3c-1690-7209-1742101935.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=y9hghmJWaq67lbwa1RF97A"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Nữ giới được ưu tiên thuê nhà ở xã hội tại TP HCM</a>
                                     </h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3">
                             <div class="collection">
                                 <div class="article last">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/15/3394a512-f78e-46ec-a013-24a078-4025-4328-1742038155.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=izvf3oCtNUlZOwo11rGOIw"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                     <h2><a href="article.html">Đề xuất đánh thuế 20% trên lãi chuyển nhượng bất động sản</a></h2>
                                 </div>
                             </div>

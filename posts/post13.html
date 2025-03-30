@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,12 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                
             </nav>
         </div>
 
@@ -106,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -171,7 +164,7 @@
                                     <p>Năm 2003, Ecopark bắt đầu hành trình tại Việt Nam bằng việc trồng những cây xanh đầu tiên trên quỹ đất 500 ha của Ecopark Hưng Yên, đặt nền móng cho việc xây dựng phong cách sống hài hòa thiên nhiên.</p>
                                     <p>Với dự án đại đô thị này, đơn vị đã tạo nên một hệ sinh thái với hàng nghìn ngôi nhà nằm dưới một triệu cây xanh cùng hệ thống công viên bốn mùa lớn bậc nhất miền Bắc. Đến nay, đô thị là nơi sinh sống của hàng nghìn gia đình. Đây cũng là đô thị phát triển bền vững xuất sắc tại châu Á do International Property Awards bình chọn.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/BHD2106-1742122946-4650-1742123373.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=xLTA7DV42X-d9ywslRbArQ" alt="Cư dân tập thể thao tại Ecopark Hưng Yên" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/BHD2106-1742122946-4650-1742123373.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=xLTA7DV42X-d9ywslRbArQ" alt="Cư dân tập thể thao tại Ecopark Hưng Yên" class="img-fluid">
                                         <figcaption>Cư dân tập thể thao tại Ecopark Hưng Yên. Ảnh: Ecopark</figcaption>
                                     </figure>
                                     <p>Mô hình xanh tiếp tục hiện hữu qua nhiều dự án nối tiếp. Qua mỗi dự án, triết lý "nói không với rừng bê tông" luôn được duy trì. 15 năm sau khi phát triển dự án ở Hưng Yên, nhà sáng lập chọn Hải Dương để giới thiệu Ecorivers - khu đô thị sinh thái hiện đại bao bọc bởi những dòng sông. Năm 2023, đơn vị đến Nghệ An, xây dựng Eco Central Park - dự án đại công viên lớn bậc nhất miền Trung.</p>
@@ -179,7 +172,7 @@
                                     <p>Theo đại diện nhà sáng lập, để xây dựng một đô thị sinh thái đúng nghĩa đòi hỏi nhiều yếu tố, bao gồm việc đánh đổi diện tích thương phẩm để ưu tiên cho cảnh quan nhằm phủ xanh không gian sống. Việc lựa chọn các tầng thiên nhiên cũng phải được tính toán, có chủ đích để tăng cường lợi ích sức khỏe cho cư dân đồng thời đảm bảo phát triển hệ sinh thái bền vững.</p>
                                     <p>Các khu đô thị không có những "khu đất ngủ yên". Nếu chưa xây dựng, những khu đất trống được tận dụng trở thành vườn ươm. Ngoài đại đô thị xanh Ecopark, hiện chủ đầu tư có vườn ươm tại nhiều tỉnh thành trên cả nước để cây quen thổ nhưỡng, dễ dàng phát triển tại các dự án mới.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/DJI-20240809063514-0019-D-Enha-8473-2445-1742123373.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=OOQAm6Al5mBdPBcBBn6asA" alt="Ecopark với mảng xanh, mặt nước rộng lớn" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/DJI-20240809063514-0019-D-Enha-8473-2445-1742123373.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=OOQAm6Al5mBdPBcBBn6asA" alt="Ecopark với mảng xanh, mặt nước rộng lớn" class="img-fluid">
                                         <figcaption>Ecopark với mảng xanh, mặt nước rộng lớn.</figcaption>
                                     </figure>
                                     <p>Cùng với cây xanh, Ecopark tập trung quy hoạch dòng nước nội khu trở nên có sức sống. Để tạo dòng chảy tự nhiên cho mặt nước, các nền hồ tại từng khu vực được thiết kế giật cấp với nhiều độ cao khác nhau. Nhờ sự lưu thông, luân chuyển liên tục, các dòng nước nội khu có khả năng tự làm sạch, tránh được bùng phát của tảo gây ô nhiễm. Cách làm sạch dòng nước bằng kỹ thuật sinh thái tham gia vào quá trình điều hòa không khí, cân bằng độ ẩm và tạo giá trị cảnh quan cho các ngôi nhà liền kề.</p>
@@ -187,7 +180,7 @@
                                     <p>Kế thừa giá trị thương hiệu và những sản phẩm trước, năm 2025, đánh dấu cột mốc tiếp theo trên hành trình nam tiến của với dự án Eco Retreat. Khu đô thị vẫn mang "DNA" xanh nhưng được phát triển với tầm nhìn lớn hơn. Nhà sáng lập định hướng tạo nên một đô thị "rừng trị liệu" với những ngôi nhà retreat bao bọc bởi thiên nhiên. Từ đây cư dân được phát triển, kiến tạo sức khoẻ, hạnh phúc, cảm xúc tích cực... "Nhà tại Eco Retreat là nơi tắm rừng trong từng bước chân, trị liệu - phục hồi - tái tạo toàn diện trong từng hơi thở", nhà sáng lập nói.</p>
                                     <p>Ecopark Hưng Yên rộng 500 ha có hơn một triệu cây xanh. Con số này được nâng lên gấp nhiều lần tại Eco Retreat. Với quỹ đất 220 ha, đô thị quy hoạch đến 4 triệu cây xanh từ 300 chủng loại khác nhau, tạo thành 8 tầng thiên nhiên. Mật độ cây xanh nhiều hơn gấp nhiều lần so với dự án ở Hưng Yên.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ECOPARK-LONG-AN-V11-FIN-8597-7185-1742123374.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Nm0TotfPRxclKT03Gng8ew" alt="Eco Retreat rộng 220 ha với thảm thực vật đa dạng" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ECOPARK-LONG-AN-V11-FIN-8597-7185-1742123374.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Nm0TotfPRxclKT03Gng8ew" alt="Eco Retreat rộng 220 ha với thảm thực vật đa dạng" class="img-fluid">
                                         <figcaption>Eco Retreat rộng 220 ha với thảm thực vật đa dạng. Ảnh: Ecopark</figcaption>
                                     </figure>
                                     <p>Khu đô thị tọa lạc tại phía Tây TP HCM. Dự án cách bến Bạch Đằng (quận 1) khoảng 30 phút di chuyển theo đại lộ Võ Văn Kiệt, cao tốc TP HCM - Trung Lương. Tại đây, 80% liệu pháp retreat đến từ thiên nhiên, 20% là các liệu pháp chủ động để bổ sung như: tắm khoáng, thiền, tắm âm thanh, spa trị liệu, tư vấn dinh dưỡng, tư vấn tâm lý và các phương pháp thực hành retreat hàng ngày.</p>
@@ -196,7 +189,7 @@
                                     <p>Nổi bật nhất trong vòng tròn retreat là đường rừng trị liệu 8 km, dài gấp 1,5 lần đường rừng trị liệu tiêu chuẩn theo liệu pháp tắm rừng Shinrin-yoku. Liệu pháp tắm rừng Shinrin-yoku là phương pháp đắm mình trong tự nhiên, được Chính phủ Nhật Bản đưa vào chương trình y tế năm 1982. Sau đó phương pháp này được đón nhận trên thế giới. Tại Eco Retreat, tắm rừng xong cư dân có thể kết hợp tắm onsen trị liệu tại khu vực Clubhouse để đạt được hiệu quả tốt nhất.</p>
                                     <p>Trong một nghiên cứu năm 2015 của Đại học Stanford cho thấy những người đi bộ trong rừng khoảng 90 phút có hoạt động giảm ở vỏ não trước trán dưới xương (khu vực não liên quan đến sự suy nghĩ và trầm cảm). Ngược lại, những người đi bộ trong thành phố không có được lợi ích tương tự.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ECO-TREAT-V07-FINAL-174-1609-1688-1742123374.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=abiscKa33ZLklnjBUWhpQw" alt="Cư dân trị liệu, phục hồi, tái tạo ngay tại nhà" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ECO-TREAT-V07-FINAL-174-1609-1688-1742123374.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=abiscKa33ZLklnjBUWhpQw" alt="Cư dân trị liệu, phục hồi, tái tạo ngay tại nhà" class="img-fluid">
                                         <figcaption>Cư dân trị liệu, phục hồi, tái tạo ngay tại nhà. Ảnh: Ecopark</figcaption>
                                     </figure>
                                     <p>Theo các chuyên gia, yêu cầu về hệ sinh thái đi kèm căn nhà đang thay đổi dần theo thời gian. Trong quá khứ, nhà phải gần nhiều cơ sở dịch vụ công, kết nối thuận tiện để con cái đi học, ba mẹ đi làm. Những năm gần đây, nhà ở được lựa chọn vì tiện ích cơ bản như bệnh viện, trường học, công viên. Trong tương lai, nhà không đơn thuần là không gian vật lý trong 4 bức tường, mà phải là nơi gắn kết và nuôi dưỡng nhiều giá trị như tình thân, sức khỏe, tinh thần...</p>

@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,12 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                
             </nav>
         </div>
 
@@ -106,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -171,13 +164,13 @@
                                     <p>Giữa tháng 3, Phó thủ tướng Chính phủ Mai Văn Chính cùng lãnh đạo TP HCM, Bình Dương, Đồng Nai kiểm tra thực tế công trường nút giao Tân Vạn (Bình Dương), thuộc dự án Vành đai 3 và đoạn cầu cạn qua địa phận TP.Thủ Đức.</p>
                                     <p>Tại đây, Ban quản lý Dự án đầu tư xây dựng tỉnh Bình Dương cho biết đang tập trung hoàn thành 100% mặt bằng trong tháng 3 để chủ đầu tư có cơ sở thực hiện giải pháp thi công các gói thầu Vành đai 3.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/AG1-1742122069-7240-1742122365.png?w=680&h=0&q=100&dpr=1&fit=crop&s=NFcNJ9PflZJoJn1s7NJ7MQ" alt="Phối cảnh nút giao Tân Vạn" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/AG1-1742122069-7240-1742122365.png?w=680&h=0&q=100&dpr=1&fit=crop&s=NFcNJ9PflZJoJn1s7NJ7MQ" alt="Phối cảnh nút giao Tân Vạn" class="img-fluid">
                                         <figcaption>Phối cảnh nút giao Tân Vạn. Ảnh: TCIP</figcaption>
                                     </figure>
                                     <p>Trong đó, nút giao Tân Vạn, với thiết kế 3 tầng hiện đại là điểm kết nối giữa TP Thủ Đức, Dĩ An và Biên Hòa. Đây là nút giao lớn nhất, phức tạp nhất của dự án Vành đai 3. TP HCM và Bình Dương đã làm việc, kiến nghị đầu tư hoàn chỉnh nút giao này với ngân sách khoảng 1.700 tỷ đồng. Dự kiến tới cuối năm 2025 sẽ cơ bản hoàn thành nút giao Tân Vạn, sớm hơn gần một năm so với kế hoạch ban đầu.</p>
                                     <p>Việc hoàn thành nút giao Tân Vạn vào cuối năm góp phần đảm bảo mục tiêu thông xe 21 km đầu tiên của Vành đai 3 trong năm 2025, bao gồm đoạn cầu cạn qua TP Thủ Đức và kết nối với Mỹ Phước - Tân Vạn. Trong đó, dịp 30/4 dự kiến sẽ thông xe kỹ thuật một đoạn và thêm 14,7 km vào cuối năm.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/HA-TANG-KHU-DONG-DRAFT-1-Linke-7553-8129-1742122365.png?w=680&h=0&q=100&dpr=1&fit=crop&s=r2D4C48YXLc0W_s7PCq0UQ" alt="Bản đồ nút giao Tân Vạn" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/HA-TANG-KHU-DONG-DRAFT-1-Linke-7553-8129-1742122365.png?w=680&h=0&q=100&dpr=1&fit=crop&s=r2D4C48YXLc0W_s7PCq0UQ" alt="Bản đồ nút giao Tân Vạn" class="img-fluid">
                                         <figcaption>Bản đồ nút giao Tân Vạn. Đồ hoạ: Hoàng Dương</figcaption>
                                     </figure>
                                     <p>Nút giao vận hành được đánh giá mang lại tác động đến khu vực tam giác kinh tế TP HCM - Bình Dương - Đồng Nai. Về giao thông, công trình góp phần giảm ùn tắc, rút ngắn thời gian di chuyển giữa các trung tâm kinh tế. Từ TP Thủ Đức đến Dĩ An, Biên Hòa còn khoảng 15-20 phút và ngược lại.</p>
@@ -187,7 +180,7 @@
                                     <p>Nằm ngay tâm điểm kết nối Xa lộ Hà Nội và đường Vành đai 3, The Gió Riverside của An Gia (mã AGG) là dự án sở hữu vị trí chiến lược liền kề nút giao Tân Vạn, hưởng lợi thế từ hệ thống hạ tầng khu vực.</p>
                                     <p>Nhờ lợi thế này, cư dân The Gió Riverside có thể nhanh chóng kết nối đến trung tâm TP HCM thông qua trục Xa lộ Hà Nội; đến cao tốc TP HCM - Long Thành - Dầu Giây thông qua đường Vành đai 3; đến sân bay quốc tế Long Thành thông qua cao tốc Biên Hòa - Vũng Tàu; các thành phố Dĩ An, Thuận An, Thủ Dầu Một thông qua tuyến ĐT 743A hoặc cao tốc Mỹ Phước - Tân Vạn. Cư dân cũng nhanh chóng kết nối đến TP Biên Hòa thông qua cầu Đồng Nai trong ít phút di chuyển.</p>
                                     <figure>
-                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/KV-C04-Final-1742122208-5764-1742122365.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=3H397F3SChia27NBxMoKQw" alt="Phối cảnh dự án The Gió Riverside" class="thumbnail img-responsive">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/KV-C04-Final-1742122208-5764-1742122365.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=3H397F3SChia27NBxMoKQw" alt="Phối cảnh dự án The Gió Riverside" class="img-fluid">
                                         <figcaption>Phối cảnh dự án The Gió Riverside. Ảnh: An Gia</figcaption>
                                     </figure>
                                     <p>Theo An Gia, với mạng lưới giao thông đồng bộ, The Gió Riverside vừa sở hữu lợi thế kết nối linh hoạt, thuận tiện vừa hưởng lợi từ sự phát triển mạnh mẽ của hạ tầng. Điều này mở ra tiềm năng khai thác thương mại và gia tăng giá trị bền vững trong tương lai.</p>

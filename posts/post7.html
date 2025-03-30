@@ -15,6 +15,7 @@
 <script src="../dist/js/register.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
@@ -35,12 +36,12 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head visible-xs-block">
+        <div class="mobile-head d-block d-sm-none">
             <nav class="navbar ">
                 <a class="menu-toggle" type="button" href="#">
                     <i class="fa-solid fa-bars"></i>
                 </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                
             </nav>
         </div>
 
@@ -106,37 +107,29 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <div class="navbar-inner">
-                            <ul class="nav navbar-nav">
-                                <li style="margin-top: 8px; font-size: 14px">
-                                    <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-center">
-                                <li><h2 class="branding"><a href="category.html" style="margin-top: 8px;">The Hanoi Times</a></h2></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -169,7 +162,7 @@
                                     <p>Trong cuộc phỏng vấn với NBC ngày 16/3, Bộ trưởng Tài chính Mỹ Scott Bessent được hỏi liệu ông có thể đảm bảo Mỹ không suy thoái trong nhiệm kỳ Tổng thống Mỹ Donald Trump hay không. Ông trả lời: "Không có gì đảm bảo điều này. Giống như là không có ai đoán được Covid sẽ xảy ra".</p>
                                     <p>Trả lời phỏng vấn trên Fox News một tuần trước đó, Tổng thống Trump cũng không phủ nhận khi được hỏi về nguy cơ suy thoái năm nay. "Tôi ghét phải suy đoán về những điều như vậy. Sẽ có một giai đoạn chuyển tiếp, do chúng tôi đang làm những điều đại sự. Chúng tôi đang mang thịnh vượng trở lại cho nước Mỹ", ông trả lời. Tổng thống Mỹ cho rằng cần thêm thời gian để các chính sách kinh tế của ông phát huy hiệu quả.</p>
                                     <figure>
-                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg" alt="Bộ trưởng Tài chính Mỹ Scott Bessent" class="thumbnail img-responsive">
+                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg" alt="Bộ trưởng Tài chính Mỹ Scott Bessent" class="img-fluid">
                                         <figcaption>Bộ trưởng Tài chính Mỹ Scott Bessent. Ảnh: Reuters</figcaption>
                                     </figure>
                                     <p>Bessent khẳng định Washington đang áp dụng các chính sách mạnh mẽ, bền bỉ. Ông giải thích rằng Mỹ cần giảm phụ thuộc vào các khoản chi tiêu công khổng lồ. Dù vậy, ông cho rằng sự điều chỉnh này không nhất thiết sẽ đẩy Mỹ vào suy thoái.</p>

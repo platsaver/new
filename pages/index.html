@@ -10,13 +10,13 @@
     
 
     <link rel="stylesheet" href="../dist/css/styles.css">
+    <script src="../dist/js/login.js"></script>
+    <script src="../dist/js/register.js"></script>
     <script src="../dist/js/auth.js"></script>
-<script src="../dist/js/search.js"></script>
-<script src="../dist/js/login.js"></script>
-<script src="../dist/js/register.js"></script>
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-    
+    <script src="../dist/js/search.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <div id="wrapper">
@@ -30,20 +30,19 @@
             <li><a href="../pages/batdongsan.html">Bất động sản</a></li>
             <li><a href="../pages/phapluat.html">Pháp luật</a></li>
             <li>
-                <a href="#" id="sidebar-login-btn" class="login-btn">Đăng nhập</a>
+                <a href="#" id="login-btn" class="login-btn">Đăng nhập</a>
             </li>
         </ul>
     </div>
 
     <div id="page-content-wrapper" class="home">
-        <div class="mobile-head visible-xs-block">
-            <nav class="navbar ">
-                <a class="menu-toggle" type="button" href="#">
+        <div class="mobile-head d-block d-sm-none">
+            <nav class="navbar">
+                <button class="btn menu-toggle" type="button">
                     <i class="fa-solid fa-bars"></i>
-                </a>
-                <h2 class="branding">The Hanoi Times</h2>
+                </button>
             </nav>
-        </div>
+        </div>        
 
         <div class="container">
             <!-- Popup Login -->
@@ -107,269 +106,284 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead hidden-xs">
+            <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
-                    <nav class="navbar">
-                        <ul class="nav navbar-nav">
-                            <li style="margin-top: 8px; font-size: 14px">
-                                <a class="menu-toggle" type="button" href="#">
-                                    <i class="fa-solid fa-bars"></i>
-                                    <span class="menu-text">Danh mục</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" id="login-btn" class="login-btn" style="padding-top: 7.6px; margin-right: 10px; font-weight: bold; margin-top: 6px; font-size: 17px; font-family: 'Arial', sans-serif;">Đăng nhập</a>
-                            </li>
-                            <li style="margin-top: 10px"><box-icon name='user-circle' style="width: 26px; height: 26px;"></box-icon></li>
-                            <li style="margin-top: 10px">
-                                <form class="search-form" style="display: inline-block; margin-top: 0.8px; padding-right:10px; position: relative;">
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid">
+                            <!-- Menu toggle -->
+                            <a class="menu-toggle btn" type="button" href="#">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Danh mục</span>
+                            </a>
+                            <div class="ms-auto d-flex align-items-center">
+                                <!-- Đăng nhập -->
+                                <a href="#" id="login-btn" class="btn btn-link fw-bold me-3" style="font-size: 17px;">Đăng nhập</a>
+                                <!-- Biểu tượng người dùng -->
+                                <box-icon name="user-circle" style="width: 26px; height: 26px;"></box-icon>
+                                <!-- Form tìm kiếm -->
+                                <form class="search-form position-relative d-inline-block ms-3">
                                     <!-- Biểu tượng kính lúp -->
-                                    <box-icon name='search' class="search-icon" style="cursor: pointer; margin-left: 20px; width: 26px; height: 26px;"></box-icon>
-                                    <!-- Thanh tìm kiếm ẩn mặc định -->
-                                    <input type="text" class="search-input" placeholder="Tìm kiếm..." 
-                                           style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; 
-                                                  display: none; position: absolute; right: 0px; top: 0;">
+                                    <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                    <!-- Thanh tìm kiếm ẩn -->
+                                    <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
+                                           style="padding: 5px; border-radius: 4px;">
                                 </form>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </nav>
-                </div>
+                </div>                
                 <div id="masthead-meta">
                     <h2 class="branding"><a href="#">The Hanoi Times</a></h2>
                 </div>
-                <nav id="mini-navigation">
-                    <ul class="nav nav-justified">
-                        <li><a href="../pages/index.html"><span>Trang chủ</span></a></li>
-                        <li><a href="../pages/thoisu.html"><span>Thời sự</span></a></li>
-                        <li><a href="../pages/kinhdoanh.html"><span>Kinh doanh</span></a></li>
-                        <li><a href="../pages/batdongsan.html"><span>Bất động sản</span></a></li>
-                        <li><a href="../pages/phapluat.html"><span>Pháp luật</span></a></li>
-                    </ul>
-                </nav>
+                <nav id="mini-navigation" class="nav d-flex justify-content-around">
+                    <a href="../pages/index.html" class="nav-link">Trang chủ</a>
+                    <a href="../pages/thoisu.html" class="nav-link">Thời sự</a>
+                    <a href="../pages/kinhdoanh.html" class="nav-link">Kinh doanh</a>
+                    <a href="../pages/batdongsan.html" class="nav-link">Bất động sản</a>
+                    <a href="../pages/phapluat.html" class="nav-link">Pháp luật</a>
+                </nav>                
             </div>
 
             <!-- Example row of columns -->
             <div id="main">
                 <section class="featured">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <ul class="categories">
-                                        <li>
-                                            <a href="category.html" class="category">
-                                                <span>Thời sự</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h2><a href="../posts/post1.html">Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM</a></h2>
-                                    <p class="byline"> By Đình Văn <span class="timestamp">09:00 AM GMT+7</span></p>
-                                    <p>4 ôtô tông liên hoàn trên xa lộ Hà Nội, TP Thủ Đức, tài xế mắc kẹt trong cabin xe tải biến dạng được người đi đường phá cửa đưa ra, sáng 17/3. </p>
-                                </div>
-                                <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <ul class="categories">
-                                        <li>
-                                            <a href="category.html" class="category">
-                                                <span>Thời sự</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h2><a href="../posts/post3.html">Số đơn vị hành chính cấp tỉnh cần sáp nhập đã được xác định</a></h2>
-                                    <p class="byline"> By Vũ Tuân <span class="timestamp">16/3/2025, 22:59 (GMT+7)</span></p>
-                                    <p>Bộ trưởng Nội vụ Phạm Thị Thanh Trà cho biết sau cuộc họp của Bộ Chính trị, số lượng đơn vị hành chính cấp tỉnh cần sắp xếp và sáp nhập đã được làm rõ.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <ul class="categories">
-                                        <li>
-                                            <a href="category.html" class="category">
-                                                <span>Thời sự</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h2><a href="../posts/post2.html">Nâng chiều cao tập thể Thành Công lên 40 tầng nhưng không tăng số dân </a></h2>
-                                    <p class="byline"> By Võ Hải <span class="timestamp">10:00 AM GMT+7</span></p>
-                                    <p>Hà Nội - Khu tập thể Thành Công sẽ được cải tạo theo nguyên tắc tăng chiều cao nhưng không tăng số dân, giảm mật độ xây dựng để tạo thêm quỹ đất công cộng.</p>
+                    <div class="container">
+                        <div class="row g-3">
+                            <!-- Cột bên trái -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article">
+                                        <ul class="categories list-unstyled">
+                                            <li>
+                                                <a href="category.html" class="category text-decoration-none">
+                                                    <span>Thời sự</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <h2><a href="./posts/post1.html" class="text-decoration-none">Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM</a></h2>
+                                        <p class="byline">By Đình Văn <span class="timestamp">09:00 AM GMT+7</span></p>
+                                        <p>4 ôtô tông liên hoàn trên xa lộ Hà Nội, TP Thủ Đức, tài xế mắc kẹt trong cabin xe tải biến dạng được người đi đường phá cửa đưa ra, sáng 17/3.</p>
+                                    </div>
+                                    <div class="article">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ"
+                                             alt="image" class="img-fluid">
+                                        <ul class="categories list-unstyled">
+                                            <li>
+                                                <a href="category.html" class="category text-decoration-none">
+                                                    <span>Thời sự</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <h2><a href="./posts/post3.html" class="text-decoration-none">Số đơn vị hành chính cấp tỉnh cần sáp nhập đã được xác định</a></h2>
+                                        <p class="byline">By Vũ Tuân <span class="timestamp">16/3/2025, 22:59 (GMT+7)</span></p>
+                                        <p>Bộ trưởng Nội vụ Phạm Thị Thanh Trà cho biết sau cuộc họp của Bộ Chính trị, số lượng đơn vị hành chính cấp tỉnh cần sắp xếp và sáp nhập đã được làm rõ.</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <ul class="categories">
-                                        <li>
-                                            <a href="category" class="category">
-                                                <span>Thời sự</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h2><a href="../posts/post4.html"> Ôtô tông 10 xe máy ở ngã tư Thủ Đức </a></h2>
-                                    <p class="byline">By Đình Văn - Lê Tuyết <span class="timestamp">17:00 GMT+7, 16/03/2025</span></p>
-                                    <p>TP HCM - Xe Mercedes khi chạy tới ngã tư Thủ Đức bất ngờ tông loạt xe máy, 6 người bị thương, tài xế có nồng độ cồn, chiều 16/3.</p>
+                            <!-- Cột giữa -->
+                            <div class="col-lg-6">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w"
+                                             alt="image" class="img-fluid">
+                                        <ul class="categories list-unstyled">
+                                            <li>
+                                                <a href="category.html" class="category text-decoration-none">
+                                                    <span>Thời sự</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <h2><a href="./posts/post2.html" class="text-decoration-none">Nâng chiều cao tập thể Thành Công lên 40 tầng nhưng không tăng số dân</a></h2>
+                                        <p class="byline">By Võ Hải <span class="timestamp">10:00 AM GMT+7</span></p>
+                                        <p>Hà Nội - Khu tập thể Thành Công sẽ được cải tạo theo nguyên tắc tăng chiều cao nhưng không tăng số dân, giảm mật độ xây dựng để tạo thêm quỹ đất công cộng.</p>
+                                    </div>
                                 </div>
-                                <div class="article last">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <ul class="categories">
-                                        <li>
-                                            <a href="category.html" class="category">
-                                                <span>Thời sự</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <h2><a href="../posts/post5.html">Đề xuất bố trí nhà và xe công vụ cho nhà khoa học đầu ngành.</a></h2>
-                                    <p class="byline">By Sơn Hà <span class="timestamp">08:00 AM GMT+7, 17/03/2025</span></p>
-                                    <p>Bộ Khoa học và Công nghệ đề xuất chính sách bố trí nhà công vụ và phương tiện đi lại cho nhà khoa học đầu ngành, tổng công trình sư trong thời gian thực hiện nhiệm vụ.</p>
+                            </div>
+                            <!-- Cột bên phải -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article">
+                                        <ul class="categories list-unstyled">
+                                            <li>
+                                                <a href="category.html" class="category text-decoration-none">
+                                                    <span>Thời sự</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <h2><a href="./posts/post4.html" class="text-decoration-none">Ôtô tông 10 xe máy ở ngã tư Thủ Đức</a></h2>
+                                        <p class="byline">By Đình Văn - Lê Tuyết <span class="timestamp">17:00 GMT+7, 16/03/2025</span></p>
+                                        <p>TP HCM - Xe Mercedes khi chạy tới ngã tư Thủ Đức bất ngờ tông loạt xe máy, 6 người bị thương, tài xế có nồng độ cồn, chiều 16/3.</p>
+                                    </div>
+                                    <div class="article last">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ"
+                                             alt="image" class="img-fluid">
+                                        <ul class="categories list-unstyled">
+                                            <li>
+                                                <a href="category.html" class="category text-decoration-none">
+                                                    <span>Thời sự</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <h2><a href="./posts/post5.html" class="text-decoration-none">Đề xuất bố trí nhà và xe công vụ cho nhà khoa học đầu ngành</a></h2>
+                                        <p class="byline">By Sơn Hà <span class="timestamp">08:00 AM GMT+7, 17/03/2025</span></p>
+                                        <p>Bộ Khoa học và Công nghệ đề xuất chính sách bố trí nhà công vụ và phương tiện đi lại cho nhà khoa học đầu ngành, tổng công trình sư trong thời gian thực hiện nhiệm vụ.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </section>                
                 <section class="subsection">
-                    <div class="row">
-                        <div class="section-header col-md-12" style="display: flex;">
-                            <h2><box-icon name='candles' color="red"></box-icon><h2>
-                            <h2 style="padding-top: 2px; padding-left: 4px">Kinh doanh</h2>
+                    <div class="container">
+                        <div class="row">
+                            <div class="section-header col-12 d-flex align-items-center">
+                                <box-icon name="candles" color="red"></box-icon>
+                                <h2 style="padding-top: 7px; padding-left: 5px">Kinh doanh</h2>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <!-- Bài viết 1 -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/DSC-6230-3942-1742186774.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Wh8c6rAVTKwBFBFN-Vf5sQ"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post6.html" class="text-decoration-none">Giá vàng nhẫn lập kỷ lục gần 97 triệu đồng</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 2 -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post7.html" class="text-decoration-none">Bộ trưởng Tài chính Mỹ: Không loại trừ nguy cơ kinh tế suy thoái</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 3 -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/3acmdn6prfj2xaapqmd2pf6x4q-174-6005-9659-1742139032.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=m_MtghobriSwlQPb_vJRAg"
+                                             alt="image" class="img-fluid" style="height: 140px;">
+                                        <h2><a href="./posts/post8.html" class="text-decoration-none">Giá vàng có thể tiếp tục vượt 3.000 USD</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 4 -->
+                            <div class="col-lg-3">
+                                <div class="collection">
+                                    <div class="article last">
+                                        <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/15/dji-20250128073245-0097-d-1741-1191-1287-1741982916.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=jwzdKdmaq76um3sP9wjFaA"
+                                             alt="image" class="img-fluid" style="height: 140px;">
+                                        <h2><a href="./posts/post9.html" class="text-decoration-none">Gỡ khó cho doanh nghiệp - chìa khóa để TP HCM tăng trưởng 10%</a></h2>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/DSC-6230-3942-1742186774.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=Wh8c6rAVTKwBFBFN-Vf5sQ"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post6.html">Giá vàng nhẫn lập kỷ lục gần 97 triệu đồng </a></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-kinhdoanh.vnecdn.net/2025/03/17/scott-bessent-1742184417-17421-4838-1374-1742184548.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=oX7xA7XZe_lPaUiyLLIddg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post7.html">Bộ trưởng Tài chính Mỹ: Không loại trừ nguy cơ kinh tế suy thoái</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img style="height: 140px;"src="https://i1-kinhdoanh.vnecdn.net/2025/03/16/3acmdn6prfj2xaapqmd2pf6x4q-174-6005-9659-1742139032.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=m_MtghobriSwlQPb_vJRAg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post8.html">Giá vàng có thể tiếp tục vượt 3.000 USD</a>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article last">
-                                    <img style="height: 140px;" src="https://i1-kinhdoanh.vnecdn.net/2025/03/15/dji-20250128073245-0097-d-1741-1191-1287-1741982916.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=jwzdKdmaq76um3sP9wjFaA"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post9.html">Gỡ khó cho doanh nghiệp - chìa khóa để TP HCM tăng trưởng 10%</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                </section>                
                 <section class="subsection">
-                    <div class="row">
-                        <div class="section-header col-md-12" style="display: flex">
-                            <h2><box-icon name='building-house' type='solid' color='red'></box-icon></h2>
-                            <h2 style="padding-top: 2px; padding-left: 4px">Bất Động Sản</h2>
+                    <div class="container">
+                        <!-- Tiêu đề -->
+                        <div class="row">
+                            <div class="section-header col-12 d-flex align-items-center">
+                                <box-icon name="building-house" type="solid" color="red"></box-icon>
+                                <h2 style="padding-top: 7px; padding-left: 5px">Bất Động Sản</h2>
+                            </div>
+                        </div>
+                        <!-- Các bài viết -->
+                        <div class="row g-3">
+                            <!-- Bài viết 1 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/dat-thanh-oai-1742177929-17421-5891-9761-1742178052.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=bLbAdx5cld_T0apktIqNMg"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post10.html" class="text-decoration-none">Đất trúng đấu giá huyện ven Hà Nội tiếp tục giảm nhiệt.</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 2 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hinh-2-1742197528-1742197613-5971-1742197693.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=CvyaO2iebuC3CUjFYMG9PA"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post11.html" class="text-decoration-none">Dự án bất động sản phát triển song hành quy hoạch TP Thủ Đức</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 3 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="collection">
+                                    <div class="article">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/ag1-1742122069-1742122250-8172-1742122365.png?w=240&h=144&q=100&dpr=1&fit=crop&s=a-TQTc8YzJxyOe9rlksnqg"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post12.html" class="text-decoration-none">Tiềm năng cho địa ốc khi nút giao Tân Vạn sắp về đích.</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bài viết 4 -->
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="collection">
+                                    <div class="article last">
+                                        <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ecopark-long-an-v11-fin-4981-1176-1742123374.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=8L2nVIeETG454f36VqOVuA"
+                                             alt="image" class="img-fluid">
+                                        <h2><a href="./posts/post13.html" class="text-decoration-none">22 năm đưa mô hình trị liệu - tái tạo vào đô thị của Ecopark.</a></h2>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/dat-thanh-oai-1742177929-17421-5891-9761-1742178052.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=bLbAdx5cld_T0apktIqNMg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post10.html">Đất trúng đấu giá huyện ven Hà Nội tiếp tục giảm nhiệt.</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hinh-2-1742197528-1742197613-5971-1742197693.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=CvyaO2iebuC3CUjFYMG9PA"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post11.html">Dự án bất động sản phát triển song hành quy hoạch TP Thủ Đức</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/ag1-1742122069-1742122250-8172-1742122365.png?w=240&h=144&q=100&dpr=1&fit=crop&s=a-TQTc8YzJxyOe9rlksnqg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post12.html">Tiềm năng cho địa ốc khi nút giao Tân Vạn sắp về đích.</a>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="collection">
-                                <div class="article last">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ecopark-long-an-v11-fin-4981-1176-1742123374.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=8L2nVIeETG454f36VqOVuA"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post13.html">22 năm đưa mô hình trị liệu - tái tạo vào đô thị của Ecopark.</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                </section>                
                 <section class="subsection">
                     <div class="row">
                         <div class="section-header col-md-12" style="display: flex;">
                             <h2><box-icon type='solid' name='briefcase-alt' color="red"></box-icon></h2>
-                            <h2 style="padding-top: 2px; padding-left: 4px">Pháp Luật</h2>
+                            <h2 style="padding-left: 5px">Pháp Luật</h2>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                    <div class="row g-3">
+                        <!-- Bài viết 1 -->
+                        <div class="col-lg-3 col-sm-6">
                             <div class="collection">
                                 <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/988ad7f14557f409ad46-174218678-2070-5790-1742188014.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=JvjYdJdyQrqnP4PEVKQZYA"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post14.html">Cựu vụ phó khai thông thầu với AIC do áp lực từ cựu bộ trưởng Trương Minh Tuấn.</a></h2>
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/dat-thanh-oai-1742177929-17421-5891-9761-1742178052.jpg?w=680&h=408&q=100&dpr=1&fit=crop&s=bLbAdx5cld_T0apktIqNMg"
+                                         alt="image" class="img-fluid">
+                                    <h2><a href="./posts/post10.html" class="text-decoration-none">Đất trúng đấu giá huyện ven Hà Nội tiếp tục giảm nhiệt.</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- Bài viết 2 -->
+                        <div class="col-lg-3 col-sm-6">
                             <div class="collection">
                                 <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/1-1742185165-9614-1742185233.jpg?w=280&h=168&q=100&dpr=1&fit=crop&s=gFstP8FoGZRWIbRwfgxbNg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post15.html">Lừa làm bùa yêu, cắt vong</a></h2>
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hinh-2-1742197528-1742197613-5971-1742197693.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=CvyaO2iebuC3CUjFYMG9PA"
+                                         alt="image" class="img-fluid">
+                                    <h2><a href="./posts/post11.html" class="text-decoration-none">Dự án bất động sản phát triển song hành quy hoạch TP Thủ Đức</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- Bài viết 3 -->
+                        <div class="col-lg-3 col-sm-6">
                             <div class="collection">
                                 <div class="article">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/ngdymidm-1742172737-9975-1742172878.png?w=220&h=132&q=100&dpr=1&fit=crop&s=DM9tf46AUkUn5aqKOlYfxg"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post16.html">Cảnh sát Mỹ phá đường dây mại dâm cao cấp, giao dịch bí mật.</a>
-                                    </h2>
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/ag1-1742122069-1742122250-8172-1742122365.png?w=240&h=144&q=100&dpr=1&fit=crop&s=a-TQTc8YzJxyOe9rlksnqg"
+                                         alt="image" class="img-fluid">
+                                    <h2><a href="./posts/post12.html" class="text-decoration-none">Tiềm năng cho địa ốc khi nút giao Tân Vạn sắp về đích.</a></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- Bài viết 4 -->
+                        <div class="col-lg-3 col-sm-6">
                             <div class="collection">
                                 <div class="article last">
-                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hoalan-1742187950-7796-1742188069.jpg?w=280&h=168&q=100&dpr=1&fit=crop&s=750PFzS_KZ5vQBk4-fW6UA"
-                                         alt="image" class="thumbnail img-responsive">
-                                    <h2><a href="../posts/post17.html">Đề nghị Bộ Công an điều tra hai dự án nhà ở tại Vĩnh Long.</a></h2>
+                                    <img src="https://i1-vnexpress.vnecdn.net/2025/03/16/250109-ecopark-long-an-v11-fin-4981-1176-1742123374.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=8L2nVIeETG454f36VqOVuA"
+                                         alt="image" class="img-fluid">
+                                    <h2><a href="./posts/post13.html" class="text-decoration-none">22 năm đưa mô hình trị liệu - tái tạo vào đô thị của Ecopark.</a></h2>
                                 </div>
                             </div>
                         </div>
@@ -396,7 +410,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/hcm-1742189752-6846-1742190108.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=JL73VrFGhEH8siWqGkH4hg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -413,7 +427,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <img src="https://i1-suckhoe.vnecdn.net/2025/03/17/image001-1742186616-1742189141-3766-1742189264.png?w=220&h=132&q=100&dpr=1&fit=crop&s=wGTv4aZX1khB-o66bnxW_g"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -430,7 +444,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <img src="https://i1-dulich.vnecdn.net/2025/03/17/b6ee041b-cfcd-44d6-8b32-cd3b79-1909-9211-1742187410.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=pjD2P5HhJ-c0x0KOQbWWyg"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -440,14 +454,14 @@
                                     <p><span class="timestamp">2h trước</span></p>
                                 </div>
                                 <div class="col-md-7">
-                                    <h2><a href="../posts/post15.html">Lừa làm bùa yêu, cắt vong</a>
+                                    <h2><a href="./posts/post15.html">Lừa làm bùa yêu, cắt vong</a>
                                     </h2>
                                     <p>Hòa Bình - Nhóm lừa đảo dụ người muốn làm bùa yêu, cắt vong, gửi quần áo đến địa chỉ của thầy mo để tạo sự tin tưởng rồi chiếm đoạt tiền "làm lễ".</p>
                                     <p class="byline"> By AUTHOR</p>
                                 </div>
                                 <div class="col-md-2">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/1-1742185165-9614-1742185233.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=0uBzpX318znMCtoBAnwk4A"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -457,14 +471,14 @@
                                     <p><span class="timestamp">2h30' trước</span></p>
                                 </div>
                                 <div class="col-md-7">
-                                    <h2><a href="../posts/post1.html">Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM</a>
+                                    <h2><a href="./posts/post1.html">Tài xế mắc kẹt trong cabin sau tai nạn liên hoàn ở TP HCM</a>
                                     </h2>
                                     <p>4 ôtô tông liên hoàn trên xa lộ Hà Nội, TP Thủ Đức, tài xế mắc kẹt trong cabin xe tải biến dạng được người đi đường phá cửa đưa ra, sáng 17/3.</p>
                                     <p class="byline"> By AUTHOR</p>
                                 </div>
                                 <div class="col-md-2">
                                     <img src="https://i1-vnexpress.vnecdn.net/2025/03/17/ae640bbd121aa344fa0b-174218583-4906-6796-1742185843.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=TG8P9NryG3dP_-O8pHag3w"
-                                         alt="image" class="thumbnail img-responsive">
+                                         alt="image" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -529,6 +543,6 @@
 <!--JQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<script src="../dist/js/scripts.min.js" async></script>
+<script src="../dist/js/scripts.min.js" defer></script>
 </body>
 </html>
