@@ -110,10 +110,6 @@ figure figcaption {
   margin-bottom: 15px;
   color: #727272; }
 
-blockquote {
-  font-style: italic;
-  color: #727272; }
-
 section {
   margin-top: 20px; 
   margin-bottom: 15px;}
@@ -122,7 +118,7 @@ section {
 
 h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
   text-decoration: none;
-  color: black; }
+  color: black; } /*Forcing tất cả màu đen*/
   h1 a:hover, h1 a:focus, h2 a:hover, h2 a:focus, h3 a:hover, h3 a:focus, h4 a:hover, h4 a:focus, .nav a:hover, .nav a:focus, .navbar a:hover, .navbar a:focus {
     color: black; } /*Ngăn chặn tình trạng khi hover đến chuyển thành màu xanh*/
 
@@ -141,13 +137,6 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
       position: relative; /* Sử dụng position: relative để điều chỉnh vị trí */
       margin-left: 5px; /* Thêm khoảng cách giữa biểu tượng và chữ */
   }
-
-
-.branding {
-  font-family: 'UnifrakturMaguntia';
-  color: black; }
-  .branding a:hover, .branding a:focus {
-    text-decoration: none; }
 
 .masthead {
   padding: 0; }
