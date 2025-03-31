@@ -26,6 +26,12 @@
     font-size: 1.2rem; /* Điều chỉnh kích thước chữ tiêu đề trên mobile */
   }
 }
+
+.custom-nav {
+  border-top: 2px solid black; /* Dòng kẻ đen phía trên */
+  border-bottom: 2px solid black; /* Dòng kẻ đen phía dưới */
+  font-weight: bold;
+}
 /* Toggle Styles */
 #wrapper {
   padding-left: 0;
@@ -92,19 +98,6 @@
 a {
   text-decoration: underline; }
 
-hr {
-  border-top: 1px solid #e2e2e2;
-  margin: 16px 0;
-  padding-top: 0;
-  border-bottom: none; }
-  hr.scotch-rule {
-    box-sizing: content-box;
-    content: '';
-    display: block;
-    border-top: 2px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
-    height: 1px; }
-
 figure figcaption {
   font-size: 0.85em;
   margin-bottom: 15px;
@@ -138,14 +131,6 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
       margin-left: 5px; /* Thêm khoảng cách giữa biểu tượng và chữ */
       font-weight: bold;
   }
-
-.masthead {
-  padding: 0; }
-  .masthead #masthead-cap {
-    font-family: "Roboto", sans-serif;
-    color: #a81817;
-    padding: 8px 0;
-    font-size: 0.8em;}
 
 .mobile-head {
   padding: 15px 15px 13px 15px;
@@ -192,24 +177,6 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
 @media (min-width: 992px) {
   .collection .article:last-child {
     border-bottom: none; }}
-
-@media (max-width: 991px) {
-  section {
-    border-bottom: none;
-    margin: 0; }
-    section:first-child {
-      margin-top: 20px; }
-  .article {
-    margin: 0 0 30px 0 !important;
-    padding: 0 0 15px 0 !important;
-    font-size: 1.3em; }
-    .article ul.categories li a {
-      font-size: 1em !important; }
-    .article h1 {
-      font-size: 1.6em; }
-    .article h2 {
-      font-size: 1.1em;
-      margin: 6px 0; }}
 
 .latest {
   border-top: 1px solid #333;}
@@ -262,65 +229,6 @@ section.subsection {
     font-size: 2.2em; }
   section.subsection .article {
     padding-bottom: 10px; } }
-
-.home .masthead #masthead-meta {
-  padding: 12px 0; }
-  .home .masthead #masthead-meta .branding {
-    font-size: 3.5em;
-    margin: 0;
-    text-align: center; }
-
-.home .masthead #mini-navigation {
-  border-top: 2px solid black;
-  padding: 4px 60px;
-  border-bottom: 2px solid black; }
-  .home .masthead #mini-navigation .nav li a {
-    margin: 5px 2px 5px 0;
-    padding: 0 4px; }
-
-.category section {
-  border-bottom: none; }
-
-.category .masthead .branding {
-  font-size: 2em;
-  padding-top: 5px;
-  margin: 0; }
-
-.category .masthead #masthead-meta {
-  font-family: "Roboto", sans-serif;
-  padding: 35px 0 10px 0; }
-  .category .masthead #masthead-meta h1, .category .masthead #masthead-meta h3 {
-    font-weight: bolder; }
-  .category .masthead #masthead-meta h1 {
-    font-size: 3.5em;
-  text-transform: uppercase; }
-  .category .masthead #masthead-meta h3 {
-    font-size: 1em;
-    margin: 0;
-    text-transform: uppercase; }
-
-.category .masthead #mini-navigation {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  border-top: 2px solid black;
-  padding: 5px 0;
-  height: 34px; }
-  .category .masthead #mini-navigation .nav li a {
-    font-size: 1em;
-    margin: 5px 2px 5px;
-    padding: 0 5px 0 0;
-    display: inline; }
-    .category .masthead #mini-navigation .nav li a:hover, .category .masthead #mini-navigation .nav li a:focus {
-      background-color: transparent;
-      text-decoration: underline; }
-  .category .masthead #mini-navigation .nav li + li:before {
-    content: " "; }
-
-
-.article-details .masthead .branding {
-  font-size: 2em;
-  padding-top: 9.5px;
-  margin: 0; }
 
 .article-details .article {
   border-bottom: none !important; }
@@ -440,6 +348,7 @@ h1, h2, h3, h4, h5, h6,
 .branding {
   font-family: 'Chomsky';
   color: black;
+  font-size: 50px;
 }
 
 /* Media query cho thiết bị di động */
@@ -447,131 +356,6 @@ h1, h2, h3, h4, h5, h6,
   .article, .article h1, .article h2, .article ul.categories li a {
     font-family: 'Roboto', 'Arial', sans-serif !important;
   }
-}
-
-/* Trạng thái bình thường của <a> trong #mini-navigation */
-#mini-navigation li a {
-  color: #333;
-  text-decoration: none;
-  display: block; /* Lấp đầy chiều rộng của <li> */
-  text-align: center; /* Căn giữa văn bản */
-  transition: color 0.3s ease 0.1s; /* Hiệu ứng chuyển màu chữ */
-  font-size: 15px;
-}
-
-/* Định dạng cho <span> bọc văn bản */
-#mini-navigation li a span {
-  position: relative; /* Để định vị ::after */
-  display: inline-block; /* Đảm bảo chiều rộng của span chỉ bằng văn bản */
-}
-
-/* Tạo đường kẻ bằng ::after trên <span> */
-#mini-navigation li a span::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  background-color: red;
-  bottom: -2px;
-  left: 50%; /* Bắt đầu từ giữa */
-  transform: translateX(-50%); /* Căn giữa đường kẻ */
-  transition: width 0.3s ease 0.1s; /* Hiệu ứng đường kẻ, đồng bộ với màu chữ */
-}
-
-/* Trạng thái hover */
-#mini-navigation li a:hover {
-  color: red;
-  background-color: white;
-}
-
-#mini-navigation li a:hover span::after {
-  width: 100%; /* Đường kẻ kéo dài theo chiều rộng của văn bản */
-}
-
-
-
-/* Định dạng cho <span> bọc văn bản */
-#mini-navigation1 li a span {
-  position: relative; /* Để định vị ::after */
-  display: inline-block; /* Đảm bảo chiều rộng của span chỉ bằng văn bản */
-}
-
-/* Tạo đường kẻ bằng ::after trên <span> */
-#mini-navigation1 li a span::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  background-color: red;
-  bottom: -2px;
-  left: 50%; /* Bắt đầu từ giữa */
-  transform: translateX(-50%); /* Căn giữa đường kẻ */
-  transition: width 0.3s ease 0.1s; /* Hiệu ứng đường kẻ, đồng bộ với màu chữ */
-}
-
-/* Trạng thái hover */
-#mini-navigation1 li a:hover {
-  color: red;
-  background-color: white;
-}
-
-#mini-navigation1 li a:hover span::after {
-  width: 100%; /* Đường kẻ kéo dài theo chiều rộng của văn bản */
-}
-
-a{
-  font-weight: bold;
-}
-
-#mini-navigation1 {
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-}
-
-#mini-navigation1 {
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  padding: 4px 60px; /* Thêm padding giống #mini-navigation */
-}
-
-#mini-navigation1 li a {
-  color: #333;
-  text-decoration: none;
-  display: block;
-  text-align: center;
-  transition: color 0.3s ease 0.1s;
-  font-size: 15px;
-}
-
-#mini-navigation1 .nav li a {
-  margin: 5px 2px 5px 0;
-  padding: 0 4px;
-}
-
-#mini-navigation1 li a span {
-  position: relative;
-  display: inline-block;
-}
-
-#mini-navigation1 li a span::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  background-color: red;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: width 0.3s ease 0.1s;
-}
-
-#mini-navigation1 li a:hover {
-  color: red;
-  background-color: white;
-}
-
-#mini-navigation1 li a:hover span::after {
-  width: 100%;
 }
 
 

@@ -34,14 +34,33 @@
     </div>
 
     <div id="page-content-wrapper" class="article-details">
-        <div class="mobile-head d-block d-sm-none">
-            <nav class="navbar ">
-                <button class="btn menu-toggle" type="button">
-                    <i class="fa-solid fa-bars"></i>
-                </a>
-                
+        <div class="mobile-head d-block d-sm-none bg-light border-bottom sticky-top">
+            <nav class="navbar navbar-expand">
+                <div class="container-fluid">
+                    <!-- Nút hamburger bên trái -->
+                    <button class="btn menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+        
+                    <!-- Các biểu tượng bên phải -->
+                    <div class="ms-auto d-flex align-items-center">
+                        <!-- Đăng nhập -->
+                        <a href="#" id="login-btn" class="btn btn-link fw-bold me-2 text-dark" style="font-size: 16px;">Đăng nhập</a>
+                        <!-- Biểu tượng người dùng -->
+                        <box-icon name="user-circle" class="text-dark me-2" style="width: 24px; height: 24px;"></box-icon>
+                        <!-- Form tìm kiếm -->
+                        <form class="search-form position-relative d-inline-block">
+                            <!-- Biểu tượng kính lúp -->
+                            <box-icon name="search" class="search-icon text-dark" style="cursor: pointer; width: 24px; height: 24px;" data-bs-toggle="collapse" data-bs-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse"></box-icon>
+                            <!-- Thanh tìm kiếm ẩn -->
+                            <div class="collapse position-absolute end-0" id="searchCollapse" style="z-index: 1000;">
+                                <input type="text" class="form-control search-input shadow-sm" placeholder="Tìm kiếm..." style="width: 200px; border-radius: 4px;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </nav>
-        </div>
+        </div>  
 
         <div class="container-xl">
             <!-- Popup Login -->
@@ -105,8 +124,8 @@
             </div>
             <!-- The justified navigation menu is meant for single line per list item.
                  Multiple lines will require custom code not provided by Bootstrap. -->
-            <div class="masthead d-none d-sm-block">
-                <div id="masthead-cap">
+            <div class="d-none d-sm-block">
+                <div >
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-xl">
                             <!-- Menu toggle -->
