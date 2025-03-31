@@ -380,6 +380,12 @@ h1, h2, h3, h4, h5, h6,
   opacity: 1; /* Hiện lên */
   transform: translateY(0); /* Trở về vị trí ban đầu */
 }
+.mobile-custom-branding {
+  font-family: 'Chomsky';
+  color: black;
+  font-size: 30px;
+  padding-top: 8px;
+}
 
 /* Media query cho thiết bị di động */
 @media (max-width: 991px) {
