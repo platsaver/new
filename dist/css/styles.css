@@ -41,6 +41,11 @@
 .row{
   padding-top: 10px;
 }
+
+.sticky-top{
+  z-index: 1000;
+  background-color: white;
+}
 /* Toggle Styles */
 /* Wrapper chính */
 #wrapper {
