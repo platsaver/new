@@ -68,21 +68,19 @@
   position: fixed;
   left: 250px;
   width: 0; /* Ẩn mặc định */
-  height: 100vh; /* Chiều cao toàn màn hình */
+  height: 100%; /* Chiều cao toàn màn hình */
   margin-left: -250px;
   overflow-y: auto;
-  background: #000000; /* Màu đen tuyền */
+  background: white; /* Màu đen tuyền */
   transition: all 0.5s ease;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5); /* Bóng đổ đậm hơn một chút */
+  box-shadow: inset -5px 0px 5px 0px rgba(128, 128, 128, 0.25); /* Bóng đổ đậm hơn một chút */
 }
 
 /* Page Content Wrapper */
 #page-content-wrapper {
   width: 100%;
   position: absolute;
-  padding: 20px; /* Thêm padding cho nội dung */
-  transition: all 0.5s ease;
-  background: #ffffff; /* Nền trắng cho nội dung */
+  padding: 0;
 }
 
 /* Sidebar Navigation */
@@ -91,66 +89,26 @@
   top: 0;
   width: 250px;
   margin: 0;
-  padding: 20px 15px;
-  list-style: none;
-}
-
-.sidebar-nav li {
-  line-height: 50px; /* Khoảng cách giữa các mục */
-  text-indent: 15px;
-  transition: all 0.3s ease;
-}
-
-.sidebar-nav li a {
-  display: block;
-  text-decoration: none;
-  border-radius: 8px;
-  color: #ffffff; /* Màu trắng cho chữ */
-  font-weight: 500;
-  padding: 0 10px;
-}
-
-.sidebar-nav li a:hover {
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.15); /* Xám nhạt khi hover */
-  color: #ffffff; /* Giữ màu trắng */
-  transform: translateX(5px); /* Dịch nhẹ sang phải */
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.25); /* Xám sáng hơn khi nhấn */
-}
-
-/* Branding */
-.sidebar-nav .branding {
-  font-size: 1.8em;
-  padding: 15px 10px;
-  color: #ffffff; /* Màu trắng */
-  font-weight: 700;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Đường viền trắng nhạt */
-  margin-bottom: 15px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  #wrapper.toggled {
-    padding-left: 0; /* Ẩn sidebar khi toggle trên mobile */
-  }
-
-  #sidebar-wrapper {
-    width: 0; /* Ẩn mặc định trên mobile */
-  }
-
-  #wrapper.toggled #sidebar-wrapper {
-    width: 250px; /* Hiện sidebar khi toggle */
-  }
-
-  #page-content-wrapper {
-    padding: 15px; /* Giảm padding trên mobile */
-  }
-}
+  padding: 15px;
+  list-style: none; }
+  .sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px; }
+    .sidebar-nav li a {
+      display: block;
+      text-decoration: none;
+      border-radius: 4px;
+      color: black;
+      font-weight: bold; }
+      .sidebar-nav li a:hover {
+        text-decoration: none;
+        background: #dedede; }
+      .sidebar-nav li a:active, .sidebar-nav li a:focus {
+        text-decoration: none; }
+  .sidebar-nav .branding {
+    font-size: 1.8em;
+    padding: 10px;
+    color: black; }
 a {
   text-decoration: underline; }
 
