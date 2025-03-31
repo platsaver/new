@@ -16,7 +16,7 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+
 </head>
 <body>
 
@@ -37,15 +37,35 @@
     </div>
 
     <div id="page-content-wrapper" class="category">
-        <div class="mobile-head d-block d-sm-none">
-            <nav class="navbar">
-                <button class="btn menu-toggle" type="button">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+        <div class="mobile-head d-block d-sm-none bg-light border-bottom sticky-top">
+            <nav class="navbar navbar-expand">
+                <div class="container-fluid">
+                    <!-- Nút hamburger bên trái -->
+                    <button class="btn menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+        
+                    <!-- Các biểu tượng bên phải -->
+                    <div class="ms-auto d-flex align-items-center">
+                        <!-- Đăng nhập -->
+                        <a href="#" id="login-btn" class="btn btn-link fw-bold me-2 text-dark" style="font-size: 16px;">Đăng nhập</a>
+                        <!-- Biểu tượng người dùng -->
+                        <box-icon name="user-circle" class="text-dark me-2" style="width: 24px; height: 24px;"></box-icon>
+                        <!-- Form tìm kiếm -->
+                        <form class="search-form position-relative d-inline-block">
+                            <!-- Biểu tượng kính lúp -->
+                            <box-icon name="search" class="search-icon text-dark" style="cursor: pointer; width: 24px; height: 24px;" data-bs-toggle="collapse" data-bs-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse"></box-icon>
+                            <!-- Thanh tìm kiếm ẩn -->
+                            <div class="collapse position-absolute end-0" id="searchCollapse" style="z-index: 1000;">
+                                <input type="text" class="form-control search-input shadow-sm" placeholder="Tìm kiếm..." style="width: 200px; border-radius: 4px;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </nav>
         </div>   
 
-        <div class="container">
+        <div class="container-xl">
             <!-- Popup Login -->
             <div id="login-popup" class="login-popup">
                 <div class="login-popup-content">
@@ -110,7 +130,7 @@
             <div class="masthead d-none d-sm-block">
                 <div id="masthead-cap">
                     <nav class="navbar navbar-expand-lg">
-                        <div class="container-fluid">
+                        <div class="container-xl">
                             <!-- Menu toggle -->
                             <a class="menu-toggle btn" type="button" href="#">
                                 <i class="fa-solid fa-bars"></i>
@@ -155,22 +175,22 @@
                         </li>
                     </ul>                    
                 </nav>
-                <div id="masthead-meta">
-                    <h1>Kinh doanh</h1>
+                <div id="masthead-meta" class="position-relative text-center text-white py-5" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;">
+                    <h1 class="display-3 fw-bold">Kinh doanh</h1>
                 </div>
-                <nav id="mini-navigation">
-                    <ul class="nav justify-content-start">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="../subcategory/chinhsach.html">Quốc tế</a>
+                <nav id="mini-navigation" class="bg-dark bg-opacity-75">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item" style="margin: 0 15px;">
+                            <a class="nav-link active text-white" style="padding: 10px 15px;" href="../subcategory/chinhsach.html">Quốc tế</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../subcategory/thitruong.html">Chứng khoán</a>
+                        <li class="nav-item" style="margin: 0 15px;">
+                            <a class="nav-link text-white" style="padding: 10px 15px;" href="../subcategory/thitruong.html">Chứng khoán</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../subcategory/duan.html">Doanh nghiệp</a>
+                        <li class="nav-item" style="margin: 0 15px;">
+                            <a class="nav-link text-white" style="padding: 10px 15px;" href="../subcategory/duan.html">Doanh nghiệp</a>
                         </li>
                     </ul>
-                </nav>  
+                </nav>
             </div>
 
             <!-- Example row of columns -->
