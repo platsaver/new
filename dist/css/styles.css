@@ -37,6 +37,10 @@
   border-bottom: 2px solid black; /* Dòng kẻ đen phía dưới */
   font-weight: bold;
 }
+
+.row{
+  padding-top: 10px;
+}
 /* Toggle Styles */
 /* Wrapper chính */
 #wrapper {
@@ -340,7 +344,7 @@ section.subsection {
   cursor: pointer;
   width: 26px;
   height: 26px;
-  vertical-align: middle;
+  padding-top: 2px;
 }
 
 .search-input {
