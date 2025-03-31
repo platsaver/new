@@ -116,10 +116,6 @@
         background: #dedede; }
       .sidebar-nav li a:active, .sidebar-nav li a:focus {
         text-decoration: none; }
-  .sidebar-nav .branding {
-    font-size: 1.8em;
-    padding: 10px;
-    color: black; }
 a {
   text-decoration: underline; }
 
@@ -164,10 +160,6 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
     text-decoration: none; }
     .mobile-head .navbar .menu-toggle {
       font-size: 1.2em; }
-  .mobile-head .navbar h2.branding {
-    display: inline;
-    font-size: 1.8em;
-    padding: 15px 10px; }
 
 .article {
   border-bottom: 1px solid #e2e2e2; }
@@ -374,6 +366,19 @@ h1, h2, h3, h4, h5, h6,
   font-family: 'Chomsky';
   color: black;
   font-size: 50px;
+}
+.custom-branding {
+  font-family: 'Chomsky'; /* Đảm bảo font được tải */
+  color: black;
+  font-size: 25px;
+  padding-top: 7px;
+  opacity: 0; /* Ẩn ban đầu */
+  transform: translateY(20px); /* Dịch xuống dưới 20px khi ẩn */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Hiệu ứng mượt */
+}
+.custom-branding.show {
+  opacity: 1; /* Hiện lên */
+  transform: translateY(0); /* Trở về vị trí ban đầu */
 }
 
 /* Media query cho thiết bị di động */
