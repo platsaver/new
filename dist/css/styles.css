@@ -46,6 +46,12 @@
   z-index: 1000;
   background-color: white;
 }
+
+@media(max-width: 575px){
+  .sticky-top{
+    display: none !important;
+  }
+}
 /* Toggle Styles */
 /* Wrapper chính */
 #wrapper {
