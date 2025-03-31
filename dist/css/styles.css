@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-.img-fluid {
+@font-face {
+  font-family: 'Chomsky';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Chomsky"), url(../fonts/chomsky-font/misc/Chomsky-399c.woff) format("woff");
+}
+.img-fluid{
   display: block;
   width: 100%; /* Hình ảnh luôn chiếm toàn bộ chiều rộng container */
   max-width: 100%; /* Giới hạn tối đa là 100% theo mặc định */
@@ -10,7 +16,7 @@
 
 /* Desktop (trên 1200px) */
 @media (min-width: 1200px) {
-  .img-fluid {
+  .img-fluid{
     width: 100%;
     height: 100%
   }
@@ -32,68 +38,115 @@
   font-weight: bold;
 }
 /* Toggle Styles */
+/* Wrapper chính */
 #wrapper {
   padding-left: 0;
-  transition: all 0.5s ease; }
-  #wrapper.toggled {
-    padding-left: 250px; }
-    #wrapper.toggled #sidebar-wrapper {
-      width: 250px; }
-    #wrapper.toggled #page-content-wrapper {
-      position: absolute;
-      margin-right: -250px; }
+  transition: all 0.5s ease;
+}
 
+#wrapper.toggled {
+  padding-left: 250px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 250px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+/* Sidebar Wrapper */
 #sidebar-wrapper {
   font-family: "Roboto", sans-serif;
   z-index: 1000;
   position: fixed;
   left: 250px;
-  width: 0;
-  height: 100%;
+  width: 0; /* Ẩn mặc định */
+  height: 100vh; /* Chiều cao toàn màn hình */
   margin-left: -250px;
   overflow-y: auto;
-  background: #f7f7f7;
+  background: #000000; /* Màu đen tuyền */
   transition: all 0.5s ease;
-  box-shadow: inset -5px 0px 5px 0px rgba(128, 128, 128, 0.25); }
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5); /* Bóng đổ đậm hơn một chút */
+}
 
+/* Page Content Wrapper */
 #page-content-wrapper {
   width: 100%;
   position: absolute;
-  padding: 0; }
+  padding: 20px; /* Thêm padding cho nội dung */
+  transition: all 0.5s ease;
+  background: #ffffff; /* Nền trắng cho nội dung */
+}
 
-/* Sidebar Styles */
+/* Sidebar Navigation */
 .sidebar-nav {
   position: absolute;
   top: 0;
   width: 250px;
   margin: 0;
-  padding: 15px;
-  list-style: none; }
-  .sidebar-nav li {
-    text-indent: 20px;
-    line-height: 40px; }
-    .sidebar-nav li a {
-      display: block;
-      text-decoration: none;
-      border-radius: 4px;
-      color: black;
-      font-weight: bold; }
-      .sidebar-nav li a:hover {
-        text-decoration: none;
-        background: #dedede; }
-      .sidebar-nav li a:active, .sidebar-nav li a:focus {
-        text-decoration: none; }
-  .sidebar-nav .branding {
-    font-size: 1.8em;
-    padding: 10px;
-    color: black; }
+  padding: 20px 15px;
+  list-style: none;
+}
 
-    @font-face {
-      font-family: 'Chomsky';
-      font-style: normal;
-      font-weight: 400;
-      src: local("Chomsky"), url(../fonts/chomsky-font/misc/Chomsky-399c.woff) format("woff");
-    }
+.sidebar-nav li {
+  line-height: 50px; /* Khoảng cách giữa các mục */
+  text-indent: 15px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  border-radius: 8px;
+  color: #ffffff; /* Màu trắng cho chữ */
+  font-weight: 500;
+  padding: 0 10px;
+}
+
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.15); /* Xám nhạt khi hover */
+  color: #ffffff; /* Giữ màu trắng */
+  transform: translateX(5px); /* Dịch nhẹ sang phải */
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.25); /* Xám sáng hơn khi nhấn */
+}
+
+/* Branding */
+.sidebar-nav .branding {
+  font-size: 1.8em;
+  padding: 15px 10px;
+  color: #ffffff; /* Màu trắng */
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Đường viền trắng nhạt */
+  margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #wrapper.toggled {
+    padding-left: 0; /* Ẩn sidebar khi toggle trên mobile */
+  }
+
+  #sidebar-wrapper {
+    width: 0; /* Ẩn mặc định trên mobile */
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    width: 250px; /* Hiện sidebar khi toggle */
+  }
+
+  #page-content-wrapper {
+    padding: 15px; /* Giảm padding trên mobile */
+  }
+}
 a {
   text-decoration: underline; }
 
