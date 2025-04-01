@@ -153,14 +153,6 @@ h1 a, h2 a, h3 a, h4 a, .nav a, .navbar a {
       font-weight: bold;
   }
 
-.mobile-head {
-  padding: 15px 15px 13px 15px;
-  box-shadow: 0px 5px 5px 0px rgba(128, 128, 128, 0.25); }
-  .mobile-head .navbar .menu-toggle {
-    text-decoration: none; }
-    .mobile-head .navbar .menu-toggle {
-      font-size: 1.2em; }
-
 .article {
   border-bottom: 1px solid #e2e2e2; }
   .article ul.categories {
@@ -272,59 +264,30 @@ section.subsection {
 
 /*Search function*/
 .search-form {
-  display: inline-block;
-  margin-top: 5px;
-}
-
-.search-input {
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 150px; /* Điều chỉnh độ rộng tùy ý */
-}
-
-.search-btn {
-  padding: 5px 10px;
-  border-radius: 8px;
-  background-color: #337ab7;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.search-btn:hover {
-  background-color: #286090;
-}
-/*Search box related*/
-.search-form {
-  display: inline-block;
   position: relative;
 }
 
 .search-icon {
+  transition: all 0.3s ease;
   cursor: pointer;
-  width: 26px;
-  height: 26px;
-  padding-top: 2px;
 }
 
 .search-input {
+  width: 0;
+  opacity: 0;
+  transform: translateX(20px); /* Ban đầu dịch sang phải 20px */
+  transition: all 0.7s ease; /* Hiệu ứng mượt mà cho width, opacity và transform */
+  z-index: 1000;
   padding: 5px;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  display: none;
-  position: absolute;
-  right: 40px; /* Khoảng cách từ icon */
-  top: 0;
-  width: 0; /* Bắt đầu với chiều rộng 0 */
-  opacity: 0; /* Ẩn hoàn toàn ban đầu */
-  transition: width 0.3s ease, opacity 0.3s ease; /* Hiệu ứng chuyển động */
 }
 
-.search-input.expanded {
-  width: 230px; /* Chiều rộng khi mở rộng */
-  height: 29px;
-  opacity: 1; /* Hiển thị đầy đủ */
+/* Desktop search */
+.search-form .search-input.active {
+  width: 200px; /* Độ rộng cho desktop */
+  opacity: 1;
+  transform: translateX(0); /* Trượt về vị trí ban đầu */
+  display: block !important; /* Ghi đè Bootstrap's d-none */
 }
 
 /* Phông chữ mặc định cho body */

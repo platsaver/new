@@ -35,7 +35,7 @@
     </div>
 
     <div id="page-content-wrapper" class="home">
-        <div class="mobile-head d-block d-sm-none bg-light border-bottom sticky-top">
+        <div class="d-block d-sm-none bg-light border-bottom sticky-top">
             <nav class="navbar navbar-expand">
                 <div class="container-fluid">
                     <!-- Nút hamburger bên trái -->
@@ -50,13 +50,11 @@
                         <!-- Biểu tượng người dùng -->
                         <box-icon name="user-circle" class="text-dark me-2" style="width: 24px; height: 24px;"></box-icon>
                         <!-- Form tìm kiếm -->
-                        <form class="search-form position-relative d-inline-block">
+                        <form class="mobile-inter search-form position-relative d-inline-block ms-3">
                             <!-- Biểu tượng kính lúp -->
-                            <box-icon name="search" class="search-icon text-dark" style="cursor: pointer; width: 24px; height: 24px;" data-bs-toggle="collapse" data-bs-target="#searchCollapse" aria-expanded="false" aria-controls="searchCollapse"></box-icon>
+                            <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px; margin-top: 8px;"></box-icon>
                             <!-- Thanh tìm kiếm ẩn -->
-                            <div class="collapse position-absolute end-0" id="searchCollapse" style="z-index: 1000;">
-                                <input type="text" class="form-control search-input shadow-sm" placeholder="Tìm kiếm..." style="width: 200px; border-radius: 4px;">
-                            </div>
+                            <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px;">
                         </form>
                     </div>
                 </div>
@@ -142,10 +140,9 @@
                             <!-- Form tìm kiếm -->
                             <form class="search-form position-relative d-inline-block ms-3">
                                 <!-- Biểu tượng kính lúp -->
-                                <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px;"></box-icon>
+                                <box-icon name="search" class="search-icon" style="cursor: pointer; width: 26px; height: 26px; margin-top: 8px;"></box-icon>
                                 <!-- Thanh tìm kiếm ẩn -->
-                                <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..."
-                                       style="padding: 5px; border-radius: 4px;">
+                                <input type="text" class="form-control search-input d-none position-absolute end-0 top-0" placeholder="Tìm kiếm..." style="padding: 5px; border-radius: 4px;">
                             </form>
                         </div>
                     </div>
