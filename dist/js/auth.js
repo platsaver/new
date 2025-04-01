@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const loginButton = document.querySelector(".login-btn");
+    // Lấy các nút đăng nhập từ DOM
+    const mobileLoginButton = document.querySelector("#mobile-login-btn");
+    const desktopLoginButton = document.querySelector("#login-btn");
 
-    if (!loginButton) {
-        console.error("Không tìm thấy nút .login-btn trong DOM!");
+    // Kiểm tra xem cả hai nút có tồn tại không
+    if (!mobileLoginButton || !desktopLoginButton) {
+        console.error("Không tìm thấy nút #mobile-login-btn hoặc #login-btn trong DOM!");
         return;
     }
 
@@ -11,19 +14,22 @@ document.addEventListener("DOMContentLoaded", function() {
     const username = localStorage.getItem("username");
 
     if (isLoggedIn === "true" && username) {
-        // Thay thế nút "Đăng nhập" bằng "Welcome, [username]"
-        loginButton.textContent = `Welcome, ${username}`;
-        loginButton.href = "#"; // Xóa liên kết mặc định
-        loginButton.style.cursor = "pointer"; // Con trỏ chuột như nút
+        // Cập nhật cả hai nút (mobile và desktop)
+        [mobileLoginButton, desktopLoginButton].forEach(loginButton => {
+            loginButton.textContent = `Welcome, ${username}`;
+            loginButton.href = "#"; // Xóa liên kết mặc định
+            loginButton.style.cursor = "pointer"; // Con trỏ chuột như nút
 
-        // Thêm sự kiện nhấp để đăng xuất
-        loginButton.addEventListener("click", function() {
-            // Xóa trạng thái đăng nhập khỏi localStorage
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("username");
+            // Thêm sự kiện nhấp để đăng xuất
+            loginButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                // Xóa trạng thái đăng nhập khỏi localStorage
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("username");
 
-            // Chuyển hướng về trang chủ
-            window.location.href = "../index.html";
+                // Chuyển hướng về trang chủ
+                window.location.href = "../index.html";
+            });
         });
     }
 });
