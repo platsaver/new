@@ -37,6 +37,31 @@
   border-bottom: 2px solid black; /* Dòng kẻ đen phía dưới */
   font-weight: bold;
 }
+.custom-nav .nav-link {
+  position: relative; /* Để định vị đường kẻ */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+.custom-nav .nav-link:hover {
+  color: red !important; /* Chuyển màu chữ thành đỏ khi hover */
+}
+
+/* Tạo đường kẻ bên dưới */
+.custom-nav .nav-link::after {
+  content: ''; /* Tạo phần tử giả */
+  position: absolute;
+  width: 0; /* Bắt đầu với chiều rộng 0 */
+  height: 2px; /* Độ dày của đường kẻ */
+  bottom: 0px; /* Khoảng cách từ chữ xuống đường kẻ */
+  left: 0;
+  background-color: red; /* Màu đỏ cho đường kẻ */
+  transition: width 0.3s ease; /* Hiệu ứng mở rộng mượt mà */
+}
+
+/* Khi hover, đường kẻ mở rộng full chiều rộng */
+.custom-nav .nav-link:hover::after {
+  width: 100%;
+}
 
 .row{
   padding-top: 10px;
