@@ -66,7 +66,6 @@
     font-size: 1.2rem; /* Điều chỉnh kích thước chữ tiêu đề trên mobile */
   }
 }
-
 .custom-nav {
   border-top: 2px solid black; /* Dòng kẻ đen phía trên */
   border-bottom: 2px solid black; /* Dòng kẻ đen phía dưới */
@@ -394,6 +393,7 @@ h1, h2, h3, h4, h5, h6,
   font-family: 'Chomsky';
   color: black;
   font-size: 80px;
+  margin-bottom: -10px;
 }
 .custom-branding {
   font-family: 'Chomsky'; /* Đảm bảo font được tải */
