@@ -73,28 +73,33 @@
   font-weight: bold;
 }
 .custom-nav .nav-link {
-  position: relative; /* Để định vị đường kẻ */
-  transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+  text-decoration: none; /* Loại bỏ gạch chân mặc định của thẻ <a> */
 }
 
-.custom-nav .nav-link:hover {
-  color: red !important; /* Chuyển màu chữ thành đỏ khi hover */
+.custom-nav .nav-link span {
+  position: relative; /* Chuyển position sang span để định vị đường kẻ */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+  display: inline-block; /* Đảm bảo span hoạt động đúng với pseudo-element */
+}
+
+.custom-nav .nav-link span:hover {
+  color: red; /* Chuyển màu chữ thành đỏ khi hover, không cần !important */
 }
 
 /* Tạo đường kẻ bên dưới */
-.custom-nav .nav-link::after {
+.custom-nav .nav-link span::after {
   content: ''; /* Tạo phần tử giả */
   position: absolute;
   width: 0; /* Bắt đầu với chiều rộng 0 */
   height: 2px; /* Độ dày của đường kẻ */
-  bottom: 0px; /* Khoảng cách từ chữ xuống đường kẻ */
+  bottom: 0; /* Đặt sát dưới chữ */
   left: 0;
   background-color: red; /* Màu đỏ cho đường kẻ */
   transition: width 0.3s ease; /* Hiệu ứng mở rộng mượt mà */
 }
 
 /* Khi hover, đường kẻ mở rộng full chiều rộng */
-.custom-nav .nav-link:hover::after {
+.custom-nav .nav-link span:hover::after {
   width: 100%;
 }
 
