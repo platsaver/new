@@ -9,6 +9,9 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../dist/css/admin.css">
+    <link rel="stylesheet" href="../dist/css/CKEditor.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.1.0/classic/ckeditor.js"></script>
+    <script src="../dist/js/CKEditor.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -70,10 +73,17 @@
             <!-- Main Content -->
             <div class="col-md-10">
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <h2>Pages <small>Manage Website Pages</small></h2>
-                    <button class="btn btn-outline-dark"><i class="fas fa-plus me-2"></i> Create Content</button>
+                    <h2>Dashboard <small>Manage Your Site</small></h2>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="createContentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus me-2"></i> Create Content
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="createContentDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addPostModal">Add Post</a></li>
+                            <li><a class="dropdown-item" href="../admin/users.html">Add Users</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <hr>
 
                 <!-- Pages Table -->
                 <div class="row">

@@ -9,6 +9,9 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../dist/css/admin.css">
+    <link rel="stylesheet" href="../dist/css/CKEditor.css">
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.1.0/classic/ckeditor.js"></script>
+    <script src="../dist/js/CKEditor.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -71,7 +74,49 @@
             <div class="col-md-10">
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <h2>Dashboard <small>Manage Your Site</small></h2>
-                    <button class="btn btn-outline-dark"><i class="fas fa-plus me-2"></i> Create Content</button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="createContentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus me-2"></i> Create Content
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="createContentDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addPostModal">Add Post</a></li>
+                            <li><a class="dropdown-item" href="../admin/users.html">Add Users</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="addPostModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addPostModalLabel">Add Post</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="postForm">
+                                    <div class="mb-3">
+                                        <label for="postTitle" class="form-label">Post Title</label>
+                                        <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="Enter post title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="postContent" class="form-label">Post Content</label>
+                                        <textarea class="form-control" id="postContent" name="postContent" rows="10"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="metaTags" class="form-label">Meta Tags</label>
+                                        <input type="text" class="form-control" id="metaTags" name="metaTags" placeholder="Add some tags">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="metaDescription" class="form-label">Meta Description</label>
+                                        <textarea class="form-control" id="metaDescription" name="metaDescription" rows="3" placeholder="Add meta description"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="savePostBtn">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
 
