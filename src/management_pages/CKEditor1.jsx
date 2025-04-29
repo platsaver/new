@@ -340,7 +340,7 @@ export default function CKEditor1({ data = "", onChange }) {
       ],
     },
     menuBar: {
-      isVisible: true,
+      isVisible: false,
     },
     placeholder: 'Type or paste your content here!',
     table: {
