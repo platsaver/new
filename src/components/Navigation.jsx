@@ -238,8 +238,6 @@ const Navigation = () => {
 
   const renderCurrentComponent = () => {
     switch (currentComponent) {
-      case 'thoisu':
-        return <ThoiSu />;
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} />;
       case 'homepage':

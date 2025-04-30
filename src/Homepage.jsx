@@ -5,7 +5,6 @@ import Footer from './components/Footer.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import FeaturedSection1 from './components/FeaturedSection1.jsx';
 import LatestSection from './components/LatestSection.jsx';
-import Navigation from './components/Navigation.jsx';
 
 // Main App Component
 const NewsApp = () => {
