@@ -4,7 +4,7 @@ import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import Banner from './components/Banner.jsx';
 
-const ThoiSu = () => {
+const ThoiSu = ({ previewCategory }) => {
     const [subCategories, setSubCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,7 +13,10 @@ const ThoiSu = () => {
     useEffect(() => {
         const fetchSubCategories = async () => {
             try {
-                const url = `http://localhost:3000/api/subcategories?t=${Date.now()}`;
+                // Construct URL based on whether a category is selected
+                const url = previewCategory
+                    ? `http://localhost:3000/api/subcategories?categoryId=${previewCategory.CategoryID}&t=${Date.now()}`
+                    : `http://localhost:3000/api/subcategories?t=${Date.now()}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -34,13 +37,15 @@ const ThoiSu = () => {
 
                 // Process and validate subcategories
                 const validSubCategories = Array.isArray(data.data)
-                    ? data.data.map(sub => ({
-                        SubCategoryID: sub.subcategoryid,
-                        CategoryID: sub.categoryid,
-                        SubCategoryName: sub.subcategoryname,
-                        BannerURL: sub.bannerurl || null,
-                        CategoryName: sub.categoryname,
-                    }))
+                    ? data.data
+                        .filter(sub => !previewCategory || sub.categoryid === previewCategory.CategoryID)
+                        .map(sub => ({
+                            SubCategoryID: sub.subcategoryid,
+                            CategoryID: sub.categoryid,
+                            SubCategoryName: sub.subcategoryname,
+                            BannerURL: sub.bannerurl || null,
+                            CategoryName: sub.categoryname || (previewCategory ? previewCategory.CategoryName : 'Thời sự'),
+                        }))
                     : [];
 
                 setSubCategories(validSubCategories);
@@ -56,7 +61,7 @@ const ThoiSu = () => {
         };
 
         fetchSubCategories();
-    }, []);
+    }, [previewCategory]); // Re-fetch when previewCategory changes
 
     // Generate mock news articles for a subcategory
     const generateNewsForCategory = (categoryName, isMainFeature = false) => {
@@ -143,14 +148,16 @@ const ThoiSu = () => {
                             articles={generateNewsForCategory(subcategory.SubCategoryName)}
                         />
                     ))
-                ) : null}
+                ) : (
+                    <div>No subcategories available for this category.</div>
+                )}
             </>
         );
     };
 
     return(
         <>
-            <Banner />
+            <Banner category={previewCategory} />
             <div className="container-xl">
                 <div id="main">
                     {renderContent()}

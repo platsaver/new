@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const Banner = () => {
+const Banner = ({ category }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch subcategories
+  // Fetch subcategories based on category
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const url = `http://localhost:3000/api/subcategories?t=${Date.now()}`;
+        // If a category is provided, fetch subcategories for that category
+        const url = category
+          ? `http://localhost:3000/api/subcategories?categoryId=${category.CategoryID}&t=${Date.now()}`
+          : `http://localhost:3000/api/subcategories?t=${Date.now()}`;
         const response = await fetch(url, {
           method: 'GET',
           headers: {
@@ -26,15 +29,17 @@ const Banner = () => {
 
         // Process subcategories from the API response
         const validSubCategories = data.success && Array.isArray(data.data)
-          ? data.data.map(sub => ({
-              SubCategoryID: sub.subcategoryid,
-              SubCategoryName: sub.subcategoryname,
-              // Generate a URL-friendly slug from the subcategory name
-              slug: sub.subcategoryname
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/(^-|-$)/g, ''),
-            }))
+          ? data.data
+              .filter(sub => !category || sub.categoryid === category.CategoryID)
+              .map(sub => ({
+                  SubCategoryID: sub.subcategoryid,
+                  SubCategoryName: sub.subcategoryname,
+                  BannerURL: sub.bannerurl || null,
+                  slug: sub.subcategoryname
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/(^-|-$)/g, ''),
+              }))
           : [];
 
         setSubCategories(validSubCategories);
@@ -47,17 +52,26 @@ const Banner = () => {
     };
 
     fetchSubCategories();
-  }, []);
+  }, [category]); // Re-fetch when category changes
+
+  // Use category name or default to "Thời sự"
+  const categoryName = category ? category.CategoryName : 'Thời sự';
+
+  // Get the banner URL from the first subcategory, or fallback to the default Unsplash URL
+  const defaultBannerUrl = 'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  const bannerUrl = subCategories.length > 0 && subCategories[0].BannerURL
+    ? subCategories[0].BannerURL
+    : defaultBannerUrl;
 
   return (
     <>
       <div
         className="position-relative text-center text-white py-5"
         style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat`,
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${bannerUrl}') center/cover no-repeat`,
         }}
       >
-        <h1 className="display-3 fw-bold">Thời sự</h1>
+        <h1 className="display-3 fw-bold">{categoryName}</h1>
       </div>
       <nav className="bg-dark bg-opacity-100">
         <ul className="nav justify-content-center">

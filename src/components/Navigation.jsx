@@ -24,12 +24,10 @@ const Navigation = () => {
 
   // Create navItems by combining fixed items with dynamic categories
   const getNavItems = () => {
-    // Base navigation items
     const baseNavItems = [
       { path: '#', text: 'Trang chủ', component: 'homepage' },
     ];
     
-    // Map category data to nav items
     const categoryNavItems = categories.map(category => ({
       path: '#',
       text: category.CategoryName,
@@ -38,10 +36,8 @@ const Navigation = () => {
       categoryData: category
     }));
     
-    // Add admin link if user is logged in
     const adminItem = userName ? [{ path: '#', text: 'Admin', component: 'admin' }] : [];
     
-    // Combine all items
     return [...baseNavItems, ...categoryNavItems, ...adminItem];
   };
 
@@ -64,10 +60,8 @@ const Navigation = () => {
       const data = await response.json();
       console.log('Fetched categories for navigation:', data);
 
-      // Extract and validate categories
       const categoriesData = Array.isArray(data.categories) ? data.categories : [];
       
-      // Map lowercase field names to camelCase if needed
       const validCategories = categoriesData
         .filter((cat) => cat && cat.categoryid && cat.categoryname)
         .map((cat) => ({
@@ -105,10 +99,9 @@ const Navigation = () => {
         const data = await response.json();
 
         if (response.ok && data.isAuthenticated) {
-          setUserName(data.user.username); // Update userName if authenticated
+          setUserName(data.user.username);
         } else {
-          setUserName(null); // Clear userName if not authenticated
-          // Redirect to homepage if on Admin page and not authenticated
+          setUserName(null);
           if (currentComponent === 'admin' || showAdminPage) {
             setCurrentComponent('homepage');
             setShowAdminPage(false);
@@ -117,7 +110,6 @@ const Navigation = () => {
       } catch (error) {
         console.error('Error checking auth status:', error);
         setUserName(null);
-        // Redirect to homepage if on Admin page and error occurs
         if (currentComponent === 'admin' || showAdminPage) {
           setCurrentComponent('homepage');
           setShowAdminPage(false);
@@ -126,21 +118,18 @@ const Navigation = () => {
     };
 
     checkAuthStatus();
-    fetchCategories(); // Fetch categories when component mounts
+    fetchCategories();
   }, [currentComponent, showAdminPage]);
 
   // Listen for category changes from admin panel
   useEffect(() => {
-    // Create event listener for category changes
     const handleCategoryChange = () => {
       console.log("Category change detected, refreshing categories");
       fetchCategories();
     };
 
-    // Add event listener
     window.addEventListener('categoryUpdated', handleCategoryChange);
 
-    // Clean up event listener
     return () => {
       window.removeEventListener('categoryUpdated', handleCategoryChange);
     };
@@ -168,21 +157,17 @@ const Navigation = () => {
   const handleChangeComponent = (e, componentName, categoryData = null) => {
     e.preventDefault();
 
-    // Check if user wants to access Admin but isn't logged in
     if (componentName === 'admin') {
       if (!userName) {
         message.error('Vui lòng đăng nhập để truy cập trang Admin!');
         setShowLoginPage(true);
         return;
       }
-      // Show Admin as a new page
       setShowAdminPage(true);
     } else if (componentName === 'category' && categoryData) {
-      // Set the selected category when clicking on a category link
       setSelectedCategory(categoryData);
       setCurrentComponent(componentName);
     } else {
-      // Reset selected category for other components
       setSelectedCategory(null);
       setCurrentComponent(componentName);
     }
@@ -201,7 +186,6 @@ const Navigation = () => {
 
   const handleBackFromAdmin = () => {
     setShowAdminPage(false);
-    // Refresh categories after leaving admin
     fetchCategories();
   };
 
@@ -224,7 +208,6 @@ const Navigation = () => {
         setUserName(null);
         localStorage.removeItem('userId');
 
-        // Redirect to homepage if on Admin page
         if (currentComponent === 'admin' || showAdminPage) {
           setCurrentComponent('homepage');
           setShowAdminPage(false);
@@ -238,14 +221,11 @@ const Navigation = () => {
     }
   };
 
-  // New function to handle user icon click based on login status
   const handleUserIconClick = (e) => {
     e.preventDefault();
     if (userName) {
-      // If user is logged in, trigger logout
       handleLogout();
     } else {
-      // If user is not logged in, trigger login
       handleLoginClick(e);
     }
   };
@@ -261,7 +241,6 @@ const Navigation = () => {
       case 'thoisu':
         return <ThoiSu />;
       case 'category':
-        // Render ThoiSu with the selected category for dynamic category pages
         return <ThoiSu previewCategory={selectedCategory} />;
       case 'homepage':
       default:
@@ -269,10 +248,8 @@ const Navigation = () => {
     }
   };
 
-  // Get all nav items (base + dynamic categories)
   const navItems = getNavItems();
 
-  // Show login page
   if (showLoginPage) {
     return (
       <div className="login-page-container">
@@ -281,7 +258,6 @@ const Navigation = () => {
     );
   }
 
-  // Show Admin page
   if (showAdminPage) {
     return (
       <div className="admin-page-container">
@@ -303,7 +279,6 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Desktop Sticky Navigation */}
       <div className="sticky-top">
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
