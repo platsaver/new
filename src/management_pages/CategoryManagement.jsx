@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Table, Modal, Form, Input, message, Typography, Empty, Tabs, Select } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import ThoiSu from '../ThoiSu'; 
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -50,7 +49,6 @@ const CategoryManagement = () => {
           CategoryID: cat.categoryid,
           CategoryName: cat.categoryname,
           BannerURL: cat.bannerurl || null,
-          PageURL: cat.pageurl || `/category/${cat.categoryid}`,
           subCategories: Array.isArray(cat.subcategories)
             ? cat.subcategories.map((sub) => ({
                 SubCategoryID: sub.subcategoryid,
@@ -131,13 +129,9 @@ const CategoryManagement = () => {
       form.setFieldsValue({ 
         CategoryName: category.CategoryName,
         BannerURL: category.BannerURL || '',
-        PageURL: category.PageURL || `/category/${category.CategoryID}`
       });
     } else {
       form.resetFields();
-      form.setFieldsValue({
-        PageURL: `/category/new-category` // Default value that will be updated after save
-      });
     }
     setIsModalOpen(true);
   };
@@ -164,44 +158,6 @@ const CategoryManagement = () => {
     window.dispatchEvent(event);
   };
 
-  // Create a dynamic page for a category
-  const createCategoryPage = async (categoryId, categoryName) => {
-    try {
-      const pageURL = `/category/${categoryId}`;
-      
-      // Get all subcategories for this category
-      const categorySubcategories = subcategories.filter(
-        (sub) => sub.CategoryID === categoryId
-      );
-      
-      // Here you would typically call an API to create a new page
-      // For now, we'll just simulate success and return the URL
-      console.log(`Created page for category: ${categoryName} at ${pageURL}`);
-      console.log('Subcategories included:', categorySubcategories);
-      
-      // In a real implementation, you would save this page to your server/CMS
-      // For example, using an API call like:
-      /*
-      const response = await fetch('http://localhost:3000/api/pages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pageURL,
-          categoryId,
-          categoryName,
-          subcategories: categorySubcategories,
-          template: 'ThoiSu' // Using ThoiSu.jsx as template
-        }),
-      });
-      */
-      
-      return pageURL;
-    } catch (error) {
-      console.error('Error creating category page:', error);
-      throw new Error('Failed to create category page');
-    }
-  };
-
   // Handle category modal submission
   const handleOk = async () => {
     try {
@@ -213,7 +169,6 @@ const CategoryManagement = () => {
         : 'http://localhost:3000/api/categories';
       const method = editingCategory ? 'PUT' : 'POST';
       
-      // First, save the category to get its ID (if new)
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -224,34 +179,10 @@ const CategoryManagement = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to save category');
       }
-      
-      // Get the category data from response
-      const categoryData = await response.json();
-      const categoryId = editingCategory ? editingCategory.CategoryID : categoryData.categoryId;
-      
-      if (!categoryId) {
-        throw new Error('No category ID returned from server');
-      }
-      
-      // Now create/update the category page
-      const pageURL = await createCategoryPage(categoryId, values.CategoryName);
-      
-      // If we're creating a new category, add the page URL to the category
-      if (!editingCategory && pageURL) {
-        const updateResponse = await fetch(`http://localhost:3000/api/categories/${categoryId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...values, PageURL: pageURL }),
-        });
-        
-        if (!updateResponse.ok) {
-          console.warn('Warning: Failed to update category with page URL');
-        }
-      }
 
       message.success(editingCategory 
         ? 'Category updated successfully' 
-        : 'Category added successfully and page created'
+        : 'Category added successfully'
       );
       setIsModalOpen(false);
       form.resetFields();
@@ -285,13 +216,6 @@ const CategoryManagement = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to save subcategory');
-      }
-      
-      // Get the parent category to update its page
-      const category = categories.find(cat => cat.CategoryID === values.CategoryID);
-      if (category) {
-        // Update the category page to include the new subcategory
-        await createCategoryPage(category.CategoryID, category.CategoryName);
       }
 
       message.success(editingSubcategory ? 'Subcategory updated successfully' : 'Subcategory added successfully');
@@ -330,9 +254,6 @@ const CategoryManagement = () => {
       
       // Notify navigation about the change
       notifyCategoryChange();
-      
-      // You'd also want to delete the category page here
-      // This would typically be done via an API call to delete the page
     } catch (error) {
       message.error(`Error deleting category: ${error.message}`);
     }
@@ -345,10 +266,6 @@ const CategoryManagement = () => {
       return;
     }
     try {
-      // Find the parent category before deletion
-      const subcat = subcategories.find(sub => sub.SubCategoryID === subcategoryId);
-      const parentCategoryId = subcat ? subcat.CategoryID : null;
-      
       const response = await fetch(`http://localhost:3000/api/subcategories/${subcategoryId}`, {
         method: 'DELETE',
       });
@@ -359,15 +276,6 @@ const CategoryManagement = () => {
       }
 
       message.success('Subcategory deleted successfully');
-      
-      // Update the parent category page if needed
-      if (parentCategoryId) {
-        const parentCategory = categories.find(cat => cat.CategoryID === parentCategoryId);
-        if (parentCategory) {
-          await createCategoryPage(parentCategoryId, parentCategory.CategoryName);
-        }
-      }
-      
       fetchSubcategories();
       fetchCategories(); // Also refresh categories to update the list of subcategories
       
@@ -376,17 +284,6 @@ const CategoryManagement = () => {
     } catch (error) {
       message.error(`Error deleting subcategory: ${error.message}`);
     }
-  };
-
-  // Visit the category page
-  const visitCategoryPage = (pageURL) => {
-    // In a real application, this would navigate to the page
-    // For demonstration, we'll just log and show a message
-    console.log(`Navigating to: ${pageURL}`);
-    message.info(`Navigating to ${pageURL}`);
-    
-    // In real implementation:
-    // window.open(pageURL, '_blank');
   };
 
   // Table columns for categories
@@ -545,17 +442,6 @@ const CategoryManagement = () => {
           </Form.Item>
           <Form.Item name="BannerURL" label="Banner URL">
             <Input placeholder="Enter banner image URL" />
-          </Form.Item>
-          <Form.Item 
-            name="PageURL" 
-            label="Page URL"
-            extra="URL will be updated automatically for new categories after saving"
-          >
-            <Input 
-              placeholder="Page URL" 
-              disabled={!editingCategory} 
-              addonBefore={editingCategory ? null : "Auto-generated: "}
-            />
           </Form.Item>
         </Form>
       </Modal>

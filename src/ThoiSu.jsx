@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from './components/Navigation.jsx';
 import Footer from './components/Footer.jsx';
 import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import Banner from './components/Banner.jsx';
-import Article from './components/Article.jsx';
 
-const ThoiSu = ({ previewCategory }) => {
-    const [categories, setCategories] = useState([]);
+const ThoiSu = () => {
+    const [subCategories, setSubCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch categories and subcategories if needed
+    // Fetch subcategories
     useEffect(() => {
-        // Skip API call if we're in preview mode
-        if (previewCategory) {
-            setLoading(false);
-            return;
-        }
-
-        const fetchCategories = async () => {
+        const fetchSubCategories = async () => {
             try {
-                const url = `http://localhost:3000/api/categories?t=${Date.now()}`;
+                const url = `http://localhost:3000/api/subcategories?t=${Date.now()}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -35,37 +27,38 @@ const ThoiSu = ({ previewCategory }) => {
                 }
 
                 const data = await response.json();
-                
-                // Process and validate categories
-                const validCategories = Array.isArray(data.categories) 
-                    ? data.categories.map(cat => ({
-                        CategoryID: cat.categoryid,
-                        CategoryName: cat.categoryname,
-                        BannerURL: cat.bannerurl || null,
-                        subCategories: Array.isArray(cat.subcategories)
-                            ? cat.subcategories.map(sub => ({
-                                SubCategoryID: sub.subcategoryid,
-                                CategoryID: sub.categoryid,
-                                SubCategoryName: sub.subcategoryname,
-                                BannerURL: sub.bannerurl || null,
-                            }))
-                            : [],
+
+                if (!data.success) {
+                    throw new Error(data.message || 'Failed to fetch subcategories');
+                }
+
+                // Process and validate subcategories
+                const validSubCategories = Array.isArray(data.data)
+                    ? data.data.map(sub => ({
+                        SubCategoryID: sub.subcategoryid,
+                        CategoryID: sub.categoryid,
+                        SubCategoryName: sub.subcategoryname,
+                        BannerURL: sub.bannerurl || null,
+                        CategoryName: sub.categoryname,
                     }))
                     : [];
-                
-                setCategories(validCategories);
+
+                setSubCategories(validSubCategories);
                 setLoading(false);
+
+                // Debug log to inspect the subcategories data
+                console.log('Fetched subcategories:', validSubCategories);
             } catch (err) {
-                console.error('Error fetching categories:', err);
+                console.error('Error fetching subcategories:', err);
                 setError(err.message);
                 setLoading(false);
             }
         };
 
-        fetchCategories();
-    }, [previewCategory]);
+        fetchSubCategories();
+    }, []);
 
-    // Generate mock news articles for a category or subcategory
+    // Generate mock news articles for a subcategory
     const generateNewsForCategory = (categoryName, isMainFeature = false) => {
         // For featured main content (larger, more prominent)
         if (isMainFeature) {
@@ -132,151 +125,25 @@ const ThoiSu = ({ previewCategory }) => {
         ];
     };
 
-    // Custom Featured Section Component for Categories
-    const CategoryFeaturedSection = ({ title, articles }) => {
-        if (!articles || articles.length === 0) return null;
-        
-        return (
-            <section className="featured">
-                <div className="container-xl">
-                    <div className="row">
-                        {/* Left Column */}
-                        <div className="col-lg-6">
-                            <div className="collection">
-                                <Article
-                                    imageUrl={articles[0].imageUrl}
-                                    categories={articles[0].categories}
-                                    title={articles[0].title}
-                                    author={articles[0].author}
-                                    timestamp={articles[0].timestamp}
-                                    excerpt={articles[0].description}
-                                    link={articles[0].link}
-                                />
-                            </div>
-                        </div>
-                        
-                        {/* Middle Column */}
-                        <div className="col-lg-3">
-                            <div className="collection">
-                                <Article
-                                    imageUrl={articles[1].imageUrl}
-                                    categories={articles[1].categories}
-                                    title={articles[1].title}
-                                    author={articles[1].author}
-                                    timestamp={articles[1].timestamp}
-                                    excerpt={articles[1].description}
-                                    link={articles[1].link}
-                                />
-                            </div>
-                        </div>
-                        
-                        {/* Right Column */}
-                        <div className="col-lg-3">
-                            <div className="collection">
-                                <Article
-                                    imageUrl={articles[2].imageUrl}
-                                    categories={articles[2].categories}
-                                    title={articles[2].title}
-                                    author={articles[2].author}
-                                    timestamp={articles[2].timestamp}
-                                    excerpt={articles[2].description}
-                                    link={articles[2].link}
-                                />
-                                <Article
-                                    imageUrl={articles[3].imageUrl}
-                                    categories={articles[3].categories}
-                                    title={articles[3].title}
-                                    author={articles[3].author}
-                                    timestamp={articles[3].timestamp}
-                                    excerpt={articles[3].description}
-                                    link={articles[3].link}
-                                    isLast={true}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        );
-    };
-
     // Render logic
     const renderContent = () => {
-        // If we're in preview mode with a specific category
-        if (previewCategory) {
-            const featuredArticles = generateNewsForCategory(previewCategory.CategoryName, true);
-            
-            // Check if previewCategory has subcategories
-            if (previewCategory.subCategories && previewCategory.subCategories.length > 0) {
-                return (
-                    <>
-                        <CategoryFeaturedSection 
-                            title={previewCategory.CategoryName}
-                            articles={featuredArticles}
-                        />
-                        
-                        {/* Render a CategorySection for each subcategory */}
-                        {previewCategory.subCategories.map((subcategory, index) => (
-                            <CategorySection 
-                                key={subcategory.SubCategoryID || index}
-                                title={subcategory.SubCategoryName}
-                                articles={generateNewsForCategory(subcategory.SubCategoryName)}
-                            />
-                        ))}
-                    </>
-                );
-            } else {
-                // If no subcategories, just show the category with its featured and regular sections
-                return (
-                    <>
-                        <CategoryFeaturedSection 
-                            title={previewCategory.CategoryName}
-                            articles={featuredArticles}
-                        />
-                        
-                        <CategorySection 
-                            title={previewCategory.CategoryName}
-                            articles={generateNewsForCategory(previewCategory.CategoryName)}
-                        />
-                    </>
-                );
-            }
-        }
-        
-        // Default view for ThoiSu page (when no specific category is selected)
         return (
             <>
                 <FeaturedSection2 />
                 
                 {loading ? (
-                    <div>Loading categories...</div>
+                    <div>Loading subcategories...</div>
                 ) : error ? (
-                    <div>Error loading categories: {error}</div>
-                ) : (
-                    // Render all available categories
-                    categories.map((category, index) => (
+                    <div>Error loading subcategories: {error}</div>
+                ) : subCategories.length > 0 ? (
+                    subCategories.map((subcategory, index) => (
                         <CategorySection 
-                            key={category.CategoryID || index}
-                            title={category.CategoryName} 
-                            articles={generateNewsForCategory(category.CategoryName)}
+                            key={subcategory.SubCategoryID || index}
+                            title={subcategory.SubCategoryName}
+                            articles={generateNewsForCategory(subcategory.SubCategoryName)}
                         />
                     ))
-                )}
-                
-                {/* Fallback to default sections if no categories or in development */}
-                {!loading && !error && categories.length === 0 && (
-                    <>
-                        <CategorySection 
-                            title="Trong nước" 
-                            articles={generateNewsForCategory("Trong nước")}
-                        />
-                        
-                        <CategorySection 
-                            title="Quốc tế" 
-                            articles={generateNewsForCategory("Quốc tế")}
-                        />
-                    </>
-                )}
+                ) : null}
             </>
         );
     };
