@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Table, Modal, Form, Input, message, Typography, Empty, Tabs, Select } from 'antd';
-import { EditOutlined, DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
-import ThoiSu from '../ThoiSu'; // Đường dẫn đến component ThoiSu (điều chỉnh theo thư mục thực)
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import ThoiSu from '../ThoiSu'; 
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -16,11 +16,10 @@ const CategoryManagement = () => {
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingSubcategory, setEditingSubcategory] = useState(null);
-  const [previewCategory, setPreviewCategory] = useState(null);
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('categories');
   const [form] = Form.useForm();
   const [subForm] = Form.useForm();
+  const [creatingCategory, setCreatingCategory] = useState(false);
 
   // Fetch categories
   const fetchCategories = async () => {
@@ -51,6 +50,7 @@ const CategoryManagement = () => {
           CategoryID: cat.categoryid,
           CategoryName: cat.categoryname,
           BannerURL: cat.bannerurl || null,
+          PageURL: cat.pageurl || `/category/${cat.categoryid}`,
           subCategories: Array.isArray(cat.subcategories)
             ? cat.subcategories.map((sub) => ({
                 SubCategoryID: sub.subcategoryid,
@@ -130,10 +130,14 @@ const CategoryManagement = () => {
     if (category) {
       form.setFieldsValue({ 
         CategoryName: category.CategoryName,
-        BannerURL: category.BannerURL || '' 
+        BannerURL: category.BannerURL || '',
+        PageURL: category.PageURL || `/category/${category.CategoryID}`
       });
     } else {
       form.resetFields();
+      form.setFieldsValue({
+        PageURL: `/category/new-category` // Default value that will be updated after save
+      });
     }
     setIsModalOpen(true);
   };
@@ -160,15 +164,56 @@ const CategoryManagement = () => {
     window.dispatchEvent(event);
   };
 
+  // Create a dynamic page for a category
+  const createCategoryPage = async (categoryId, categoryName) => {
+    try {
+      const pageURL = `/category/${categoryId}`;
+      
+      // Get all subcategories for this category
+      const categorySubcategories = subcategories.filter(
+        (sub) => sub.CategoryID === categoryId
+      );
+      
+      // Here you would typically call an API to create a new page
+      // For now, we'll just simulate success and return the URL
+      console.log(`Created page for category: ${categoryName} at ${pageURL}`);
+      console.log('Subcategories included:', categorySubcategories);
+      
+      // In a real implementation, you would save this page to your server/CMS
+      // For example, using an API call like:
+      /*
+      const response = await fetch('http://localhost:3000/api/pages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pageURL,
+          categoryId,
+          categoryName,
+          subcategories: categorySubcategories,
+          template: 'ThoiSu' // Using ThoiSu.jsx as template
+        }),
+      });
+      */
+      
+      return pageURL;
+    } catch (error) {
+      console.error('Error creating category page:', error);
+      throw new Error('Failed to create category page');
+    }
+  };
+
   // Handle category modal submission
   const handleOk = async () => {
     try {
+      setCreatingCategory(true);
       const values = await form.validateFields();
+      
       const url = editingCategory
         ? `http://localhost:3000/api/categories/${editingCategory.CategoryID}`
         : 'http://localhost:3000/api/categories';
       const method = editingCategory ? 'PUT' : 'POST';
-
+      
+      // First, save the category to get its ID (if new)
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -179,8 +224,35 @@ const CategoryManagement = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to save category');
       }
+      
+      // Get the category data from response
+      const categoryData = await response.json();
+      const categoryId = editingCategory ? editingCategory.CategoryID : categoryData.categoryId;
+      
+      if (!categoryId) {
+        throw new Error('No category ID returned from server');
+      }
+      
+      // Now create/update the category page
+      const pageURL = await createCategoryPage(categoryId, values.CategoryName);
+      
+      // If we're creating a new category, add the page URL to the category
+      if (!editingCategory && pageURL) {
+        const updateResponse = await fetch(`http://localhost:3000/api/categories/${categoryId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...values, PageURL: pageURL }),
+        });
+        
+        if (!updateResponse.ok) {
+          console.warn('Warning: Failed to update category with page URL');
+        }
+      }
 
-      message.success(editingCategory ? 'Category updated successfully' : 'Category added successfully');
+      message.success(editingCategory 
+        ? 'Category updated successfully' 
+        : 'Category added successfully and page created'
+      );
       setIsModalOpen(false);
       form.resetFields();
       setEditingCategory(null);
@@ -190,6 +262,8 @@ const CategoryManagement = () => {
       notifyCategoryChange();
     } catch (error) {
       message.error(`Error: ${error.message}`);
+    } finally {
+      setCreatingCategory(false);
     }
   };
 
@@ -211,6 +285,13 @@ const CategoryManagement = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to save subcategory');
+      }
+      
+      // Get the parent category to update its page
+      const category = categories.find(cat => cat.CategoryID === values.CategoryID);
+      if (category) {
+        // Update the category page to include the new subcategory
+        await createCategoryPage(category.CategoryID, category.CategoryName);
       }
 
       message.success(editingSubcategory ? 'Subcategory updated successfully' : 'Subcategory added successfully');
@@ -249,6 +330,9 @@ const CategoryManagement = () => {
       
       // Notify navigation about the change
       notifyCategoryChange();
+      
+      // You'd also want to delete the category page here
+      // This would typically be done via an API call to delete the page
     } catch (error) {
       message.error(`Error deleting category: ${error.message}`);
     }
@@ -261,6 +345,10 @@ const CategoryManagement = () => {
       return;
     }
     try {
+      // Find the parent category before deletion
+      const subcat = subcategories.find(sub => sub.SubCategoryID === subcategoryId);
+      const parentCategoryId = subcat ? subcat.CategoryID : null;
+      
       const response = await fetch(`http://localhost:3000/api/subcategories/${subcategoryId}`, {
         method: 'DELETE',
       });
@@ -271,6 +359,15 @@ const CategoryManagement = () => {
       }
 
       message.success('Subcategory deleted successfully');
+      
+      // Update the parent category page if needed
+      if (parentCategoryId) {
+        const parentCategory = categories.find(cat => cat.CategoryID === parentCategoryId);
+        if (parentCategory) {
+          await createCategoryPage(parentCategoryId, parentCategory.CategoryName);
+        }
+      }
+      
       fetchSubcategories();
       fetchCategories(); // Also refresh categories to update the list of subcategories
       
@@ -281,134 +378,15 @@ const CategoryManagement = () => {
     }
   };
 
-  // Show preview modal
-  const showPreviewModal = (category) => {
-    // Tìm tất cả subcategories thuộc category này để hiển thị
-    const categoryWithFullSubcategories = {
-      ...category,
-      subCategories: subcategories.filter(sub => sub.CategoryID === category.CategoryID)
-    };
-    setPreviewCategory(categoryWithFullSubcategories);
-    setIsPreviewModalOpen(true);
-  };
-
-  // Generate news data for preview based on category and subcategories
-  const generateNewsData = (categoryName, subcategories = []) => {
-    const baseNews = [
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/17/ae640bbd121aa344fa0b-174218577-4142-6528-1742185843.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=jKQ7WgLITYqJ_GIzCkHAaw",
-        title: `${categoryName} - Tin tức 1`,
-        link: "#",
-        subcategory: subcategories.length > 0 ? subcategories[0].SubCategoryName : null
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ",
-        title: `${categoryName} - Tin tức 2`,
-        link: "#",
-        subcategory: subcategories.length > 1 ? subcategories[1].SubCategoryName : null
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w",
-        title: `${categoryName} - Tin tức 3`,
-        link: "#",
-        subcategory: subcategories.length > 0 ? subcategories[0].SubCategoryName : null
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ",
-        title: `${categoryName} - Tin tức 4`,
-        link: "#",
-        subcategory: subcategories.length > 1 ? subcategories[1].SubCategoryName : null
-      }
-    ];
-
-    return baseNews;
-  };
-
-  // Custom CategorySection component that mimics the one in ThoiSu
-  const CategorySection = ({ title, subcategoriesData, articles }) => {
-    // Group articles by subcategory if available
-    const groupedArticles = {};
+  // Visit the category page
+  const visitCategoryPage = (pageURL) => {
+    // In a real application, this would navigate to the page
+    // For demonstration, we'll just log and show a message
+    console.log(`Navigating to: ${pageURL}`);
+    message.info(`Navigating to ${pageURL}`);
     
-    if (subcategoriesData && subcategoriesData.length > 0) {
-      // Initialize with empty arrays for each subcategory
-      subcategoriesData.forEach(sub => {
-        groupedArticles[sub.SubCategoryName] = [];
-      });
-      
-      // Add articles to their subcategories
-      articles.forEach(article => {
-        if (article.subcategory && groupedArticles[article.subcategory]) {
-          groupedArticles[article.subcategory].push(article);
-        } else {
-          // If no subcategory or not found, add to 'General'
-          if (!groupedArticles['General']) {
-            groupedArticles['General'] = [];
-          }
-          groupedArticles['General'].push(article);
-        }
-      });
-    } else {
-      // If no subcategories, put all articles under the category name
-      groupedArticles[title] = articles;
-    }
-
-    return (
-      <div className="category-section" style={{ marginBottom: '20px' }}>
-        <h2>{title}</h2>
-        {Object.keys(groupedArticles).map((subCategoryName, index) => (
-          <div key={index} style={{ marginBottom: '15px' }}>
-            {/* Only show subcategory title if it's not the main category and has articles */}
-            {subCategoryName !== title && groupedArticles[subCategoryName].length > 0 && (
-              <h3 style={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>{subCategoryName}</h3>
-            )}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
-              {groupedArticles[subCategoryName].map((article, articleIndex) => (
-                <div key={articleIndex} style={{ width: '48%', marginBottom: '15px' }}>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <img 
-                      src={article.imageUrl} 
-                      alt={article.title} 
-                      style={{ width: '120px', height: '80px', objectFit: 'cover' }}
-                    />
-                    <div>
-                      <h4 style={{ margin: '0 0 5px 0' }}>{article.title}</h4>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-  
-  // Enhanced SubcategorySection component to show subcategories in preview
-  const SubcategorySection = ({ subcategories }) => {
-    if (!subcategories || subcategories.length === 0) {
-      return <p>No subcategories available</p>;
-    }
-    
-    return (
-      <div className="subcategory-section">
-        <h3>Subcategories</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-          {subcategories.map((subcategory) => (
-            <div 
-              key={subcategory.SubCategoryID} 
-              style={{ 
-                padding: '8px 15px', 
-                backgroundColor: '#f0f2f5', 
-                borderRadius: '4px',
-                marginBottom: '10px'
-              }}
-            >
-              {subcategory.SubCategoryName}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    // In real implementation:
+    // window.open(pageURL, '_blank');
   };
 
   // Table columns for categories
@@ -422,43 +400,10 @@ const CategoryManagement = () => {
       render: (url) => (url ? url : 'No banner'),
     },
     {
-      title: 'Subcategories',
-      dataIndex: 'subCategories',
-      key: 'subCategories',
-      render: (subCategories) => {
-        if (!subCategories || !Array.isArray(subCategories) || subCategories.length === 0) {
-          return 'No subcategories';
-        }
-
-        const validSubcategories = subCategories.filter(
-          (sub) => sub && sub.SubCategoryID && sub.SubCategoryName
-        );
-
-        if (validSubcategories.length === 0) {
-          return 'No subcategories';
-        }
-
-        return (
-          <ul style={{ margin: 0, paddingLeft: 20 }}>
-            {validSubcategories.map((sub) => (
-              <li key={sub.SubCategoryID}>{sub.SubCategoryName}</li>
-            ))}
-          </ul>
-        );
-      },
-    },
-    {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
         <>
-          <Button
-            icon={<EyeOutlined />}
-            onClick={() => showPreviewModal(record)}
-            style={{ marginRight: 8 }}
-          >
-            Preview
-          </Button>
           <Button
             icon={<EditOutlined />}
             onClick={() => showModal(record)}
@@ -525,77 +470,70 @@ const CategoryManagement = () => {
   ];
 
   return (
-    <Card
-      title={<Title level={4} style={{ color: '#4e73df' }}>Category & Subcategory Management</Title>}
-      bordered={false}
-      style={{
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        borderRadius: '8px',
-        background: '#fff',
-      }}
-    >
-      <Tabs activeKey={activeTab} onChange={setActiveTab}>
+    <div className="category-management">
+      <Title level={2}>Category Management</Title>
+      <Tabs 
+        activeKey={activeTab} 
+        onChange={setActiveTab}
+        tabBarExtraContent={
+          activeTab === 'categories' ? (
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />} 
+              onClick={() => showModal()}
+            >
+              Add Category
+            </Button>
+          ) : (
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />} 
+              onClick={() => showSubModal()}
+            >
+              Add Subcategory
+            </Button>
+          )
+        }
+      >
         <TabPane tab="Categories" key="categories">
-          <Button
-            type="primary"
-            onClick={() => showModal()}
-            style={{ marginBottom: 16, backgroundColor: '#4e73df' }}
-          >
-            Add Category
-          </Button>
-          <Table
-            columns={categoryColumns}
-            dataSource={categories}
-            loading={loading}
-            rowKey="CategoryID"
-            pagination={{ pageSize: 10 }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="No categories found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
-            }}
-          />
+          <Card>
+            <Table
+              columns={categoryColumns}
+              dataSource={categories}
+              rowKey="CategoryID"
+              loading={loading}
+              locale={{
+                emptyText: <Empty description="No categories found" />,
+              }}
+            />
+          </Card>
         </TabPane>
         <TabPane tab="Subcategories" key="subcategories">
-          <Button
-            type="primary"
-            onClick={() => showSubModal()}
-            style={{ marginBottom: 16, backgroundColor: '#4e73df' }}
-          >
-            Add Subcategory
-          </Button>
-          <Table
-            columns={subcategoryColumns}
-            dataSource={subcategories}
-            loading={subLoading}
-            rowKey="SubCategoryID"
-            pagination={{ pageSize: 10 }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="No subcategories found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
-            }}
-          />
+          <Card>
+            <Table
+              columns={subcategoryColumns}
+              dataSource={subcategories}
+              rowKey="SubCategoryID"
+              loading={subLoading}
+              locale={{
+                emptyText: <Empty description="No subcategories found" />,
+              }}
+            />
+          </Card>
         </TabPane>
       </Tabs>
 
       {/* Category Modal */}
       <Modal
-        title={editingCategory ? 'Edit Category' : 'Add Category'}
+        title={editingCategory ? 'Edit Category' : 'Add New Category'}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={() => {
           setIsModalOpen(false);
-          setEditingCategory(null);
           form.resetFields();
+          setEditingCategory(null);
         }}
-        okText={editingCategory ? 'Update' : 'Add'}
+        confirmLoading={creatingCategory}
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -605,37 +543,44 @@ const CategoryManagement = () => {
           >
             <Input placeholder="Enter category name" />
           </Form.Item>
-          <Form.Item
-            name="BannerURL"
-            label="Banner URL"
+          <Form.Item name="BannerURL" label="Banner URL">
+            <Input placeholder="Enter banner image URL" />
+          </Form.Item>
+          <Form.Item 
+            name="PageURL" 
+            label="Page URL"
+            extra="URL will be updated automatically for new categories after saving"
           >
-            <Input placeholder="Enter banner URL (optional)" />
+            <Input 
+              placeholder="Page URL" 
+              disabled={!editingCategory} 
+              addonBefore={editingCategory ? null : "Auto-generated: "}
+            />
           </Form.Item>
         </Form>
       </Modal>
 
       {/* Subcategory Modal */}
       <Modal
-        title={editingSubcategory ? 'Edit Subcategory' : 'Add Subcategory'}
+        title={editingSubcategory ? 'Edit Subcategory' : 'Add New Subcategory'}
         open={isSubModalOpen}
         onOk={handleSubOk}
         onCancel={() => {
           setIsSubModalOpen(false);
-          setEditingSubcategory(null);
           subForm.resetFields();
+          setEditingSubcategory(null);
         }}
-        okText={editingSubcategory ? 'Update' : 'Add'}
       >
         <Form form={subForm} layout="vertical">
           <Form.Item
             name="CategoryID"
-            label="Category"
-            rules={[{ required: true, message: 'Please select a category' }]}
+            label="Parent Category"
+            rules={[{ required: true, message: 'Please select parent category' }]}
           >
-            <Select placeholder="Select a category">
-              {categories.map(category => (
-                <Option key={category.CategoryID} value={category.CategoryID}>
-                  {category.CategoryName}
+            <Select placeholder="Select parent category">
+              {categories.map((cat) => (
+                <Option key={cat.CategoryID} value={cat.CategoryID}>
+                  {cat.CategoryName}
                 </Option>
               ))}
             </Select>
@@ -647,79 +592,12 @@ const CategoryManagement = () => {
           >
             <Input placeholder="Enter subcategory name" />
           </Form.Item>
-          <Form.Item
-            name="BannerURL"
-            label="Banner URL"
-          >
-            <Input placeholder="Enter banner URL (optional)" />
+          <Form.Item name="BannerURL" label="Banner URL">
+            <Input placeholder="Enter banner image URL" />
           </Form.Item>
         </Form>
       </Modal>
-
-      {/* Preview Modal - Enhanced to show ThoiSu component with subcategories */}
-      <Modal
-        title={`Category Preview: ${previewCategory?.CategoryName || ''}`}
-        open={isPreviewModalOpen}
-        onCancel={() => setIsPreviewModalOpen(false)}
-        width={800}
-        footer={null}
-      >
-        <Tabs defaultActiveKey="preview">
-          <TabPane tab="ThoiSu Component Preview" key="preview">
-            <div style={{ border: '1px solid #eee', padding: '15px', borderRadius: '5px' }}>
-              {previewCategory && (
-                <ThoiSu 
-                  previewCategory={previewCategory}
-                  previewSubcategories={previewCategory.subCategories}
-                />
-              )}
-            </div>
-          </TabPane>
-          <TabPane tab="Styled Preview" key="styled">
-            <div style={{ border: '1px solid #eee', padding: '15px', borderRadius: '5px' }}>
-              {previewCategory && (
-                <>
-                  <h2 style={{ borderBottom: '2px solid #4e73df', paddingBottom: '10px' }}>
-                    {previewCategory.CategoryName}
-                  </h2>
-                  
-                  <SubcategorySection subcategories={previewCategory.subCategories} />
-                  
-                  <CategorySection 
-                    title={previewCategory.CategoryName}
-                    subcategoriesData={previewCategory.subCategories}
-                    articles={generateNewsData(previewCategory.CategoryName, previewCategory.subCategories)}
-                  />
-                </>
-              )}
-            </div>
-          </TabPane>
-          <TabPane tab="Category Details" key="details">
-            <div style={{ border: '1px solid #eee', padding: '15px', borderRadius: '5px' }}>
-              {previewCategory && (
-                <>
-                  <p><strong>Category ID:</strong> {previewCategory.CategoryID}</p>
-                  <p><strong>Category Name:</strong> {previewCategory.CategoryName}</p>
-                  <p><strong>Banner URL:</strong> {previewCategory.BannerURL || 'No banner'}</p>
-                  <p><strong>Subcategories:</strong></p>
-                  {previewCategory.subCategories && previewCategory.subCategories.length > 0 ? (
-                    <ul>
-                      {previewCategory.subCategories.map(sub => (
-                        <li key={sub.SubCategoryID}>
-                          {sub.SubCategoryName} (ID: {sub.SubCategoryID})
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No subcategories</p>
-                  )}
-                </>
-              )}
-            </div>
-          </TabPane>
-        </Tabs>
-      </Modal>
-    </Card>
+    </div>
   );
 };
 

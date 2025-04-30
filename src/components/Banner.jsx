@@ -1,36 +1,91 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Banner = () => {
+  const [subCategories, setSubCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch subcategories
+  useEffect(() => {
+    const fetchSubCategories = async () => {
+      try {
+        const url = `http://localhost:3000/api/subcategories?t=${Date.now()}`;
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Process subcategories from the API response
+        const validSubCategories = data.success && Array.isArray(data.data)
+          ? data.data.map(sub => ({
+              SubCategoryID: sub.subcategoryid,
+              SubCategoryName: sub.subcategoryname,
+              // Generate a URL-friendly slug from the subcategory name
+              slug: sub.subcategoryname
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, ''),
+            }))
+          : [];
+
+        setSubCategories(validSubCategories);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching subcategories:', err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchSubCategories();
+  }, []);
+
   return (
     <>
-      <div 
+      <div
         className="position-relative text-center text-white py-5"
         style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat`
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat`,
         }}
       >
         <h1 className="display-3 fw-bold">Thời sự</h1>
       </div>
       <nav className="bg-dark bg-opacity-100">
         <ul className="nav justify-content-center">
-          <li className="nav-item" style={{ margin: '0 15px' }}>
-            <a 
-              className="nav-link active text-white" 
-              style={{ padding: '10px 15px' }} 
-              href="../subcategory/thoisutrongnuoc.html"
-            >
-              Trong nước
-            </a>
-          </li>
-          <li className="nav-item" style={{ margin: '0 15px' }}>
-            <a 
-              className="nav-link text-white" 
-              style={{ padding: '10px 15px' }} 
-              href="../subcategory/thoisuquocte.html"
-            >
-              Quốc tế
-            </a>
-          </li>
+          {loading ? (
+            <li className="nav-item" style={{ margin: '0 15px' }}>
+              <span className="nav-link text-white" style={{ padding: '10px 15px' }}>
+                Loading...
+              </span>
+            </li>
+          ) : error ? (
+            <li className="nav-item" style={{ margin: '0 15px' }}>
+              <span className="nav-link text-white" style={{ padding: '10px 15px' }}>
+                Error: {error}
+              </span>
+            </li>
+          ) : subCategories.length > 0 ? (
+            subCategories.map((subCategory, index) => (
+              <li key={subCategory.SubCategoryID || index} className="nav-item" style={{ margin: '0 15px' }}>
+                <a
+                  className={`nav-link ${index === 0 ? 'active' : ''} text-white`}
+                  style={{ padding: '10px 15px' }}
+                  href={`../subcategory/${subCategory.slug}.html`}
+                >
+                  {subCategory.SubCategoryName}
+                </a>
+              </li>
+            ))
+          ) : null}
         </ul>
       </nav>
     </>
