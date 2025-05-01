@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Footer from './components/Footer.jsx';
 import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import Banner from './components/Banner.jsx';
