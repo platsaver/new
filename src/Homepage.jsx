@@ -101,7 +101,6 @@ const NewsApp = () => {
           <LatestSection />
         </div>
       </div>
-      <Footer />
     </>
   );
 };

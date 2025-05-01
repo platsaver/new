@@ -8,27 +8,29 @@ import HomePage from '../Homepage.jsx';
 import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
-import SearchResults from '../components/SearchResult.jsx';
+import SearchResults from './SearchResult.jsx';
 import { message, Spin } from 'antd';
 
-const Navigation = () => {
+const Navigation = ({
+  currentComponent,
+  setCurrentComponent,
+  selectedCategory,
+  setSelectedCategory,
+  categories = [], // Default to empty array
+  loading,
+}) => {
   const [isSidebarActive, setSidebarActive] = useState(false);
   const [isWrapperToggled, setWrapperToggled] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [currentComponent, setCurrentComponent] = useState('homepage');
   const [previousComponent, setPreviousComponent] = useState('homepage');
   const [previousCategory, setPreviousCategory] = useState(null);
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [showAdminPage, setShowAdminPage] = useState(false);
   const [userName, setUserName] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
 
-  // Ref to track the search bar element for click-outside logic
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
 
@@ -38,64 +40,17 @@ const Navigation = () => {
       { path: '#', text: 'Trang chủ', component: 'homepage' },
     ];
 
-    const categoryNavItems = categories.map(category => ({
+    const categoryNavItems = (categories || []).map(category => ({
       path: '#',
       text: category.CategoryName,
       component: 'category',
       categoryId: category.CategoryID,
-      categoryData: category
+      categoryData: category,
     }));
 
     const adminItem = userName ? [{ path: '#', text: 'Admin', component: 'admin' }] : [];
 
     return [...baseNavItems, ...categoryNavItems, ...adminItem];
-  };
-
-  // Fetch categories from API
-  const fetchCategories = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('http://localhost:3000/api/categories', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache',
-        },
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}: Failed to fetch categories`);
-      }
-
-      const data = await response.json();
-      console.log('Fetched categories for navigation:', data);
-
-      const categoriesData = Array.isArray(data.categories) ? data.categories : [];
-
-      const validCategories = categoriesData
-        .filter((cat) => cat && cat.categoryid && cat.categoryname)
-        .map((cat) => ({
-          CategoryID: cat.categoryid,
-          CategoryName: cat.categoryname,
-          BannerURL: cat.bannerurl || null,
-          subCategories: Array.isArray(cat.subcategories)
-            ? cat.subcategories.map((sub) => ({
-                SubCategoryID: sub.subcategoryid,
-                CategoryID: sub.categoryid,
-                SubCategoryName: sub.subcategoryname,
-                BannerURL: sub.bannerurl || null,
-              }))
-            : [],
-        }));
-
-      setCategories(validCategories);
-    } catch (error) {
-      console.error('Error fetching categories for navigation:', error);
-      message.error(`Error fetching categories: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
   };
 
   // Search posts using the API
@@ -186,22 +141,7 @@ const Navigation = () => {
     };
 
     checkAuthStatus();
-    fetchCategories();
   }, [currentComponent, showAdminPage]);
-
-  // Listen for category changes from admin panel
-  useEffect(() => {
-    const handleCategoryChange = () => {
-      console.log("Category change detected, refreshing categories");
-      fetchCategories();
-    };
-
-    window.addEventListener('categoryUpdated', handleCategoryChange);
-
-    return () => {
-      window.removeEventListener('categoryUpdated', handleCategoryChange);
-    };
-  }, []);
 
   const handleToggleSidebar = (e) => {
     if (e) e.preventDefault();
@@ -254,7 +194,6 @@ const Navigation = () => {
 
   const handleBackFromAdmin = () => {
     setShowAdminPage(false);
-    fetchCategories();
   };
 
   const handleBackFromSearch = () => {
@@ -347,7 +286,7 @@ const Navigation = () => {
             </button>
           </div>
         </div>
-        <Admin onCategoryChange={fetchCategories} />
+        <Admin onCategoryChange={() => window.dispatchEvent(new Event('categoryUpdated'))} />
       </div>
     );
   }

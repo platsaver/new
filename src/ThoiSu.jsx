@@ -121,7 +121,6 @@ const ThoiSu = ({ previewCategory }) => {
           {renderContent()}
         </div>
       </div>
-      <Footer />
     </>
   );
 };
