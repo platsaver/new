@@ -8,12 +8,9 @@ const DeletePostsButton = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Effect để log khi posts thay đổi để debugging
   React.useEffect(() => {
     console.log("Posts state đã được cập nhật:", posts);
   }, [posts]);
-  
-  // Fetch posts when modal opens
   const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
@@ -33,7 +30,7 @@ const DeletePostsButton = () => {
 
   const showModal = useCallback(() => {
     setIsModalOpen(true);
-    fetchPosts(); // Fetch posts when modal opens
+    fetchPosts();
   }, [fetchPosts]);
 
   const handleCancel = useCallback(() => {
@@ -42,7 +39,6 @@ const DeletePostsButton = () => {
 
   const deletePost = useCallback(async (postid) => {
     try {
-      // Log the post ID for debugging
       console.log("Deleting post with ID:", postid);
       
       const response = await fetch(`http://localhost:3000/posts/${postid}`, {
@@ -53,7 +49,6 @@ const DeletePostsButton = () => {
         throw new Error(`Failed to delete post: ${response.statusText}`);
       }
       
-      // Xóa thành công, cập nhật UI ngay lập tức
       console.log("Xóa thành công, cập nhật UI");
       
       // Sử dụng functional update để đảm bảo luôn làm việc với state mới nhất

@@ -12,7 +12,6 @@ const User = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [form] = Form.useForm();
 
-  // Fetch users from API
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -50,7 +49,6 @@ const User = () => {
     }
   };
 
-  // Update user role
   const updateRole = async (userId, role) => {
     setLoading(true);
     try {
@@ -72,7 +70,6 @@ const User = () => {
     }
   };
 
-  // Update username/password
   const updateUser = async (userId, values) => {
     setLoading(true);
     try {
@@ -96,7 +93,6 @@ const User = () => {
     }
   };
 
-  // Upload avatar
   const uploadAvatar = async ({ file }, userId) => {
     const formData = new FormData();
     formData.append('avatar', file);
