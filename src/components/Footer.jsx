@@ -63,8 +63,8 @@ const Footer = () => {
 
   return (
     <footer className="footer1">
-      <div className="container1">
-        <div className="row1">
+      <div className="container">
+        <div className="row">
           {/* About Us Section */}
           <div className="footer-col1">
             <h4>Về chúng tôi</h4>
@@ -120,16 +120,6 @@ const Footer = () => {
                 <box-icon name="github" type="logo"></box-icon>
               </a>
             </div>
-          </div>
-          
-          {/* Newsletter Section */}
-          <div className="footer-col1">
-            <h4>Đừng bỏ lỡ</h4>
-            <p>Nhận tin tức mới nhất từ The Hanoi Times qua email của bạn.</p>
-            <form className="newsletter-form">
-              <input type="email" placeholder="Nhập email của bạn" required />
-              <button type="submit">Đăng ký</button>
-            </form>
           </div>
         </div>
       </div>
