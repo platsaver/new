@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
-import 'boxicons'; // Make sure boxicons is imported if you're using it
+import { message, Spin } from 'antd';
+import 'boxicons';
 
 const Footer = () => {
   const [categories, setCategories] = useState([]);
-  
+  const [loading, setLoading] = useState(false);
+
   // Fetch categories from API
   const fetchCategories = async () => {
+    setLoading(true);
     try {
       const url = `http://localhost:3000/api/categories?t=${Date.now()}`;
       const response = await fetch(url, {
@@ -15,6 +17,7 @@ const Footer = () => {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache',
         },
+        credentials: 'include', // Include credentials for authentication
       });
 
       if (!response.ok) {
@@ -22,7 +25,7 @@ const Footer = () => {
       }
 
       const data = await response.json();
-      
+
       // Extract and validate categories
       const categoriesData = Array.isArray(data.categories) ? data.categories : [];
       const validCategories = categoriesData
@@ -35,20 +38,22 @@ const Footer = () => {
       setCategories(validCategories);
     } catch (error) {
       console.error('Error fetching categories for footer:', error);
+      message.error('Failed to load categories for the menu.');
+    } finally {
+      setLoading(false);
     }
   };
 
   // Listen for category changes
   useEffect(() => {
     fetchCategories();
-    
-    // Listen for category updates from other components
+
     const handleCategoryUpdate = () => {
       fetchCategories();
     };
-    
+
     window.addEventListener('categoryUpdated', handleCategoryUpdate);
-    
+
     return () => {
       window.removeEventListener('categoryUpdated', handleCategoryUpdate);
     };
@@ -56,7 +61,6 @@ const Footer = () => {
 
   // Generate path for category links
   const getCategoryPath = (categoryName) => {
-    // Convert category name to lowercase and remove spaces
     const formattedName = categoryName.toLowerCase().replace(/\s+/g, '');
     return `../pages/${formattedName}.html`;
   };
@@ -76,27 +80,30 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           {/* Dynamic Menu Section */}
           <div className="footer-col1">
             <h4>Menu</h4>
-            <ul>
-              {categories.length > 0 ? (
-                categories.map((category) => (
-                  <li key={category.CategoryID}>
-                    <a href={getCategoryPath(category.CategoryName)}>
-                      {category.CategoryName}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                // Fallback static menu if categories can't be loaded
-                <>
-                </>
-              )}
-            </ul>
+            {loading ? (
+              <div className="text-center">
+                <Spin size="small" />
+                <p className="mt-2">Loading categories...</p>
+              </div>
+            ) : (
+              <ul>
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <li key={category.CategoryID}>
+                      <a href={getCategoryPath(category.CategoryName)}>
+                        {category.CategoryName}
+                      </a>
+                    </li>
+                  ))
+                ) : null}
+              </ul>
+            )}
           </div>
-          
+
           {/* Contact Information Section */}
           <div className="footer-col1">
             <h4>Thông tin liên hệ</h4>
@@ -105,7 +112,7 @@ const Footer = () => {
               <li><a href="#">Số điện thoại: 0123456789</a></li>
             </ul>
           </div>
-          
+
           {/* Social Links Section */}
           <div className="footer-col1">
             <h4>Follow Us</h4>

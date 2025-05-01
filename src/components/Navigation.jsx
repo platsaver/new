@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import 'boxicons';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -8,6 +8,7 @@ import HomePage from '../Homepage.jsx';
 import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
+import SearchResults from '../components/SearchResult.jsx';
 import { message, Spin } from 'antd';
 
 const Navigation = () => {
@@ -15,19 +16,28 @@ const Navigation = () => {
   const [isWrapperToggled, setWrapperToggled] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [currentComponent, setCurrentComponent] = useState('homepage');
+  const [previousComponent, setPreviousComponent] = useState('homepage');
+  const [previousCategory, setPreviousCategory] = useState(null);
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [showAdminPage, setShowAdminPage] = useState(false);
   const [userName, setUserName] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
+
+  // Ref to track the search bar element for click-outside logic
+  const searchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   // Create navItems by combining fixed items with dynamic categories
   const getNavItems = () => {
     const baseNavItems = [
       { path: '#', text: 'Trang chủ', component: 'homepage' },
     ];
-    
+
     const categoryNavItems = categories.map(category => ({
       path: '#',
       text: category.CategoryName,
@@ -35,13 +45,13 @@ const Navigation = () => {
       categoryId: category.CategoryID,
       categoryData: category
     }));
-    
+
     const adminItem = userName ? [{ path: '#', text: 'Admin', component: 'admin' }] : [];
-    
+
     return [...baseNavItems, ...categoryNavItems, ...adminItem];
   };
 
-  // Get categories from API
+  // Fetch categories from API
   const fetchCategories = async () => {
     setLoading(true);
     try {
@@ -51,6 +61,7 @@ const Navigation = () => {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache',
         },
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -61,7 +72,7 @@ const Navigation = () => {
       console.log('Fetched categories for navigation:', data);
 
       const categoriesData = Array.isArray(data.categories) ? data.categories : [];
-      
+
       const validCategories = categoriesData
         .filter((cat) => cat && cat.categoryid && cat.categoryname)
         .map((cat) => ({
@@ -86,6 +97,63 @@ const Navigation = () => {
       setLoading(false);
     }
   };
+
+  // Search posts using the API
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      message.warning('Please enter a search keyword.');
+      return;
+    }
+
+    try {
+      setPreviousComponent(currentComponent);
+      setPreviousCategory(selectedCategory);
+
+      const response = await fetch(`http://localhost:3000/api/posts/search?keyword=${encodeURIComponent(searchQuery)}&limit=10&offset=0`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}: Failed to fetch search results`);
+      }
+
+      const data = await response.json();
+      setSearchResults(data.posts || []);
+      setPagination(data.pagination || { total: 0, limit: 10, offset: 0, pages: 1 });
+      setCurrentComponent('search');
+      setSearchVisible(false);
+    } catch (error) {
+      console.error('Error searching posts:', error);
+      message.error(`Error searching posts: ${error.message}`);
+      setSearchResults([]);
+    }
+  };
+
+  // Click-outside handler to close the search bar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target) &&
+        mobileSearchRef.current &&
+        !mobileSearchRef.current.contains(event.target)
+      ) {
+        setSearchVisible(false);
+      }
+    };
+
+    if (isSearchVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSearchVisible]);
 
   // Check authentication status when component mounts
   useEffect(() => {
@@ -189,6 +257,13 @@ const Navigation = () => {
     fetchCategories();
   };
 
+  const handleBackFromSearch = () => {
+    setCurrentComponent(previousComponent);
+    setSelectedCategory(previousCategory);
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
   const handleLoginSuccess = (username) => {
     setUserName(username);
     setShowLoginPage(false);
@@ -240,6 +315,8 @@ const Navigation = () => {
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} />;
+      case 'search':
+        return <SearchResults results={searchResults} pagination={pagination} onBack={handleBackFromSearch} />;
       case 'homepage':
       default:
         return <HomePage />;
@@ -315,21 +392,25 @@ const Navigation = () => {
                 style={{ width: '26px', height: '26px', cursor: 'pointer' }}
                 onClick={handleUserIconClick}
               ></box-icon>
-              <div className="search-form position-relative d-inline-block ms-3">
+              <div className="d-flex align-items-center ms-3" ref={searchRef}>
                 <box-icon
                   name="search"
-                  className="search-icon"
+                  className="search-icon me-2"
                   onClick={handleToggleSearch}
-                  style={{ cursor: 'pointer', width: '26px', height: '26px', marginTop: '8px' }}
+                  style={{ cursor: 'pointer', width: '26px', height: '26px' }}
                 ></box-icon>
-                <input
-                  type="text"
-                  className={`form-control search-input position-absolute end-0 top-0 ${
-                    isSearchVisible ? 'd-block' : 'd-none'
-                  }`}
-                  placeholder="Tìm kiếm..."
-                  style={{ padding: '5px', borderRadius: '4px' }}
-                />
+                {isSearchVisible && (
+                  <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Tìm kiếm..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{ width: '200px' }}
+                    />
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -348,8 +429,8 @@ const Navigation = () => {
                 <li key={`sidebar-${index}`}>
                   <a
                     href={item.path}
-                    onClick={(e) => 
-                      (item.component === 'category') 
+                    onClick={(e) =>
+                      item.component === 'category'
                         ? handleChangeComponent(e, item.component, item.categoryData)
                         : handleChangeComponent(e, item.component)
                     }
@@ -375,7 +456,7 @@ const Navigation = () => {
             <figure className="text-center">
               <i>News Website You Can Trust</i>
             </figure>
-         </div>
+          </div>
           <nav className="nav d-flex justify-content-around custom-nav">
             {loading ? (
               <div className="d-flex justify-content-center w-100 py-2">
@@ -387,8 +468,8 @@ const Navigation = () => {
                   key={`custom-${index}`}
                   href={item.path}
                   className="nav-link"
-                  onClick={(e) => 
-                    (item.component === 'category') 
+                  onClick={(e) =>
+                    item.component === 'category'
                       ? handleChangeComponent(e, item.component, item.categoryData)
                       : handleChangeComponent(e, item.component)
                   }
@@ -440,21 +521,25 @@ const Navigation = () => {
                   style={{ width: '24px', height: '24px', cursor: 'pointer' }}
                   onClick={handleUserIconClick}
                 ></box-icon>
-                <div className="mobile-inter search-form position-relative d-inline-block ms-3">
+                <div className="d-flex align-items-center ms-3" ref={mobileSearchRef}>
                   <box-icon
                     name="search"
-                    className="search-icon"
+                    className="search-icon me-2"
                     onClick={handleToggleSearch}
-                    style={{ cursor: 'pointer', width: '26px', height: '26px', marginTop: '8px' }}
+                    style={{ cursor: 'pointer', width: '26px', height: '26px' }}
                   ></box-icon>
-                  <input
-                    type="text"
-                    className={`form-control search-input position-absolute end-0 top-0 ${
-                      isSearchVisible ? 'd-block' : 'd-none'
-                    }`}
-                    placeholder="Tìm kiếm..."
-                    style={{ padding: '5px', borderRadius: '4px' }}
-                  />
+                  {isSearchVisible && (
+                    <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Tìm kiếm..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{ width: '150px' }}
+                      />
+                    </form>
+                  )}
                 </div>
               </div>
             </div>
