@@ -309,7 +309,7 @@ const Navigation = ({
             <div className="ms-auto d-flex align-items-center">
               {userName ? (
                 <button
-                  className="btn btn-link fw-bold me-3"
+                  className="btn btn-link fw-bold me-3 d-none d-md-block"
                   style={{ fontSize: '17px' }}
                   onClick={handleLogout}
                 >
@@ -319,7 +319,7 @@ const Navigation = ({
                 <a
                   href="#"
                   id="login-btn"
-                  className="btn btn-link fw-bold me-3"
+                  className="btn btn-link fw-bold me-3 d-none d-md-block"
                   style={{ fontSize: '17px' }}
                   onClick={handleLoginClick}
                 >
@@ -437,7 +437,7 @@ const Navigation = ({
               <div className="ms-auto d-flex align-items-center">
                 {userName ? (
                   <button
-                    className="btn btn-link fw-bold me-2 text-dark"
+                    className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
                     style={{ fontSize: '16px' }}
                     onClick={handleLogout}
                   >
@@ -447,7 +447,7 @@ const Navigation = ({
                   <a
                     href="#"
                     id="mobile-login-btn"
-                    className="btn btn-link fw-bold me-2 text-dark"
+                    className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
                     style={{ fontSize: '16px' }}
                     onClick={handleLoginClick}
                   >
