@@ -3,6 +3,8 @@ import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import Banner from './components/Banner.jsx';
 
+const API_BASE_URL = 'http://localhost:3000'; // Base URL for API and image paths
+
 const ThoiSu = ({ previewCategory }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,8 +15,8 @@ const ThoiSu = ({ previewCategory }) => {
     const fetchSubCategories = async () => {
       try {
         const url = previewCategory
-          ? `http://localhost:3000/api/subcategories?categoryId=${previewCategory.CategoryID}&t=${Date.now()}`
-          : `http://localhost:3000/api/subcategories?t=${Date.now()}`;
+          ? `${API_BASE_URL}/api/subcategories?categoryId=${previewCategory.CategoryID}&t=${Date.now()}`
+          : `${API_BASE_URL}/api/subcategories?t=${Date.now()}`;
         const response = await fetch(url, {
           method: 'GET',
           headers: {
@@ -40,8 +42,9 @@ const ThoiSu = ({ previewCategory }) => {
                 SubCategoryID: sub.subcategoryid,
                 CategoryID: sub.categoryid,
                 SubCategoryName: sub.subcategoryname,
-                BannerURL: sub.bannerurl || null,
+                BannerURL: sub.bannerurl ? `${API_BASE_URL}${sub.bannerurl}` : null,
                 CategoryName: sub.categoryname || (previewCategory ? previewCategory.CategoryName : 'Thời sự'),
+                // Icon can be added here if available in API response
               }))
           : [];
 
@@ -59,30 +62,39 @@ const ThoiSu = ({ previewCategory }) => {
     fetchSubCategories();
   }, [previewCategory]);
 
-  // Generate mock news articles for subcategories
-  const generateNewsForCategory = (categoryName) => {
-    return [
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/17/ae640bbd121aa344fa0b-174218577-4142-6528-1742185843.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=jKQ7WgLITYqJ_GIzCkHAaw",
-        title: `${categoryName} - Tin tức 1`,
-        link: "#"
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/z6316531565304-b93998f3eb029f4-8480-2428-1742140669.jpg?w=680&h=0&q=100&dpr=2&fit=crop&s=eD0BPeHJlJPeqGJOaGVszQ",
-        title: `${categoryName} - Tin tức 2`,
-        link: "#"
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/phoicanhkientruc-1742137749-3866-1742138502.png?w=240&h=144&q=100&dpr=2&fit=crop&s=wAsU4w9VOKCRrimOCckH1w",
-        title: `${categoryName} - Tin tức 3`,
-        link: "#"
-      },
-      {
-        imageUrl: "https://i1-vnexpress.vnecdn.net/2025/03/16/fcdcd7a1273f9661cf2e-174212554-8326-4167-1742125678.jpg?w=240&h=144&q=100&dpr=2&fit=crop&s=Ns1MsOG8swGT7TIS-g1oHQ",
-        title: `${categoryName} - Tin tức 4`,
-        link: "#"
+  // Fetch news articles for a subcategory
+  const fetchNewsForCategory = async (subCategoryId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/posts/subcategory/${subCategoryId}/recent?t=${Date.now()}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
       }
-    ];
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || 'Failed to fetch posts');
+      }
+
+      // Map articles to match CategorySection expectations
+      return Array.isArray(data.data)
+        ? data.data.map(article => ({
+            imageurl: article.imageurl ? `${API_BASE_URL}${article.imageurl}` : 'https://via.placeholder.com/240x144',
+            title: article.title || 'Untitled',
+            link: article.link || '#',
+          }))
+        : [];
+    } catch (err) {
+      console.error(`Error fetching posts for subcategory ${subCategoryId}:`, err);
+      return [];
+    }
   };
 
   // Render logic
@@ -99,10 +111,11 @@ const ThoiSu = ({ previewCategory }) => {
           <div>Error loading subcategories: {error}</div>
         ) : subCategories.length > 0 ? (
           subCategories.map((subcategory, index) => (
-            <CategorySection 
+            <CategorySectionWrapper
               key={subcategory.SubCategoryID || index}
+              subCategoryId={subcategory.SubCategoryID}
               title={subcategory.SubCategoryName}
-              articles={generateNewsForCategory(subcategory.SubCategoryName)}
+              fetchNews={fetchNewsForCategory}
             />
           ))
         ) : (
@@ -120,6 +133,47 @@ const ThoiSu = ({ previewCategory }) => {
           {renderContent()}
         </div>
       </div>
+    </>
+  );
+};
+
+// Wrapper component to handle fetching articles for each CategorySection
+const CategorySectionWrapper = ({ subCategoryId, title, fetchNews }) => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        const fetchedArticles = await fetchNews(subCategoryId);
+        setArticles(fetchedArticles);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message || 'Failed to load articles');
+        setLoading(false);
+      }
+    };
+
+    loadArticles();
+  }, [subCategoryId, fetchNews]);
+
+  // Default icon (replace with actual icon if available)
+  const defaultIcon = null; // Can be an SVG or JSX element, e.g., <svg>...</svg>
+
+  return (
+    <>
+      {loading ? (
+        <div>Loading articles for {title}...</div>
+      ) : error ? (
+        <div>Error loading articles for {title}: {error}</div>
+      ) : (
+        <CategorySection
+          title={title}
+          icon={defaultIcon}
+          articles={articles}
+        />
+      )}
     </>
   );
 };
