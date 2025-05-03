@@ -14,8 +14,9 @@ const SearchResults = ({ results, pagination, onBack, setCurrentComponent }) => 
 
   // Function to handle storing postid in localStorage and navigating to article detail
   const handlePostClick = (postid) => {
-    // Store postid in localStorage
+    // Store the new postid in localStorage, overwriting the previous value
     localStorage.setItem('selectedPostId', postid);
+    localStorage.setItem('selectedPostID', postid); // Ensure consistency with Navigation.jsx
     console.log('Stored Post ID in localStorage:', postid);
     // Navigate to article detail component
     setCurrentComponent('articleDetail');
