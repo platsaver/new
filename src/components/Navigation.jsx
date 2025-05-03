@@ -9,7 +9,7 @@ import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
 import SearchResults from './SearchResult.jsx';
-import ArticleDetail from '../components/ArticleDetail.jsx'; // Import ArticleDetail
+import ArticleDetail from '../components/ArticleDetail.jsx';
 import { message, Spin } from 'antd';
 
 const Navigation = ({
@@ -138,6 +138,18 @@ const Navigation = ({
     };
 
     checkAuthStatus();
+    
+    // Listen for login events from other components
+    const handleUserLoginEvent = () => {
+      checkAuthStatus();
+    };
+    
+    window.addEventListener('userLoggedIn', handleUserLoginEvent);
+    
+    return () => {
+      window.removeEventListener('userLoggedIn', handleUserLoginEvent);
+      document.body.classList.remove('sidebar-open');
+    };
   }, [currentComponent, showAdminPage]);
 
   const handleToggleSidebar = (e) => {
@@ -203,6 +215,8 @@ const Navigation = ({
   const handleLoginSuccess = (username) => {
     setUserName(username);
     setShowLoginPage(false);
+    // Dispatch a custom event to notify other components about login
+    window.dispatchEvent(new Event('userLoggedIn'));
   };
 
   const handleLogout = async () => {
@@ -223,6 +237,9 @@ const Navigation = ({
           setCurrentComponent('homepage');
           setShowAdminPage(false);
         }
+        
+        // Notify other components about logout
+        window.dispatchEvent(new Event('userLoggedOut'));
       } else {
         message.error(data.error || 'Logout failed!');
       }
