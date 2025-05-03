@@ -52,8 +52,6 @@ const Navigation = ({
 
     return [...baseNavItems, ...categoryNavItems, ...adminItem];
   };
-
-  // Search posts using the API
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       message.warning('Please enter a search keyword.');
@@ -87,8 +85,6 @@ const Navigation = ({
       setSearchResults([]);
     }
   };
-
-  // Click-outside handler to close the search bar
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -110,7 +106,6 @@ const Navigation = ({
     };
   }, [isSearchVisible]);
 
-  // Check authentication status when component mounts
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
