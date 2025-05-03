@@ -34,16 +34,16 @@ const CommentManagement = () => {
 
       const commentsData = Array.isArray(data.data) ? data.data : [];
       const validComments = commentsData
-        .filter((item) => item && item.CommentID && item.Content)
+        .filter((item) => item && item.commentid && item.content) // Sử dụng commentid thay vì CommentID
         .map((item) => ({
-          CommentID: item.CommentID,
-          PostID: item.PostID,
-          UserID: item.UserID,
-          Username: item.Username || 'Unknown',
-          Content: item.Content,
-          Status: item.Status || 'pending',
-          CreatedAtDate: item.CreatedAtDate
-            ? new Date(item.CreatedAtDate).toLocaleDateString()
+          CommentID: item.commentid,
+          PostID: item.postid,
+          UserID: item.userid,
+          Username: item.username || 'Unknown',
+          Content: item.content,
+          Status: item.status || 'pending',
+          CreatedAtDate: item.createdatdate // Sửa chính tả từ createatdate thành createdatdate
+            ? new Date(item.createdatdate).toLocaleDateString()
             : 'N/A',
         }));
 
