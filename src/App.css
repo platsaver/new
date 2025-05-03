@@ -23,7 +23,7 @@
 @media(max-width: 1120px){
   .subsection{
     .img-fluid{
-      height: 250px;
+      height: 150px;
     }
   }
   .article{
@@ -44,7 +44,7 @@
     }
   }
 }
-@media(max-width: 550px){
+@media(max-width: 700px){
   .subsection{
     .img-fluid{
       height: 300px;

@@ -76,18 +76,21 @@ const NewsApp = ({ setCurrentComponent }) => {
             title="Kinh doanh" 
             icon={<box-icon name="candles" color="red"></box-icon>} 
             articles={businessArticles} 
+            setCurrentComponent={setCurrentComponent}
           />
           
           <CategorySection 
             title="Bất Động Sản" 
             icon={<box-icon name="building-house" type="solid" color="red"></box-icon>} 
             articles={realEstateArticles} 
+            setCurrentComponent={setCurrentComponent}
           />
           
           <CategorySection 
             title="Pháp Luật" 
             icon={<box-icon type="solid" name="briefcase-alt" color="red"></box-icon>} 
             articles={lawArticles} 
+            setCurrentComponent={setCurrentComponent}
           />
           
           <LatestSection />
