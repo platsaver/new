@@ -69,7 +69,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
                   categories={posts[0].categories}
                   title={posts[0].title}
                   author={posts[0].author}
-                  timestamp={posts[0].timestamp.replace('+07', 'GMT+7').split(',')[0]}
+                  timestamp={posts[0].timestamp.replace('+07', 'GMT+7')}
                   excerpt={posts[0].excerpt || 'No description available'}
                   link={posts[0].link}
                   setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
