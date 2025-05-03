@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Footer from './components/Footer.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import FeaturedSection1 from './components/FeaturedSection1.jsx';
 import LatestSection from './components/LatestSection.jsx';
