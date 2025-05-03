@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ArticleHeader from './ArticleHeader';
 import ArticleContent from './ArticleContent';
 import CommentSection from './CommentSection';
+import SameCategoryArticle from './SameCategoryArticle.jsx';
+import RelatedArticle from './RelatedArticle.jsx';
 
 const ArticleDetail = () => {
   const [articleData, setArticleData] = useState(null);
@@ -47,26 +49,32 @@ const ArticleDetail = () => {
   }
 
   return (
-    <div id="main">
-      <section>
-        <div className="article">
-          <div className="row g-4">
-            <ArticleHeader
-              categories={articleData.categories}
-              title={articleData.title}
-              author={articleData.author}
-              timestamp={articleData.timestamp}
-            />
+    <>
+      <div className="container-xl">
+        <div id="main">
+          <section>
+            <div className="article">
+              <div className="row g-4">
+                <ArticleHeader
+                  categories={articleData.categories}
+                  title={articleData.title}
+                  author={articleData.author}
+                  timestamp={articleData.timestamp}
+                />
+                
+                <ArticleContent
+                  content={articleData.content}
+                />
+                <RelatedArticle />
+              </div>
+            </div>
             
-            <ArticleContent
-              content={articleData.content}
-            />
-          </div>
+            <CommentSection />
+          </section>
         </div>
-        
-        <CommentSection />
-      </section>
-    </div>
+      </div>
+      <SameCategoryArticle />
+    </>
   );
 };
 
