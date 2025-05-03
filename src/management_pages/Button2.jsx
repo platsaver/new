@@ -103,7 +103,20 @@ const AddPostsButton = () => {
 
       const newPost = await response.json();
       console.log("Success response data:", newPost);
-      message.success("Post created successfully!");
+      message.success({
+        content: (
+          <span>
+            Post created successfully!{' '}
+            <a href="/post" onClick={() => console.log('Navigating to post:', newPost.postID)}>
+              View Post
+            </a>
+          </span>
+        ),
+        duration: 5,
+      });
+
+      // Lưu postID vào localStorage để ArticleDetail sử dụng
+      localStorage.setItem('selectedPostID', newPost.postID);
 
       form.resetFields();
       setContent("");

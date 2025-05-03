@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Article = ({
+  postID,
   imageUrl,
   categories = [],
   title,
   author,
   timestamp,
   excerpt,
-  link,
   isLast = false,
 }) => {
   // Domain của server (sử dụng biến môi trường trong production)
@@ -20,8 +20,22 @@ const Article = ({
       : `${baseUrl}${imageUrl}`
     : null;
 
+  // Xử lý click để lưu postID vào localStorage
+  const handleClick = () => {
+    if (postID) {
+      localStorage.setItem('selectedPostID', postID);
+      console.log(`Selected postID: ${postID}`);
+      // Có thể thêm logic điều hướng nếu cần, ví dụ:
+      // window.location.href = '/post';
+    }
+  };
+
   return (
-    <div className={`article${isLast ? ' last' : ''}`}>
+    <div
+      className={`article${isLast ? ' last' : ''}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       {fullImageUrl && (
         <img
           src={fullImageUrl}
@@ -47,7 +61,7 @@ const Article = ({
       )}
 
       <h2>
-        <a href={link} className="text-decoration-none">{title}</a>
+        <span className="text-decoration-none">{title}</span>
       </h2>
 
       {(author || timestamp) && (
