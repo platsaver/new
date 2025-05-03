@@ -21,7 +21,7 @@ const SameCategorySection = () => {
   ];
 
   return (
-    <div className="same-category-section">
+    <div className="same-category-section"> 
       <h3><span>Cùng chuyên mục</span></h3>
       <div className="same-category-container">
         {articles.map((article, index) => (
