@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // Latest News Section Component
-const LatestSection = () => {
+const LatestSection = ({ setCurrentComponent }) => {
   const [latestArticles, setLatestArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,6 +26,12 @@ const LatestSection = () => {
 
     fetchLatestPosts();
   }, []); // Empty dependency array means this effect runs once on mount
+
+  // Xử lý nhấp vào bài viết
+  const handleArticleClick = (postId) => {
+    localStorage.setItem('selectedPostID', postId); // Lưu postId vào localStorage
+    setCurrentComponent('articleDetail'); // Chuyển hướng đến ArticleDetail
+  };
 
   if (loading) {
     return <div className="container-xl text-center">Loading latest posts...</div>;
@@ -54,7 +60,17 @@ const LatestSection = () => {
                   <p><span className="timestamp">{article.timestamp}</span></p>
                 </div>
                 <div className="col-md-7">
-                  <h2><a href={article.link}>{article.title}</a></h2>
+                  <h2>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleArticleClick(article.postId);
+                      }}
+                    >
+                      {article.title}
+                    </a>
+                  </h2>
                   <p>{article.excerpt}</p>
                   <p className="byline"> By {article.author}</p>
                 </div>

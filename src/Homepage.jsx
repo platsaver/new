@@ -92,7 +92,7 @@ const NewsApp = ({ setCurrentComponent }) => {
             setCurrentComponent={setCurrentComponent}
           />
           
-          <LatestSection />
+          <LatestSection setCurrentComponent={setCurrentComponent} />
         </div>
       </div>
     </>
