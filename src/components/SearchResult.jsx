@@ -4,45 +4,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { Title, Text } = Typography;
 
-const SearchResults = ({ results, pagination, onBack }) => {
+const SearchResults = ({ results, pagination, onBack, setCurrentComponent }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   // Handle search (unchanged)
   const handleSearch = () => {
     console.log('Search query:', searchQuery);
   };
 
-  // Function to fetch post details by postid using fetch
-  const fetchPostDetails = async (postid) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`http://localhost:3000/api/post/${postid}`);
-      if (!response.ok) {
-        throw new Error(response.status === 404 ? 'Post not found' : 'Failed to fetch post details');
-      }
-      const data = await response.json();
-      setSelectedPost(data);
-      console.log('Fetched Post Details:', data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching post details:', err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Function to handle storing postid in localStorage and accessing details
+  // Function to handle storing postid in localStorage and navigating to article detail
   const handlePostClick = (postid) => {
     // Store postid in localStorage
     localStorage.setItem('selectedPostId', postid);
-    // Fetch post details using postid from localStorage
-    const selectedPostId = localStorage.getItem('selectedPostId');
-    console.log('Accessing post details for Post ID:', selectedPostId);
-    fetchPostDetails(selectedPostId);
+    console.log('Stored Post ID in localStorage:', postid);
+    // Navigate to article detail component
+    setCurrentComponent('articleDetail');
   };
 
   return (
@@ -100,32 +76,6 @@ const SearchResults = ({ results, pagination, onBack }) => {
                 </div>
               </div>
             ))}
-            {/* Display selected post details */}
-            {loading && <Text>Loading post details...</Text>}
-            {error && <Text type="danger">{error}</Text>}
-            {selectedPost && (
-              <div className="card border-0 shadow-sm mt-4">
-                <div className="card-body">
-                  <h4>{selectedPost.title}</h4>
-                  {selectedPost.imageUrl && (
-                    <img
-                      src={`http://localhost:3000${selectedPost.imageUrl}`}
-                      alt={selectedPost.title}
-                      className="img-fluid mb-3"
-                      style={{ maxWidth: '300px' }}
-                    />
-                  )}
-                  <div dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
-                  <p>
-                    <small className="text-muted">
-                      Author: {selectedPost.author} | Published: {selectedPost.timestamp} <br />
-                      Categories: {selectedPost.categories.join(', ') || 'None'} <br />
-                      Status: {selectedPost.status} | Featured: {selectedPost.featured ? 'Yes' : 'No'}
-                    </small>
-                  </p>
-                </div>
-              </div>
-            )}
             {/* Manual pagination with Bootstrap */}
             <nav aria-label="Page navigation">
               <ul className="pagination justify-content-center">

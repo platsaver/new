@@ -31,6 +31,7 @@ const Navigation = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
@@ -152,6 +153,16 @@ const Navigation = ({
     };
   }, [currentComponent, showAdminPage]);
 
+  // Update selectedPostId when navigating to articleDetail
+  useEffect(() => {
+    if (currentComponent === 'articleDetail') {
+      const postId = localStorage.getItem('selectedPostId');
+      setSelectedPostId(postId);
+    } else {
+      setSelectedPostId(null);
+    }
+  }, [currentComponent]);
+
   const handleToggleSidebar = (e) => {
     if (e) e.preventDefault();
     setSidebarActive(true);
@@ -269,9 +280,16 @@ const Navigation = ({
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
       case 'search':
-        return <SearchResults results={searchResults} pagination={pagination} onBack={handleBackFromSearch} />;
+        return (
+          <SearchResults
+            results={searchResults}
+            pagination={pagination}
+            onBack={handleBackFromSearch}
+            setCurrentComponent={setCurrentComponent}
+          />
+        );
       case 'articleDetail':
-        return <ArticleDetail setCurrentComponent={setCurrentComponent} />;
+        return <ArticleDetail postId={selectedPostId} setCurrentComponent={setCurrentComponent} />;
       case 'homepage':
       default:
         return <HomePage setCurrentComponent={setCurrentComponent} />;
