@@ -6,16 +6,13 @@ import CategorySection from './components/CategorySection.jsx';
 import FeaturedSection1 from './components/FeaturedSection1.jsx';
 import LatestSection from './components/LatestSection.jsx';
 
-// Main App Component
-const NewsApp = () => {
-  // State to store articles for each category
+const NewsApp = ({ setCurrentComponent }) => {
   const [businessArticles, setBusinessArticles] = useState([]);
   const [realEstateArticles, setRealEstateArticles] = useState([]);
   const [lawArticles, setLawArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Define category IDs (assuming these match your database)
   const CATEGORY_IDS = {
     NEWS: 1,
     BUSINESS: 2,
@@ -23,7 +20,6 @@ const NewsApp = () => {
     LAW: 4
   };
 
-  // Fetch data from API
   useEffect(() => {
     const fetchCategoryArticles = async (categoryId, setStateFunction) => {
       try {
@@ -36,7 +32,6 @@ const NewsApp = () => {
       } catch (err) {
         console.error(`Failed to fetch category ${categoryId}:`, err);
         setError(err.message);
-        // Set fallback data if API fails
         setStateFunction([
           {
             imageUrl: "https://via.placeholder.com/240x144",
@@ -47,7 +42,6 @@ const NewsApp = () => {
       }
     };
 
-    // Fetch all categories
     const fetchAllData = async () => {
       setIsLoading(true);
       try {
@@ -64,12 +58,10 @@ const NewsApp = () => {
     fetchAllData();
   }, []);
 
-  // Show loading state
   if (isLoading) {
     return <div className="container-xl text-center mt-5"><h2>Loading content...</h2></div>;
   }
 
-  // Show error state
   if (error) {
     console.error("Error loading data:", error);
   }
@@ -78,7 +70,7 @@ const NewsApp = () => {
     <>
       <div className="container-xl">
         <div id="main">
-          <FeaturedSection1 />
+          <FeaturedSection1 setCurrentComponent={setCurrentComponent} />
           
           <CategorySection 
             title="Kinh doanh" 

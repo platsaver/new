@@ -9,24 +9,21 @@ const Article = ({
   timestamp,
   excerpt,
   isLast = false,
+  setCurrentComponent,
 }) => {
-  // Domain của server (sử dụng biến môi trường trong production)
   const baseUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:3000';
   
-  // Tạo URL đầy đủ cho ảnh
   const fullImageUrl = imageUrl
     ? imageUrl.startsWith('http')
       ? imageUrl
       : `${baseUrl}${imageUrl}`
     : null;
 
-  // Xử lý click để lưu postID vào localStorage
   const handleClick = () => {
     if (postID) {
       localStorage.setItem('selectedPostID', postID);
       console.log(`Selected postID: ${postID}`);
-      // Có thể thêm logic điều hướng nếu cần, ví dụ:
-      // window.location.href = '/post';
+      setCurrentComponent('articleDetail');
     }
   };
 
@@ -43,7 +40,7 @@ const Article = ({
           className="img-fluid"
           onError={(e) => {
             console.error('Error loading image:', fullImageUrl);
-            e.target.src = '/placeholder-image.jpg'; // Ảnh mặc định khi lỗi
+            e.target.src = '/placeholder-image.jpg';
           }}
         />
       )}

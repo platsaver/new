@@ -9,6 +9,7 @@ import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
 import SearchResults from './SearchResult.jsx';
+import ArticleDetail from '../components/ArticleDetail.jsx'; // Import ArticleDetail
 import { message, Spin } from 'antd';
 
 const Navigation = ({
@@ -16,7 +17,7 @@ const Navigation = ({
   setCurrentComponent,
   selectedCategory,
   setSelectedCategory,
-  categories = [], // Default to empty array
+  categories = [],
   loading,
 }) => {
   const [isSidebarActive, setSidebarActive] = useState(false);
@@ -34,7 +35,6 @@ const Navigation = ({
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
 
-  // Create navItems by combining fixed items with dynamic categories
   const getNavItems = () => {
     const baseNavItems = [
       { path: '#', text: 'Trang chủ', component: 'homepage' },
@@ -52,6 +52,7 @@ const Navigation = ({
 
     return [...baseNavItems, ...categoryNavItems, ...adminItem];
   };
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       message.warning('Please enter a search keyword.');
@@ -85,6 +86,7 @@ const Navigation = ({
       setSearchResults([]);
     }
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -251,9 +253,11 @@ const Navigation = ({
         return <ThoiSu previewCategory={selectedCategory} />;
       case 'search':
         return <SearchResults results={searchResults} pagination={pagination} onBack={handleBackFromSearch} />;
+      case 'articleDetail':
+        return <ArticleDetail />;
       case 'homepage':
       default:
-        return <HomePage />;
+        return <HomePage setCurrentComponent={setCurrentComponent} />;
     }
   };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Article from './Article.jsx';
 
-const FeaturedSection1 = () => {
+const FeaturedSection1 = ({ setCurrentComponent }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -13,27 +13,16 @@ const FeaturedSection1 = () => {
         }
         const data = await response.json();
 
-        // Reorder posts to ensure posts[1], posts[2], and posts[4] have images
         const postsWithImages = data.filter((post) => post.imageUrl);
         const postsWithoutImages = data.filter((post) => !post.imageUrl);
         const reorderedPosts = [];
 
-        // Middle column (index 2) - must have image
         reorderedPosts[2] = postsWithImages.shift() || postsWithoutImages.shift() || null;
-
-        // Left column, second article (index 1) - must have image
         reorderedPosts[1] = postsWithImages.shift() || postsWithoutImages.shift() || null;
-
-        // Right column, second article (index 4) - must have image
         reorderedPosts[4] = postsWithImages.shift() || postsWithoutImages.shift() || null;
-
-        // Left column, first article (index 0) - prefers no image
         reorderedPosts[0] = postsWithoutImages.shift() || postsWithImages.shift() || null;
-
-        // Right column, first article (index 3) - prefers no image
         reorderedPosts[3] = postsWithoutImages.shift() || postsWithImages.shift() || null;
 
-        // Filter out null values and set state
         setPosts(reorderedPosts.filter(Boolean));
       } catch (error) {
         console.error('Error fetching featured posts:', error);
@@ -47,7 +36,6 @@ const FeaturedSection1 = () => {
     <section className="featured">
       <div className="container-xl">
         <div className="row g-3">
-          {/* Left Column */}
           <div className="col-lg-3">
             <div className="collection">
               {posts[0] && (
@@ -58,6 +46,7 @@ const FeaturedSection1 = () => {
                   author={posts[0].author}
                   timestamp={posts[0].timestamp}
                   excerpt={posts[0].excerpt}
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
               {posts[1] && (
@@ -69,12 +58,12 @@ const FeaturedSection1 = () => {
                   timestamp={posts[1].timestamp}
                   excerpt={posts[1].excerpt}
                   imageUrl={posts[1].imageUrl}
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>
           </div>
 
-          {/* Middle Column */}
           <div className="col-lg-6">
             <div className="collection">
               {posts[2] && (
@@ -86,12 +75,12 @@ const FeaturedSection1 = () => {
                   timestamp={posts[2].timestamp}
                   excerpt={posts[2].excerpt}
                   imageUrl={posts[2].imageUrl}
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>
           </div>
 
-          {/* Right Column */}
           <div className="col-lg-3">
             <div className="collection">
               {posts[3] && (
@@ -102,6 +91,7 @@ const FeaturedSection1 = () => {
                   author={posts[3].author}
                   timestamp={posts[3].timestamp}
                   excerpt={posts[3].excerpt}
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
               {posts[4] && (
@@ -114,6 +104,7 @@ const FeaturedSection1 = () => {
                   excerpt={posts[4].excerpt}
                   imageUrl={posts[4].imageUrl}
                   isLast={true}
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>
