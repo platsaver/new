@@ -5,7 +5,7 @@ import Banner from './components/Banner.jsx';
 
 const API_BASE_URL = 'http://localhost:3000'; // Base URL for API and image paths
 
-const ThoiSu = ({ previewCategory }) => {
+const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +44,6 @@ const ThoiSu = ({ previewCategory }) => {
                 SubCategoryName: sub.subcategoryname,
                 BannerURL: sub.bannerurl ? `${API_BASE_URL}${sub.bannerurl}` : null,
                 CategoryName: sub.categoryname || (previewCategory ? previewCategory.CategoryName : 'Thời sự'),
-                // Icon can be added here if available in API response
               }))
           : [];
 
@@ -86,6 +85,7 @@ const ThoiSu = ({ previewCategory }) => {
       // Map articles to match CategorySection expectations
       return Array.isArray(data.data)
         ? data.data.map(article => ({
+            postid: article.postid, // Đảm bảo postid được trả về
             imageurl: article.imageurl ? `${API_BASE_URL}${article.imageurl}` : 'https://via.placeholder.com/240x144',
             title: article.title || 'Untitled',
             link: article.link || '#',
@@ -102,7 +102,10 @@ const ThoiSu = ({ previewCategory }) => {
     return (
       <>
         {previewCategory && (
-          <FeaturedSection2 categoryId={previewCategory.CategoryID} />
+          <FeaturedSection2
+            categoryId={previewCategory.CategoryID}
+            setCurrentComponent={setCurrentComponent}
+          />
         )}
         
         {loading ? (
@@ -116,6 +119,7 @@ const ThoiSu = ({ previewCategory }) => {
               subCategoryId={subcategory.SubCategoryID}
               title={subcategory.SubCategoryName}
               fetchNews={fetchNewsForCategory}
+              setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
             />
           ))
         ) : (
@@ -138,7 +142,7 @@ const ThoiSu = ({ previewCategory }) => {
 };
 
 // Wrapper component to handle fetching articles for each CategorySection
-const CategorySectionWrapper = ({ subCategoryId, title, fetchNews }) => {
+const CategorySectionWrapper = ({ subCategoryId, title, fetchNews, setCurrentComponent }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -159,7 +163,7 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews }) => {
   }, [subCategoryId, fetchNews]);
 
   // Default icon (replace with actual icon if available)
-  const defaultIcon = null; // Can be an SVG or JSX element, e.g., <svg>...</svg>
+  const defaultIcon = null;
 
   return (
     <>
@@ -172,6 +176,7 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews }) => {
           title={title}
           icon={defaultIcon}
           articles={articles}
+          setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
         />
       )}
     </>

@@ -250,11 +250,11 @@ const Navigation = ({
   const renderCurrentComponent = () => {
     switch (currentComponent) {
       case 'category':
-        return <ThoiSu previewCategory={selectedCategory} />;
+        return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
       case 'search':
         return <SearchResults results={searchResults} pagination={pagination} onBack={handleBackFromSearch} />;
       case 'articleDetail':
-        return <ArticleDetail />;
+        return <ArticleDetail setCurrentComponent={setCurrentComponent} />;
       case 'homepage':
       default:
         return <HomePage setCurrentComponent={setCurrentComponent} />;

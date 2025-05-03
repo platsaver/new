@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Article from './Article.jsx';
 
-const FeaturedSection2 = ({ categoryId }) => {
+const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const FeaturedSection2 = ({ categoryId }) => {
 
         const fetchedPosts = data.data.map(post => ({
           ...post,
-          imageUrl: post.imageurl, // Map imageurl to imageUrl
+          imageUrl: post.imageurl,
         }));
 
         // Reorder posts to prioritize images for the first two articles
@@ -64,13 +64,15 @@ const FeaturedSection2 = ({ categoryId }) => {
             <div className="collection">
               {posts[0] && (
                 <Article
-                  imageUrl={posts[0].imageUrl || undefined} // Ensure image is attempted
+                  postID={posts[0].postid} // Thêm postID
+                  imageUrl={posts[0].imageUrl || undefined}
                   categories={posts[0].categories}
                   title={posts[0].title}
                   author={posts[0].author}
-                  timestamp={posts[0].timestamp.replace('+07', 'GMT+7').split(',')[0]} // "HH:MM AM GMT+7"
+                  timestamp={posts[0].timestamp.replace('+07', 'GMT+7').split(',')[0]}
                   excerpt={posts[0].excerpt || 'No description available'}
                   link={posts[0].link}
+                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
                 />
               )}
             </div>
@@ -81,13 +83,15 @@ const FeaturedSection2 = ({ categoryId }) => {
             <div className="collection">
               {posts[1] && (
                 <Article
-                  imageUrl={posts[1].imageUrl || undefined} // Ensure image is attempted
+                  postID={posts[1].postid} // Thêm postID
+                  imageUrl={posts[1].imageUrl || undefined}
                   categories={posts[1].categories}
                   title={posts[1].title}
                   author={posts[1].author}
-                  timestamp={posts[1].timestamp.replace('+07', 'GMT+7').split(',')[0]} // "HH:MM AM GMT+7"
+                  timestamp={posts[1].timestamp.replace('+07', 'GMT+7').split(',')[0]}
                   excerpt={posts[1].excerpt || 'No description available'}
                   link={posts[1].link}
+                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
                 />
               )}
             </div>
@@ -98,25 +102,29 @@ const FeaturedSection2 = ({ categoryId }) => {
             <div className="collection">
               {posts[2] && (
                 <Article
-                  imageUrl={undefined} // No image
+                  postID={posts[2].postid} // Thêm postID
+                  imageUrl={undefined}
                   categories={posts[2].categories}
                   title={posts[2].title}
                   author={posts[2].author}
-                  timestamp={posts[2].timestamp.replace('+07', 'GMT+7')} // Full timestamp
+                  timestamp={posts[2].timestamp.replace('+07', 'GMT+7')}
                   excerpt={posts[2].excerpt || 'No description available'}
                   link={posts[2].link}
+                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
                 />
               )}
               {posts[3] && (
                 <Article
-                  imageUrl={undefined} // No image
+                  postID={posts[3].postid} // Thêm postID
+                  imageUrl={undefined}
                   categories={posts[3].categories}
                   title={posts[3].title}
                   author={posts[3].author}
-                  timestamp={posts[3].timestamp.replace('+07', 'GMT+7')} // Full timestamp
+                  timestamp={posts[3].timestamp.replace('+07', 'GMT+7')}
                   excerpt={posts[3].excerpt || 'No description available'}
                   link={posts[3].link}
                   isLast={true}
+                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
                 />
               )}
             </div>
