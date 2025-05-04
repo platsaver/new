@@ -9,6 +9,7 @@ import {
   TagsOutlined,
   FormOutlined,
   CommentOutlined,
+  ContainerOutlined
 } from '@ant-design/icons';
 import ListPost from './ListPost.jsx';
 import Button1 from './Button1.jsx';
@@ -23,6 +24,7 @@ import { Button, Layout, Menu, theme, Row, Col } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
 import MediaManagement from './MediaManagement.jsx'
 import CommentManagement from './CommentManagement.jsx';
+import TagManagement from './TagManagement.jsx';
 
 const { Header, Sider, Content } = Layout;
 
@@ -69,6 +71,8 @@ const App = ({ onLogout }) => {
         return <MediaManagement />;
       case '7':
         return <CommentManagement />;
+      case '8':
+        return <TagManagement />;
       default:
         return <div>Content</div>;
     }
@@ -99,9 +103,10 @@ const App = ({ onLogout }) => {
             { key: '4', icon: <DashboardOutlined />, label: 'Dashboard' },
             { key: '1', icon: <FormOutlined />, label: 'Post Management' },
             { key: '3', icon: <UserOutlined />, label: 'User Management' },
-            { key: '5', icon: <TagsOutlined />, label: 'Category Management' },
+            { key: '5', icon: <ContainerOutlined />, label: 'Category Management' },
             { key: '6', icon: <FileImageOutlined />, label: 'Media Management' },
             { key: '7', icon: <CommentOutlined />, label: 'Comment Management' },
+            { key: '8', icon: <TagsOutlined />, label: 'Tag Management' },
           ]}
         />
       </Sider>
