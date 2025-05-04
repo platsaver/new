@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { message, Spin } from 'antd';
 
-const SameCategoryArticle = () => {
+const SameCategoryArticle = ({ setCurrentComponent }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,6 +52,12 @@ const SameCategoryArticle = () => {
     fetchRelatedPosts();
   }, []);
 
+  const handleArticleClick = (postId) => {
+    localStorage.setItem('selectedPostID', postId);
+    setCurrentComponent('articleDetail');
+    window.dispatchEvent(new Event('articleSelected'));
+  };
+
   if (loading) {
     return (
       <div className="same-category-section text-center p-4">
@@ -89,8 +95,7 @@ const SameCategoryArticle = () => {
               href={article.href}
               onClick={(e) => {
                 e.preventDefault();
-                localStorage.setItem('selectedPostId', article.postid);
-                window.dispatchEvent(new Event('articleSelected'));
+                handleArticleClick(article.postid);
               }}
             >
               <img src={article.imgSrc} alt={article.alt} />

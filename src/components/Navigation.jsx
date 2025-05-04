@@ -31,7 +31,7 @@ const Navigation = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
-  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(localStorage.getItem('selectedPostID') || null);
 
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
@@ -140,7 +140,6 @@ const Navigation = ({
 
     checkAuthStatus();
     
-    // Listen for login events from other components
     const handleUserLoginEvent = () => {
       checkAuthStatus();
     };
@@ -153,15 +152,21 @@ const Navigation = ({
     };
   }, [currentComponent, showAdminPage]);
 
-  // Update selectedPostId when navigating to articleDetail
   useEffect(() => {
-    if (currentComponent === 'articleDetail') {
-      const postId = localStorage.getItem('selectedPostId');
-      setSelectedPostId(postId);
-    } else {
-      setSelectedPostId(null);
-    }
-  }, [currentComponent]);
+    const handleArticleSelected = () => {
+      const newPostId = localStorage.getItem('selectedPostID');
+      setSelectedPostId(newPostId);
+      if (newPostId && currentComponent !== 'articleDetail') {
+        setCurrentComponent('articleDetail');
+      }
+    };
+
+    window.addEventListener('articleSelected', handleArticleSelected);
+
+    return () => {
+      window.removeEventListener('articleSelected', handleArticleSelected);
+    };
+  }, [currentComponent, setCurrentComponent]);
 
   const handleToggleSidebar = (e) => {
     if (e) e.preventDefault();
@@ -226,7 +231,6 @@ const Navigation = ({
   const handleLoginSuccess = (username) => {
     setUserName(username);
     setShowLoginPage(false);
-    // Dispatch a custom event to notify other components about login
     window.dispatchEvent(new Event('userLoggedIn'));
   };
 
@@ -249,7 +253,6 @@ const Navigation = ({
           setShowAdminPage(false);
         }
         
-        // Notify other components about logout
         window.dispatchEvent(new Event('userLoggedOut'));
       } else {
         message.error(data.error || 'Logout failed!');

@@ -5,22 +5,21 @@ import CommentSection from './CommentSection';
 import SameCategoryArticle from './SameCategoryArticle.jsx';
 import RelatedArticle from './RelatedArticle.jsx';
 
-const ArticleDetail = () => {
+const ArticleDetail = ({ postId, setCurrentComponent }) => {
   const [articleData, setArticleData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
-      const postID = localStorage.getItem('selectedPostID');
-      if (!postID) {
+      if (!postId) {
         setError('No post selected');
         setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/api/post/${postID}`);
+        const response = await fetch(`http://localhost:3000/api/post/${postId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch post');
         }
@@ -33,8 +32,9 @@ const ArticleDetail = () => {
       }
     };
 
+    setLoading(true);
     fetchPost();
-  }, []);
+  }, [postId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -73,7 +73,7 @@ const ArticleDetail = () => {
           </section>
         </div>
       </div>
-      <SameCategoryArticle />
+      <SameCategoryArticle setCurrentComponent={setCurrentComponent} />
     </>
   );
 };
