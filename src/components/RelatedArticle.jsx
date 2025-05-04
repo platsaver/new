@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { message, Spin } from 'antd';
 
-const RelatedArticles = () => {
+const RelatedArticles = ({ setCurrentComponent }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRelatedArticles = async () => {
-      const postID = localStorage.getItem("selectedPostID"); // Fetch postID from localStorage
+      const postID = localStorage.getItem("selectedPostID");
       if (!postID) {
         setError("No post selected");
         setLoading(false);
@@ -38,8 +39,14 @@ const RelatedArticles = () => {
       }
     };
 
-    fetchRelatedArticles(); // Call the function
-  }, []); // Empty dependency array for one-time fetch on mount
+    fetchRelatedArticles();
+  }, []);
+
+  const handleArticleClick = (postId) => {
+    localStorage.setItem('selectedPostID', postId);
+    setCurrentComponent('articleDetail');
+    window.dispatchEvent(new Event('articleSelected'));
+  };
 
   if (loading) {
     return <div>Loading related articles...</div>;
@@ -61,7 +68,14 @@ const RelatedArticles = () => {
         <ul className="related-list">
           {articles.map((article) => (
             <li key={article.postid}>
-              <a href={`/post/${article.postid}`} className="related-item">
+              <a
+                className="related-item"
+                href={`#post-${article.postid}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleArticleClick(article.postid);
+                }}
+              >
                 <img
                   src={`http://localhost:3000${article.imageurl}`}
                   alt={article.title}
@@ -72,7 +86,7 @@ const RelatedArticles = () => {
             </li>
           ))}
         </ul>
-        <a href="/" className="back-to-home">
+        <a href="/" className="back-to-home" onClick={(e) => { e.preventDefault(); setCurrentComponent('homepage'); }}>
           <box-icon
             name="chevron-left"
             style={{ width: 20, height: 20, verticalAlign: "middle" }}

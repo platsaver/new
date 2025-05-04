@@ -65,7 +65,7 @@ const ArticleDetail = ({ postId, setCurrentComponent }) => {
                 <ArticleContent
                   content={articleData.content}
                 />
-                <RelatedArticle />
+                <RelatedArticle setCurrentComponent={setCurrentComponent} />
               </div>
             </div>
             
