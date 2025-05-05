@@ -58,7 +58,7 @@ const Banner = ({ category }) => {
   const categoryName = category ? category.CategoryName : 'Thời sự';
 
   // Get the banner URL from the first subcategory, or fallback to the default Unsplash URL
-  const defaultBannerUrl = 'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  const defaultBannerUrl = '';
   const bannerUrl = subCategories.length > 0 && subCategories[0].BannerURL
     ? subCategories[0].BannerURL
     : defaultBannerUrl;
@@ -93,7 +93,6 @@ const Banner = ({ category }) => {
                 <a
                   className={`nav-link ${index === 0 ? 'active' : ''} text-white`}
                   style={{ padding: '10px 15px' }}
-                  href={`../subcategory/${subCategory.slug}.html`}
                 >
                   {subCategory.SubCategoryName}
                 </a>
