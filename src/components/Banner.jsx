@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const API_BASE_URL = 'http://localhost:3000';
+
 const Banner = ({ category, onSubCategoryClick }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +33,7 @@ const Banner = ({ category, onSubCategoryClick }) => {
               .map(sub => ({
                 SubCategoryID: sub.subcategoryid,
                 SubCategoryName: sub.subcategoryname,
-                BannerURL: sub.bannerurl || null,
+                BannerURL: sub.bannerurl ? `${API_BASE_URL}${sub.bannerurl}` : null,
                 slug: sub.subcategoryname
                   .toLowerCase()
                   .replace(/[^a-z0-9]+/g, '-')
@@ -52,8 +54,10 @@ const Banner = ({ category, onSubCategoryClick }) => {
   }, [category]);
 
   const categoryName = category ? category.CategoryName : 'Thời sự';
-  const defaultBannerUrl = '';
-  const bannerUrl = subCategories.length > 0 && subCategories[0].BannerURL
+  const defaultBannerUrl = 'https://via.placeholder.com/1200x300?text=No+Banner';
+  const bannerUrl = category && category.BannerURL
+    ? `${API_BASE_URL}${category.BannerURL}`
+    : subCategories.length > 0 && subCategories[0].BannerURL
     ? subCategories[0].BannerURL
     : defaultBannerUrl;
 

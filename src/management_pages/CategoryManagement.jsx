@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Table, Modal, Form, Input, message, Typography, Empty, Tabs, Select } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Table, Modal, Form, Input, message, Typography, Empty, Tabs, Select, Upload } from 'antd';
+import { EditOutlined, DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -19,6 +19,7 @@ const CategoryManagement = () => {
   const [form] = Form.useForm();
   const [subForm] = Form.useForm();
   const [creatingCategory, setCreatingCategory] = useState(false);
+  const [fileList, setFileList] = useState([]);
 
   // Fetch categories
   const fetchCategories = async () => {
@@ -42,7 +43,6 @@ const CategoryManagement = () => {
 
       // Extract and validate categories
       const categoriesData = Array.isArray(data.categories) ? data.categories : [];
-      // Map lowercase field names to camelCase
       const validCategories = categoriesData
         .filter((cat) => cat && cat.categoryid && cat.categoryname)
         .map((cat) => ({
@@ -59,7 +59,7 @@ const CategoryManagement = () => {
             : [],
         }));
 
-      console.log('Mapped categories:', validCategories); // Debug mapped data
+      console.log('Mapped categories:', validCategories);
       setCategories(validCategories);
       if (validCategories.length === 0 && categoriesData.length > 0) {
         message.warning('No valid categories found in the response');
@@ -105,7 +105,7 @@ const CategoryManagement = () => {
           CategoryName: sub.categoryname || 'Unknown Category',
         }));
 
-      console.log('Mapped subcategories:', validSubcategories); // Debug mapped data
+      console.log('Mapped subcategories:', validSubcategories);
       setSubcategories(validSubcategories);
     } catch (error) {
       console.error('Error fetching subcategories:', error);
@@ -128,10 +128,11 @@ const CategoryManagement = () => {
     if (category) {
       form.setFieldsValue({ 
         CategoryName: category.CategoryName,
-        BannerURL: category.BannerURL || '',
       });
+      setFileList(category.BannerURL ? [{ uid: '-1', name: 'banner', url: category.BannerURL, status: 'done' }] : []);
     } else {
       form.resetFields();
+      setFileList([]);
     }
     setIsModalOpen(true);
   };
@@ -153,9 +154,37 @@ const CategoryManagement = () => {
 
   // Notify navigation about category changes
   const notifyCategoryChange = () => {
-    // Create and dispatch a custom event that will be caught by Navigation component
     const event = new CustomEvent('categoryUpdated');
     window.dispatchEvent(event);
+  };
+
+  // Handle file upload for banner
+  const handleUploadBanner = async (categoryId) => {
+    if (!fileList.length || !fileList[0].originFileObj) {
+      return true; // No new file to upload
+    }
+
+    const formData = new FormData();
+    formData.append('banner', fileList[0].originFileObj);
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/categories/${categoryId}/banner`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to upload banner');
+      }
+
+      const data = await response.json();
+      message.success(data.message);
+      return true;
+    } catch (error) {
+      message.error(`Error uploading banner: ${error.message}`);
+      return false;
+    }
   };
 
   // Handle category modal submission
@@ -172,12 +201,23 @@ const CategoryManagement = () => {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ CategoryName: values.CategoryName }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to save category');
+      }
+
+      const data = await response.json();
+      const categoryId = editingCategory ? editingCategory.CategoryID : data.CategoryID;
+
+      // Upload banner if a new file is selected
+      if (fileList.length && fileList[0].originFileObj) {
+        const uploadSuccess = await handleUploadBanner(categoryId);
+        if (!uploadSuccess) {
+          throw new Error('Banner upload failed');
+        }
       }
 
       message.success(editingCategory 
@@ -186,6 +226,7 @@ const CategoryManagement = () => {
       );
       setIsModalOpen(false);
       form.resetFields();
+      setFileList([]);
       setEditingCategory(null);
       fetchCategories();
       
@@ -223,7 +264,7 @@ const CategoryManagement = () => {
       subForm.resetFields();
       setEditingSubcategory(null);
       fetchSubcategories();
-      fetchCategories(); // Also refresh categories to update the list of subcategories
+      fetchCategories();
       
       // Notify navigation about the change
       notifyCategoryChange();
@@ -250,7 +291,7 @@ const CategoryManagement = () => {
 
       message.success('Category deleted successfully');
       fetchCategories();
-      fetchSubcategories(); // Refresh subcategories as well
+      fetchSubcategories();
       
       // Notify navigation about the change
       notifyCategoryChange();
@@ -277,13 +318,18 @@ const CategoryManagement = () => {
 
       message.success('Subcategory deleted successfully');
       fetchSubcategories();
-      fetchCategories(); // Also refresh categories to update the list of subcategories
+      fetchCategories();
       
       // Notify navigation about the change
       notifyCategoryChange();
     } catch (error) {
       message.error(`Error deleting subcategory: ${error.message}`);
     }
+  };
+
+  // Handle file change for Upload component
+  const handleFileChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList.slice(-1)); // Keep only the latest file
   };
 
   // Table columns for categories
@@ -428,6 +474,7 @@ const CategoryManagement = () => {
         onCancel={() => {
           setIsModalOpen(false);
           form.resetFields();
+          setFileList([]);
           setEditingCategory(null);
         }}
         confirmLoading={creatingCategory}
@@ -440,8 +487,20 @@ const CategoryManagement = () => {
           >
             <Input placeholder="Enter category name" />
           </Form.Item>
-          <Form.Item name="BannerURL" label="Banner URL">
-            <Input placeholder="Enter banner image URL" />
+          <Form.Item
+            name="BannerUpload"
+            label="Banner Image"
+            rules={[{ required: false }]}
+          >
+            <Upload
+              fileList={fileList}
+              onChange={handleFileChange}
+              beforeUpload={() => false} // Prevent auto-upload
+              accept="image/jpeg,image/png,image/gif"
+              listType="picture"
+            >
+              <Button icon={<UploadOutlined />}>Select Banner Image</Button>
+            </Upload>
           </Form.Item>
         </Form>
       </Modal>
@@ -478,7 +537,11 @@ const CategoryManagement = () => {
           >
             <Input placeholder="Enter subcategory name" />
           </Form.Item>
-          <Form.Item name="BannerURL" label="Banner URL">
+          <Form.Item
+            name="BannerURL"
+            label="Banner URL (Optional)"
+            rules={[{ required: false }]}
+          >
             <Input placeholder="Enter banner image URL" />
           </Form.Item>
         </Form>
