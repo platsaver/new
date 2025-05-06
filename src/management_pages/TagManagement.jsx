@@ -233,27 +233,6 @@ const fetchPostTags = async () => {
     }
   };
 
-  // Delete tag
-  const deleteTag = async (tagId) => {
-    try {
-      const response = await fetch(`${baseUrl}/api/tags/${tagId}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to delete tag');
-      }
-
-      message.success('Tag deleted successfully');
-      fetchTags();
-      fetchPostTags(); // Refresh post tags after tag deletion
-      notifyTagChange();
-    } catch (error) {
-      message.error(`Error deleting tag: ${error.message}`);
-    }
-  };
-
   // Delete post tag association
   const deletePostTag = async (postId, tagId) => {
     try {
@@ -296,13 +275,6 @@ const fetchPostTags = async () => {
             onClick={() => showAssociateModal(record)}
           >
             Associate Posts
-          </Button>
-          <Button
-            icon={<DeleteOutlined />}
-            danger
-            onClick={() => deleteTag(record.TagID)}
-          >
-            Delete
           </Button>
         </>
       ),
