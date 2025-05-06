@@ -3,14 +3,13 @@ import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
 import Banner from './components/Banner.jsx';
 
-const API_BASE_URL = 'http://localhost:3000'; // Base URL for API and image paths
+const API_BASE_URL = 'http://localhost:3000';
 
 const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch subcategories
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
@@ -61,7 +60,6 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
     fetchSubCategories();
   }, [previewCategory]);
 
-  // Fetch news articles for a subcategory
   const fetchNewsForCategory = async (subCategoryId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/posts/subcategory/${subCategoryId}/recent?t=${Date.now()}`, {
@@ -82,10 +80,9 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
         throw new Error(data.message || 'Failed to fetch posts');
       }
 
-      // Map articles to match CategorySection expectations
       return Array.isArray(data.data)
         ? data.data.map(article => ({
-            postid: article.postid, // Đảm bảo postid được trả về
+            postid: article.postid,
             imageurl: article.imageurl ? `${API_BASE_URL}${article.imageurl}` : 'https://via.placeholder.com/240x144',
             title: article.title || 'Untitled',
             link: article.link || '#',
@@ -97,7 +94,6 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
     }
   };
 
-  // Render logic
   const renderContent = () => {
     return (
       <>
@@ -119,7 +115,7 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
               subCategoryId={subcategory.SubCategoryID}
               title={subcategory.SubCategoryName}
               fetchNews={fetchNewsForCategory}
-              setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+              setCurrentComponent={setCurrentComponent}
             />
           ))
         ) : (
@@ -129,9 +125,19 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
     );
   };
 
+  const handleSubCategoryClick = (subCategory) => {
+    setCurrentComponent('subCategory');
+    // Pass subcategory data to App.js via a custom event
+    const event = new CustomEvent('subCategorySelected', { detail: subCategory });
+    window.dispatchEvent(event);
+  };
+
   return (
     <>
-      <Banner category={previewCategory} />
+      <Banner
+        category={previewCategory}
+        onSubCategoryClick={handleSubCategoryClick}
+      />
       <div className="container-xl">
         <div id="main">
           {renderContent()}
@@ -162,7 +168,6 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews, setCurrentCom
     loadArticles();
   }, [subCategoryId, fetchNews]);
 
-  // Default icon (replace with actual icon if available)
   const defaultIcon = null;
 
   return (
@@ -176,7 +181,7 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews, setCurrentCom
           title={title}
           icon={defaultIcon}
           articles={articles}
-          setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+          setCurrentComponent={setCurrentComponent}
         />
       )}
     </>

@@ -10,6 +10,7 @@ import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
 import SearchResults from './SearchResult.jsx';
 import ArticleDetail from '../components/ArticleDetail.jsx';
+import SubCategory from '../SubCategory.jsx';
 import { message, Spin } from 'antd';
 
 const Navigation = ({
@@ -17,6 +18,7 @@ const Navigation = ({
   setCurrentComponent,
   selectedCategory,
   setSelectedCategory,
+  selectedSubCategory,
   categories = [],
   loading,
 }) => {
@@ -282,6 +284,16 @@ const Navigation = ({
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
+      case 'subCategory':
+        return selectedSubCategory ? (
+          <SubCategory
+            subCategoryId={selectedSubCategory.SubCategoryID}
+            title={selectedSubCategory.SubCategoryName}
+            setCurrentComponent={setCurrentComponent}
+          />
+        ) : (
+          <div>No subcategory selected</div>
+        );
       case 'search':
         return (
           <SearchResults

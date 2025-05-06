@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Navigation from './components/Navigation.jsx';
 import Footer from './components/Footer.jsx';
+import SubCategory from './SubCategory.jsx';
 import { message } from 'antd';
 
 const App = () => {
-  // Initialize state from localStorage or default values
   const [currentComponent, setCurrentComponent] = useState(() => {
     return localStorage.getItem('currentComponent') || 'homepage';
   });
@@ -15,7 +15,18 @@ const App = () => {
       return savedCategory ? JSON.parse(savedCategory) : null;
     } catch (error) {
       console.error('Error parsing selectedCategory from localStorage:', error);
-      localStorage.removeItem('selectedCategory'); // Remove invalid data
+      localStorage.removeItem('selectedCategory');
+      return null;
+    }
+  });
+  
+  const [selectedSubCategory, setSelectedSubCategory] = useState(() => {
+    try {
+      const savedSubCategory = localStorage.getItem('selectedSubCategory');
+      return savedSubCategory ? JSON.parse(savedSubCategory) : null;
+    } catch (error) {
+      console.error('Error parsing selectedSubCategory from localStorage:', error);
+      localStorage.removeItem('selectedSubCategory');
       return null;
     }
   });
@@ -23,7 +34,6 @@ const App = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Update localStorage when state changes
   useEffect(() => {
     localStorage.setItem('currentComponent', currentComponent);
   }, [currentComponent]);
@@ -36,7 +46,14 @@ const App = () => {
     }
   }, [selectedCategory]);
 
-  // Custom state setters that update both state and localStorage
+  useEffect(() => {
+    if (selectedSubCategory) {
+      localStorage.setItem('selectedSubCategory', JSON.stringify(selectedSubCategory));
+    } else {
+      localStorage.removeItem('selectedSubCategory');
+    }
+  }, [selectedSubCategory]);
+
   const handleSetCurrentComponent = (component) => {
     setCurrentComponent(component);
   };
@@ -45,7 +62,10 @@ const App = () => {
     setSelectedCategory(category);
   };
 
-  // Fetch categories from API
+  const handleSetSelectedSubCategory = (subCategory) => {
+    setSelectedSubCategory(subCategory);
+  };
+
   const fetchCategories = async () => {
     setLoading(true);
     try {
@@ -91,7 +111,6 @@ const App = () => {
     }
   };
 
-  // Fetch categories on mount and listen for updates
   useEffect(() => {
     fetchCategories();
     
@@ -99,12 +118,17 @@ const App = () => {
       fetchCategories();
     };
     
-    window.addEventListener('categoryUpdated', handleCategoryUpdate);
+    const handleSubCategorySelected = (event) => {
+      handleSetSelectedSubCategory(event.detail);
+    };
     
-    // Handle browser navigation (back/forward buttons)
+    window.addEventListener('categoryUpdated', handleCategoryUpdate);
+    window.addEventListener('subCategorySelected', handleSubCategorySelected);
+    
     const handlePopState = () => {
       const savedComponent = localStorage.getItem('currentComponent') || 'homepage';
       let parsedCategory = null;
+      let parsedSubCategory = null;
       
       try {
         const savedCategory = localStorage.getItem('selectedCategory');
@@ -113,17 +137,29 @@ const App = () => {
         }
       } catch (error) {
         console.error('Error parsing selectedCategory during navigation:', error);
-        localStorage.removeItem('selectedCategory'); // Remove invalid data
+        localStorage.removeItem('selectedCategory');
+      }
+      
+      try {
+        const savedSubCategory = localStorage.getItem('selectedSubCategory');
+        if (savedSubCategory) {
+          parsedSubCategory = JSON.parse(savedSubCategory);
+        }
+      } catch (error) {
+        console.error('Error parsing selectedSubCategory during navigation:', error);
+        localStorage.removeItem('selectedSubCategory');
       }
       
       setCurrentComponent(savedComponent);
       setSelectedCategory(parsedCategory);
+      setSelectedSubCategory(parsedSubCategory);
     };
     
     window.addEventListener('popstate', handlePopState);
     
     return () => {
       window.removeEventListener('categoryUpdated', handleCategoryUpdate);
+      window.removeEventListener('subCategorySelected', handleSubCategorySelected);
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
@@ -135,10 +171,10 @@ const App = () => {
         setCurrentComponent={handleSetCurrentComponent}
         selectedCategory={selectedCategory}
         setSelectedCategory={handleSetSelectedCategory}
+        selectedSubCategory={selectedSubCategory}
         categories={categories || []}
         loading={loading}
       />
-      {/* Other components */}
       <Footer
         categories={categories || []}
         loading={loading}
