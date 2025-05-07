@@ -20,6 +20,7 @@ const CategoryManagement = () => {
   const [subForm] = Form.useForm();
   const [creatingCategory, setCreatingCategory] = useState(false);
   const [fileList, setFileList] = useState([]);
+  const [subFileList, setSubFileList] = useState([]);
 
   // Fetch categories
   const fetchCategories = async () => {
@@ -102,7 +103,7 @@ const CategoryManagement = () => {
           CategoryID: sub.categoryid,
           SubCategoryName: sub.subcategoryname,
           BannerURL: sub.bannerurl || null,
-          CategoryName: sub.categoryname || 'Unknown Category',
+          CategoryName: sub.category || 'Unknown Category',
         }));
 
       console.log('Mapped subcategories:', validSubcategories);
@@ -144,10 +145,11 @@ const CategoryManagement = () => {
       subForm.setFieldsValue({
         CategoryID: subcategory.CategoryID,
         SubCategoryName: subcategory.SubCategoryName,
-        BannerURL: subcategory.BannerURL || '',
       });
+      setSubFileList(subcategory.BannerURL ? [{ uid: '-1', name: 'banner', url: subcategory.BannerURL, status: 'done' }] : []);
     } else {
       subForm.resetFields();
+      setSubFileList([]);
     }
     setIsSubModalOpen(true);
   };
@@ -158,7 +160,7 @@ const CategoryManagement = () => {
     window.dispatchEvent(event);
   };
 
-  // Handle file upload for banner
+  // Handle file upload for category banner
   const handleUploadBanner = async (categoryId) => {
     if (!fileList.length || !fileList[0].originFileObj) {
       return true; // No new file to upload
@@ -169,6 +171,35 @@ const CategoryManagement = () => {
 
     try {
       const response = await fetch(`http://localhost:3000/api/categories/${categoryId}/banner`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to upload banner');
+      }
+
+      const data = await response.json();
+      message.success(data.message);
+      return true;
+    } catch (error) {
+      message.error(`Error uploading banner: ${error.message}`);
+      return false;
+    }
+  };
+
+  // Handle file upload for subcategory banner
+  const handleUploadSubcategoryBanner = async (subCategoryId) => {
+    if (!subFileList.length || !subFileList[0].originFileObj) {
+      return true; // No new file to upload
+    }
+
+    const formData = new FormData();
+    formData.append('banner', subFileList[0].originFileObj);
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/subcategories/${subCategoryId}/banner`, {
         method: 'POST',
         body: formData,
       });
@@ -251,7 +282,10 @@ const CategoryManagement = () => {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          CategoryID: values.CategoryID,
+          SubCategoryName: values.SubCategoryName,
+        }),
       });
 
       if (!response.ok) {
@@ -259,9 +293,21 @@ const CategoryManagement = () => {
         throw new Error(errorData.message || 'Failed to save subcategory');
       }
 
+      const data = await response.json();
+      const subCategoryId = editingSubcategory ? editingSubcategory.SubCategoryID : data.SubCategoryID;
+
+      // Upload banner if a new file is selected
+      if (subFileList.length && subFileList[0].originFileObj) {
+        const uploadSuccess = await handleUploadSubcategoryBanner(subCategoryId);
+        if (!uploadSuccess) {
+          throw new Error('Banner upload failed');
+        }
+      }
+
       message.success(editingSubcategory ? 'Subcategory updated successfully' : 'Subcategory added successfully');
       setIsSubModalOpen(false);
       subForm.resetFields();
+      setSubFileList([]);
       setEditingSubcategory(null);
       fetchSubcategories();
       fetchCategories();
@@ -327,9 +373,14 @@ const CategoryManagement = () => {
     }
   };
 
-  // Handle file change for Upload component
+  // Handle file change for category upload
   const handleFileChange = ({ fileList: newFileList }) => {
     setFileList(newFileList.slice(-1)); // Keep only the latest file
+  };
+
+  // Handle file change for subcategory upload
+  const handleSubFileChange = ({ fileList: newFileList }) => {
+    setSubFileList(newFileList.slice(-1)); // Keep only the latest file
   };
 
   // Table columns for categories
@@ -513,6 +564,7 @@ const CategoryManagement = () => {
         onCancel={() => {
           setIsSubModalOpen(false);
           subForm.resetFields();
+          setSubFileList([]);
           setEditingSubcategory(null);
         }}
       >
@@ -538,11 +590,19 @@ const CategoryManagement = () => {
             <Input placeholder="Enter subcategory name" />
           </Form.Item>
           <Form.Item
-            name="BannerURL"
-            label="Banner URL (Optional)"
+            name="BannerUpload"
+            label="Banner Image"
             rules={[{ required: false }]}
           >
-            <Input placeholder="Enter banner image URL" />
+            <Upload
+              fileList={subFileList}
+              onChange={handleSubFileChange}
+              beforeUpload={() => false} // Prevent auto-upload
+              accept="image/jpeg,image/png,image/gif"
+              listType="picture"
+            >
+              <Button icon={<UploadOutlined />}>Select Banner Image</Button>
+            </Upload>
           </Form.Item>
         </Form>
       </Modal>
