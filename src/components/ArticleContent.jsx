@@ -7,7 +7,16 @@ const ArticleContent = ({ content }) => {
     <div className="col-md-8 mx-auto">
       <div className="content">
         {content ? (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              img: ({ node, ...props }) => (
+                <img className="img-fluid" {...props} alt={props.alt || 'Image'} />
+              ),
+            }}
+          >
+            {content}
+          </ReactMarkdown>
         ) : (
           <p>No content available.</p>
         )}

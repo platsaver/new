@@ -159,6 +159,7 @@ const Navigation = ({
   useEffect(() => {
     const handleArticleSelected = () => {
       const newPostId = localStorage.getItem('selectedPostID');
+      console.log('New selectedPostId from event:', newPostId); // Debug
       setSelectedPostId(newPostId);
       if (newPostId && currentComponent !== 'articleDetail') {
         setCurrentComponent('articleDetail');
@@ -171,6 +172,15 @@ const Navigation = ({
       window.removeEventListener('articleSelected', handleArticleSelected);
     };
   }, [currentComponent, setCurrentComponent]);
+
+  useEffect(() => {
+    // Đồng bộ selectedPostId với localStorage
+    const newPostId = localStorage.getItem('selectedPostID');
+    if (newPostId !== selectedPostId) {
+      console.log('Syncing selectedPostId with localStorage:', newPostId); // Debug
+      setSelectedPostId(newPostId);
+    }
+  }, [localStorage.getItem('selectedPostID')]); // Theo dõi thay đổi trong localStorage
 
   useEffect(() => {
     const handleSubCategorySelected = (event) => {
@@ -305,7 +315,7 @@ const Navigation = ({
   };
 
   const renderCurrentComponent = () => {
-    console.log('Rendering component:', currentComponent, 'Selected Category:', selectedCategory); // Debug
+    console.log('Rendering component:', currentComponent, 'Selected Post ID:', selectedPostId); // Debug
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
@@ -329,7 +339,13 @@ const Navigation = ({
           />
         );
       case 'articleDetail':
-        return <ArticleDetail postId={selectedPostId} setCurrentComponent={setCurrentComponent} />;
+        return (
+          <ArticleDetail
+            key={selectedPostId} // Thêm key để buộc re-mount khi selectedPostId thay đổi
+            postId={selectedPostId}
+            setCurrentComponent={setCurrentComponent}
+          />
+        );
       case 'homepage':
       default:
         return <HomePage setCurrentComponent={setCurrentComponent} />;
@@ -558,7 +574,6 @@ const Navigation = ({
             </div>
           </nav>
         </div>
-        {/* Render Banner với điều kiện đơn giản hơn để debug */}
         {(currentComponent === 'category' || currentComponent === 'subCategory') && selectedCategory && (
           <Banner
             category={selectedCategory}
