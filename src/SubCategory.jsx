@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import CategorySection2 from './components/CategorySection2.jsx';
-import Banner from './components/Banner.jsx';
 
 const API_BASE_URL = 'http://localhost:3000'; // Adjust this if the backend is on a different port
 

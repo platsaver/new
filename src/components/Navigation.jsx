@@ -11,6 +11,7 @@ import Admin from '../management_pages/Admin.jsx';
 import SearchResults from './SearchResult.jsx';
 import ArticleDetail from '../components/ArticleDetail.jsx';
 import SubCategory from '../SubCategory.jsx';
+import Banner from '../components/Banner.jsx';
 import { message, Spin } from 'antd';
 
 const Navigation = ({
@@ -34,6 +35,7 @@ const Navigation = ({
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
   const [selectedPostId, setSelectedPostId] = useState(localStorage.getItem('selectedPostID') || null);
+  const [currentSubCategory, setCurrentSubCategory] = useState(selectedSubCategory);
 
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
@@ -170,6 +172,21 @@ const Navigation = ({
     };
   }, [currentComponent, setCurrentComponent]);
 
+  useEffect(() => {
+    const handleSubCategorySelected = (event) => {
+      const subCategory = event.detail;
+      console.log('Subcategory selected:', subCategory); // Debug
+      setCurrentSubCategory(subCategory);
+      setCurrentComponent('subCategory');
+    };
+
+    window.addEventListener('subCategorySelected', handleSubCategorySelected);
+
+    return () => {
+      window.removeEventListener('subCategorySelected', handleSubCategorySelected);
+    };
+  }, [setCurrentComponent]);
+
   const handleToggleSidebar = (e) => {
     if (e) e.preventDefault();
     setSidebarActive(true);
@@ -280,15 +297,23 @@ const Navigation = ({
     };
   }, []);
 
+  const handleSubCategoryClick = (subCategory) => {
+    setCurrentSubCategory(subCategory);
+    setCurrentComponent('subCategory');
+    const event = new CustomEvent('subCategorySelected', { detail: subCategory });
+    window.dispatchEvent(event);
+  };
+
   const renderCurrentComponent = () => {
+    console.log('Rendering component:', currentComponent, 'Selected Category:', selectedCategory); // Debug
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
       case 'subCategory':
-        return selectedSubCategory ? (
+        return currentSubCategory ? (
           <SubCategory
-            subCategoryId={selectedSubCategory.SubCategoryID}
-            title={selectedSubCategory.SubCategoryName}
+            subCategoryId={currentSubCategory.SubCategoryID}
+            title={currentSubCategory.SubCategoryName}
             setCurrentComponent={setCurrentComponent}
           />
         ) : (
@@ -533,6 +558,13 @@ const Navigation = ({
             </div>
           </nav>
         </div>
+        {/* Render Banner với điều kiện đơn giản hơn để debug */}
+        {(currentComponent === 'category' || currentComponent === 'subCategory') && selectedCategory && (
+          <Banner
+            category={selectedCategory}
+            onSubCategoryClick={handleSubCategoryClick}
+          />
+        )}
         {renderCurrentComponent()}
       </div>
     </>

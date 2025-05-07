@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FeaturedSection2 from './components/FeaturedSection2.jsx';
 import CategorySection from './components/CategorySection.jsx';
-import Banner from './components/Banner.jsx';
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -127,23 +126,16 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
 
   const handleSubCategoryClick = (subCategory) => {
     setCurrentComponent('subCategory');
-    // Pass subcategory data to App.js via a custom event
     const event = new CustomEvent('subCategorySelected', { detail: subCategory });
     window.dispatchEvent(event);
   };
 
   return (
-    <>
-      <Banner
-        category={previewCategory}
-        onSubCategoryClick={handleSubCategoryClick}
-      />
-      <div className="container-xl">
-        <div id="main">
-          {renderContent()}
-        </div>
+    <div className="container-xl">
+      <div id="main">
+        {renderContent()}
       </div>
-    </>
+    </div>
   );
 };
 
