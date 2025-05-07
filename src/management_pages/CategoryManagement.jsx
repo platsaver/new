@@ -589,21 +589,6 @@ const CategoryManagement = () => {
           >
             <Input placeholder="Enter subcategory name" />
           </Form.Item>
-          <Form.Item
-            name="BannerUpload"
-            label="Banner Image"
-            rules={[{ required: false }]}
-          >
-            <Upload
-              fileList={subFileList}
-              onChange={handleSubFileChange}
-              beforeUpload={() => false} // Prevent auto-upload
-              accept="image/jpeg,image/png,image/gif"
-              listType="picture"
-            >
-              <Button icon={<UploadOutlined />}>Select Banner Image</Button>
-            </Upload>
-          </Form.Item>
         </Form>
       </Modal>
     </div>

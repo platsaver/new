@@ -8,10 +8,10 @@ const CategorySection = ({ title, icon, articles, setCurrentComponent }) => {
         <div className="row">
           <div className="section-header col-12 d-flex align-items-center">
             {icon}
-            <h2 style={{ paddingTop: "7px", paddingLeft: "5px" }}>{title}</h2>
+            <h2 style={{ paddingTop: "7px", paddingLeft: "5px" }}>Bài viết thuộc danh mục {title}</h2>
           </div>
         </div>
-        <div className="row g-3">
+        <div className="row">
           {articles.length === 0 ? (
             <div>No articles available</div>
           ) : (
@@ -19,14 +19,14 @@ const CategorySection = ({ title, icon, articles, setCurrentComponent }) => {
               <div key={index} className="col-md-12">
                 <div className="collection">
                   <div className="row align-items-center">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <img
                         src={article.imageurl}
                         alt={article.title}
                         className="img-fluid"
                       />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-8">
                       <Article
                         postID={article.postid}
                         title={article.title}
