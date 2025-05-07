@@ -19,7 +19,7 @@ import {
   FontBackgroundColor,
   FontColor,
   FontFamily,
-  FontSize,
+  FontSize, 
   FullPage,
   GeneralHtmlSupport,
   Heading,
