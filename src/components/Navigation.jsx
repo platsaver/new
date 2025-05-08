@@ -32,7 +32,7 @@ const Navigation = ({
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [userName, setUserName] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
@@ -59,7 +59,8 @@ const Navigation = ({
     if (userName) {
       if (userRole === 'admin') {
         roleNavItems.push({ path: '#', text: 'Admin', component: 'admin' });
-      } else if (userRole === 'nguoidung') {
+      }
+      if (userRole === 'nguoidung') {
         roleNavItems.push({ path: '#', text: 'User Profile', component: 'user' });
       }
     }
@@ -125,7 +126,7 @@ const Navigation = ({
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        setIsLoading(true); // Bắt đầu loading
+        setIsLoading(true);
         const response = await fetch('http://localhost:3000/api/check-auth', {
           method: 'GET',
           credentials: 'include',
@@ -139,19 +140,13 @@ const Navigation = ({
         } else {
           setUserName(null);
           setUserRole(null);
-          if (currentComponent === 'admin' || currentComponent === 'user') {
-            setCurrentComponent('homepage');
-          }
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
         setUserName(null);
         setUserRole(null);
-        if (currentComponent === 'admin' || currentComponent === 'user') {
-          setCurrentComponent('homepage');
-        }
       } finally {
-        setIsLoading(false); // Kết thúc loading
+        setIsLoading(false);
       }
     };
 
@@ -300,11 +295,6 @@ const Navigation = ({
         setUserName(null);
         setUserRole(null);
         localStorage.removeItem('userId');
-
-        if (currentComponent === 'admin' || currentComponent === 'user') {
-          setCurrentComponent('homepage');
-        }
-        
         window.dispatchEvent(new Event('userLoggedOut'));
       } else {
         message.error(data.error || 'Logout failed!');
@@ -340,7 +330,6 @@ const Navigation = ({
   const renderCurrentComponent = () => {
     console.log('Rendering component:', currentComponent, 'Selected Post ID:', selectedPostId);
     
-    // Nếu đang loading, hiển thị Spin
     if (isLoading) {
       return (
         <div className="text-center p-4">
@@ -383,18 +372,17 @@ const Navigation = ({
       case 'admin':
         if (userRole !== 'admin') {
           message.error('Access denied! Admin role required.');
-          setCurrentComponent('homepage');
-          return <HomePage setCurrentComponent={setCurrentComponent} />;
+          return null; // Không chuyển về homepage, chỉ hiển thị thông báo
         }
         return (
-          <div className="admin-page-container">
-            <div className="admin-header d-flex justify-content-between align-items-center p-3 bg-light">
+          <div className="admin-full-layout">
+            <div className="admin-header d-flex justify-content-between align-items-center p-3 bg-dark text-white">
               <button className="btn btn-secondary" onClick={() => setCurrentComponent('homepage')}>
                 <i className="fa-solid fa-arrow-left me-2"></i>Back
               </button>
               <div className="user-info">
                 <span className="me-2">Welcome, {userName}</span>
-                <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
                   Log out
                 </button>
               </div>
@@ -405,18 +393,17 @@ const Navigation = ({
       case 'user':
         if (userRole !== 'nguoidung') {
           message.error('Access denied! User role required.');
-          setCurrentComponent('homepage');
-          return <HomePage setCurrentComponent={setCurrentComponent} />;
+          return null; // Không chuyển về homepage, chỉ hiển thị thông báo
         }
         return (
-          <div className="user-page-container">
-            <div className="user-header d-flex justify-content-between align-items-center p-3 bg-light">
+          <div className="user-full-layout">
+            <div className="user-header d-flex justify-content-between align-items-center p-3 bg-dark text-white">
               <button className="btn btn-secondary" onClick={() => setCurrentComponent('homepage')}>
                 <i className="fa-solid fa-arrow-left me-2"></i>Back
               </button>
               <div className="user-info">
                 <span className="me-2">Welcome, {userName}</span>
-                <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
                   Log out
                 </button>
               </div>
@@ -442,152 +429,25 @@ const Navigation = ({
 
   return (
     <>
-      <div className="sticky-top">
-        <nav className="navbar navbar-expand-lg">
-          <div className="container-fluid">
-            <a className="menu-toggle btn" href="#" onClick={handleToggleSidebar}>
-              <i className="fa-solid fa-bars"></i>
-              <span className="menu-text">Danh mục</span>
-            </a>
-            <h2
-              className="custom-branding text-center position-absolute top-50 start-50 translate-middle"
-              style={{ width: 'auto' }}
-            >
-              The Hanoi Times
-            </h2>
-            <div className="ms-auto d-flex align-items-center">
-              {userName ? (
-                <button
-                  className="btn btn-link fw-bold me-3 d-none d-md-block"
-                  style={{ fontSize: '17px' }}
-                  onClick={handleLogout}
-                >
-                  Welcome, {userName} (Logout)
-                </button>
-              ) : (
-                <a
-                  href="#"
-                  id="login-btn"
-                  className="btn btn-link fw-bold me-3 d-none d-md-block"
-                  style={{ fontSize: '17px' }}
-                  onClick={handleLoginClick}
-                >
-                  Đăng nhập
-                </a>
-              )}
-              <box-icon
-                name="user-circle"
-                style={{ width: '26px', height: '26px', cursor: 'pointer' }}
-                onClick={handleUserIconClick}
-              ></box-icon>
-              <div className="d-flex align-items-center ms-3" ref={searchRef}>
-                <box-icon
-                  name="search"
-                  className="search-icon me-2"
-                  onClick={handleToggleSearch}
-                  style={{ cursor: 'pointer', width: '26px', height: '26px' }}
-                ></box-icon>
-                {isSearchVisible && (
-                  <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Tìm kiếm..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{ width: '200px' }}
-                    />
-                  </form>
-                )}
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
-      <div id="wrapper" className={isWrapperToggled ? 'toggled' : ''}>
-        <div id="sidebar-wrapper" className={isSidebarActive ? 'active' : ''}>
-          {loading ? (
-            <div className="text-center p-4">
-              <Spin size="large" />
-              <p className="mt-2">Loading categories...</p>
-            </div>
-          ) : (
-            <ul className="sidebar-nav">
-              {navItems.map((item, index) => (
-                <li key={`sidebar-${index}`}>
-                  <a
-                    href={item.path}
-                    onClick={(e) =>
-                      item.component === 'category'
-                        ? handleChangeComponent(e, item.component, item.categoryData)
-                        : handleChangeComponent(e, item.component)
-                    }
-                  >
-                    {item.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div
-          className={`sidebar-overlay ${isSidebarActive ? 'active' : ''}`}
-          onClick={handleCloseSidebar}
-        ></div>
-        <div className="d-none d-sm-block">
-          <div>
-            <h2 className="branding text-center">
-              <a href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
-                The Hanoi Times
-              </a>
-            </h2>
-            <figure className="text-center">
-              <i>News Website You Can Trust</i>
-            </figure>
-          </div>
-          <nav className="nav d-flex justify-content-around custom-nav">
-            {loading ? (
-              <div className="d-flex justify-content-center w-100 py-2">
-                <Spin size="small" />
-              </div>
-            ) : (
-              navItems.map((item, index) => (
-                <a
-                  key={`custom-${index}`}
-                  href={item.path}
-                  className="nav-link"
-                  onClick={(e) =>
-                    item.component === 'category'
-                      ? handleChangeComponent(e, item.component, item.categoryData)
-                      : handleChangeComponent(e, item.component)
-                  }
-                >
-                  <span>{item.text}</span>
-                </a>
-              ))
-            )}
-          </nav>
-        </div>
-        <div className="d-block d-sm-none bg-light border-bottom sticky-top">
-          <nav className="navbar navbar-expand">
+      {currentComponent !== 'admin' && currentComponent !== 'user' && (
+        <div className="sticky-top">
+          <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-              <button
-                className="btn menu-toggle"
-                type="button"
-                onClick={handleToggleSidebar}
-              >
+              <a className="menu-toggle btn" href="#" onClick={handleToggleSidebar}>
                 <i className="fa-solid fa-bars"></i>
-              </button>
-              <h2 className="mobile-custom-branding">
-                <a href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
-                  HaNoi
-                </a>
+                <span className="menu-text">Danh mục</span>
+              </a>
+              <h2
+                className="custom-branding text-center position-absolute top-50 start-50 translate-middle"
+                style={{ width: 'auto' }}
+              >
+                The Hanoi Times
               </h2>
               <div className="ms-auto d-flex align-items-center">
                 {userName ? (
                   <button
-                    className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
-                    style={{ fontSize: '16px' }}
+                    className="btn btn-link fw-bold me-3 d-none d-md-block"
+                    style={{ fontSize: '17px' }}
                     onClick={handleLogout}
                   >
                     Welcome, {userName} (Logout)
@@ -595,9 +455,9 @@ const Navigation = ({
                 ) : (
                   <a
                     href="#"
-                    id="mobile-login-btn"
-                    className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
-                    style={{ fontSize: '16px' }}
+                    id="login-btn"
+                    className="btn btn-link fw-bold me-3 d-none d-md-block"
+                    style={{ fontSize: '17px' }}
                     onClick={handleLoginClick}
                   >
                     Đăng nhập
@@ -605,11 +465,10 @@ const Navigation = ({
                 )}
                 <box-icon
                   name="user-circle"
-                  className="text-dark me-2"
-                  style={{ width: '24px', height: '24px', cursor: 'pointer' }}
+                  style={{ width: '26px', height: '26px', cursor: 'pointer' }}
                   onClick={handleUserIconClick}
                 ></box-icon>
-                <div className="d-flex align-items-center ms-3" ref={mobileSearchRef}>
+                <div className="d-flex align-items-center ms-3" ref={searchRef}>
                   <box-icon
                     name="search"
                     className="search-icon me-2"
@@ -624,7 +483,7 @@ const Navigation = ({
                         placeholder="Tìm kiếm..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        style={{ width: '150px' }}
+                        style={{ width: '200px' }}
                       />
                     </form>
                   )}
@@ -633,6 +492,144 @@ const Navigation = ({
             </div>
           </nav>
         </div>
+      )}
+      <div id="wrapper" className={isWrapperToggled ? 'toggled' : ''}>
+        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+          <div id="sidebar-wrapper" className={isSidebarActive ? 'active' : ''}>
+            {loading ? (
+              <div className="text-center p-4">
+                <Spin size="large" />
+                <p className="mt-2">Loading categories...</p>
+              </div>
+            ) : (
+              <ul className="sidebar-nav">
+                {navItems.map((item, index) => (
+                  <li key={`sidebar-${index}`}>
+                    <a
+                      href={item.path}
+                      onClick={(e) =>
+                        item.component === 'category'
+                          ? handleChangeComponent(e, item.component, item.categoryData)
+                          : handleChangeComponent(e, item.component)
+                      }
+                    >
+                      {item.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+          <div
+            className={`sidebar-overlay ${isSidebarActive ? 'active' : ''}`}
+            onClick={handleCloseSidebar}
+          ></div>
+        )}
+        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+          <div className="d-none d-sm-block">
+            <div>
+              <h2 className="branding text-center">
+                <a href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
+                  The Hanoi Times
+                </a>
+              </h2>
+              <figure className="text-center">
+                <i>News Website You Can Trust</i>
+              </figure>
+            </div>
+            <nav className="nav d-flex justify-content-around custom-nav">
+              {loading ? (
+                <div className="d-flex justify-content-center w-100 py-2">
+                  <Spin size="small" />
+                </div>
+              ) : (
+                navItems.map((item, index) => (
+                  <a
+                    key={`custom-${index}`}
+                    href={item.path}
+                    className="nav-link"
+                    onClick={(e) =>
+                      item.component === 'category'
+                        ? handleChangeComponent(e, item.component, item.categoryData)
+                        : handleChangeComponent(e, item.component)
+                    }
+                  >
+                    <span>{item.text}</span>
+                  </a>
+                ))
+              )}
+            </nav>
+          </div>
+        )}
+        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+          <div className="d-block d-sm-none bg-light border-bottom sticky-top">
+            <nav className="navbar navbar-expand">
+              <div className="container-fluid">
+                <button
+                  className="btn menu-toggle"
+                  type="button"
+                  onClick={handleToggleSidebar}
+                >
+                  <i className="fa-solid fa-bars"></i>
+                </button>
+                <h2 className="mobile-custom-branding">
+                  <a href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
+                    HaNoi
+                  </a>
+                </h2>
+                <div className="ms-auto d-flex align-items-center">
+                  {userName ? (
+                    <button
+                      className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
+                      style={{ fontSize: '16px' }}
+                      onClick={handleLogout}
+                    >
+                      Welcome, {userName} (Logout)
+                    </button>
+                  ) : (
+                    <a
+                      href="#"
+                      id="mobile-login-btn"
+                      className="btn btn-link fw-bold me-2 text-dark d-none d-md-block"
+                      style={{ fontSize: '16px' }}
+                      onClick={handleLoginClick}
+                    >
+                      Đăng nhập
+                    </a>
+                  )}
+                  <box-icon
+                    name="user-circle"
+                    className="text-dark me-2"
+                    style={{ width: '24px', height: '24px', cursor: 'pointer' }}
+                    onClick={handleUserIconClick}
+                  ></box-icon>
+                  <div className="d-flex align-items-center ms-3" ref={mobileSearchRef}>
+                    <box-icon
+                      name="search"
+                      className="search-icon me-2"
+                      onClick={handleToggleSearch}
+                      style={{ cursor: 'pointer', width: '26px', height: '26px' }}
+                    ></box-icon>
+                    {isSearchVisible && (
+                      <form className="d-flex" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Tìm kiếm..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          style={{ width: '150px' }}
+                        />
+                      </form>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        )}
         {(currentComponent === 'category' || currentComponent === 'subCategory') && selectedCategory && (
           <Banner
             category={selectedCategory}
