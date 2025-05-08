@@ -8,6 +8,7 @@ import HomePage from '../Homepage.jsx';
 import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
+import User from '../management_pages/UserControl.jsx';
 import SearchResults from './SearchResult.jsx';
 import ArticleDetail from '../components/ArticleDetail.jsx';
 import SubCategory from '../SubCategory.jsx';
@@ -29,8 +30,9 @@ const Navigation = ({
   const [previousComponent, setPreviousComponent] = useState('homepage');
   const [previousCategory, setPreviousCategory] = useState(null);
   const [showLoginPage, setShowLoginPage] = useState(false);
-  const [showAdminPage, setShowAdminPage] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
@@ -53,9 +55,16 @@ const Navigation = ({
       categoryData: category,
     }));
 
-    const adminItem = userName ? [{ path: '#', text: 'Admin', component: 'admin' }] : [];
+    const roleNavItems = [];
+    if (userName) {
+      if (userRole === 'admin') {
+        roleNavItems.push({ path: '#', text: 'Admin', component: 'admin' });
+      } else if (userRole === 'nguoidung') {
+        roleNavItems.push({ path: '#', text: 'User Profile', component: 'user' });
+      }
+    }
 
-    return [...baseNavItems, ...categoryNavItems, ...adminItem];
+    return [...baseNavItems, ...categoryNavItems, ...roleNavItems];
   };
 
   const handleSearch = async () => {
@@ -116,6 +125,7 @@ const Navigation = ({
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
+        setIsLoading(true); // Bắt đầu loading
         const response = await fetch('http://localhost:3000/api/check-auth', {
           method: 'GET',
           credentials: 'include',
@@ -125,20 +135,23 @@ const Navigation = ({
 
         if (response.ok && data.isAuthenticated) {
           setUserName(data.user.username);
+          setUserRole(data.user.role);
         } else {
           setUserName(null);
-          if (currentComponent === 'admin' || showAdminPage) {
+          setUserRole(null);
+          if (currentComponent === 'admin' || currentComponent === 'user') {
             setCurrentComponent('homepage');
-            setShowAdminPage(false);
           }
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
         setUserName(null);
-        if (currentComponent === 'admin' || showAdminPage) {
+        setUserRole(null);
+        if (currentComponent === 'admin' || currentComponent === 'user') {
           setCurrentComponent('homepage');
-          setShowAdminPage(false);
         }
+      } finally {
+        setIsLoading(false); // Kết thúc loading
       }
     };
 
@@ -154,12 +167,12 @@ const Navigation = ({
       window.removeEventListener('userLoggedIn', handleUserLoginEvent);
       document.body.classList.remove('sidebar-open');
     };
-  }, [currentComponent, showAdminPage]);
+  }, [currentComponent]);
 
   useEffect(() => {
     const handleArticleSelected = () => {
       const newPostId = localStorage.getItem('selectedPostID');
-      console.log('New selectedPostId from event:', newPostId); // Debug
+      console.log('New selectedPostId from event:', newPostId);
       setSelectedPostId(newPostId);
       if (newPostId && currentComponent !== 'articleDetail') {
         setCurrentComponent('articleDetail');
@@ -174,18 +187,17 @@ const Navigation = ({
   }, [currentComponent, setCurrentComponent]);
 
   useEffect(() => {
-    // Đồng bộ selectedPostId với localStorage
     const newPostId = localStorage.getItem('selectedPostID');
     if (newPostId !== selectedPostId) {
-      console.log('Syncing selectedPostId with localStorage:', newPostId); // Debug
+      console.log('Syncing selectedPostId with localStorage:', newPostId);
       setSelectedPostId(newPostId);
     }
-  }, [localStorage.getItem('selectedPostID')]); // Theo dõi thay đổi trong localStorage
+  }, [localStorage.getItem('selectedPostID')]);
 
   useEffect(() => {
     const handleSubCategorySelected = (event) => {
       const subCategory = event.detail;
-      console.log('Subcategory selected:', subCategory); // Debug
+      console.log('Subcategory selected:', subCategory);
       setCurrentSubCategory(subCategory);
       setCurrentComponent('subCategory');
     };
@@ -225,7 +237,22 @@ const Navigation = ({
         setShowLoginPage(true);
         return;
       }
-      setShowAdminPage(true);
+      if (userRole !== 'admin') {
+        message.error('Access denied! Admin role required.');
+        return;
+      }
+      setCurrentComponent('admin');
+    } else if (componentName === 'user') {
+      if (!userName) {
+        message.error('Vui lòng đăng nhập để truy cập trang User!');
+        setShowLoginPage(true);
+        return;
+      }
+      if (userRole !== 'nguoidung') {
+        message.error('Access denied! User role required.');
+        return;
+      }
+      setCurrentComponent('user');
     } else if (componentName === 'category' && categoryData) {
       setSelectedCategory(categoryData);
       setCurrentComponent(componentName);
@@ -244,10 +271,6 @@ const Navigation = ({
 
   const handleBackFromLogin = () => {
     setShowLoginPage(false);
-  };
-
-  const handleBackFromAdmin = () => {
-    setShowAdminPage(false);
   };
 
   const handleBackFromSearch = () => {
@@ -275,11 +298,11 @@ const Navigation = ({
       if (response.ok) {
         message.success('Logout successful!');
         setUserName(null);
+        setUserRole(null);
         localStorage.removeItem('userId');
 
-        if (currentComponent === 'admin' || showAdminPage) {
+        if (currentComponent === 'admin' || currentComponent === 'user') {
           setCurrentComponent('homepage');
-          setShowAdminPage(false);
         }
         
         window.dispatchEvent(new Event('userLoggedOut'));
@@ -315,7 +338,18 @@ const Navigation = ({
   };
 
   const renderCurrentComponent = () => {
-    console.log('Rendering component:', currentComponent, 'Selected Post ID:', selectedPostId); // Debug
+    console.log('Rendering component:', currentComponent, 'Selected Post ID:', selectedPostId);
+    
+    // Nếu đang loading, hiển thị Spin
+    if (isLoading) {
+      return (
+        <div className="text-center p-4">
+          <Spin size="large" />
+          <p className="mt-2">Loading...</p>
+        </div>
+      );
+    }
+
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
@@ -341,10 +375,54 @@ const Navigation = ({
       case 'articleDetail':
         return (
           <ArticleDetail
-            key={selectedPostId} // Thêm key để buộc re-mount khi selectedPostId thay đổi
+            key={selectedPostId}
             postId={selectedPostId}
             setCurrentComponent={setCurrentComponent}
           />
+        );
+      case 'admin':
+        if (userRole !== 'admin') {
+          message.error('Access denied! Admin role required.');
+          setCurrentComponent('homepage');
+          return <HomePage setCurrentComponent={setCurrentComponent} />;
+        }
+        return (
+          <div className="admin-page-container">
+            <div className="admin-header d-flex justify-content-between align-items-center p-3 bg-light">
+              <button className="btn btn-secondary" onClick={() => setCurrentComponent('homepage')}>
+                <i className="fa-solid fa-arrow-left me-2"></i>Back
+              </button>
+              <div className="user-info">
+                <span className="me-2">Welcome, {userName}</span>
+                <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                  Log out
+                </button>
+              </div>
+            </div>
+            <Admin onCategoryChange={() => window.dispatchEvent(new Event('categoryUpdated'))} />
+          </div>
+        );
+      case 'user':
+        if (userRole !== 'nguoidung') {
+          message.error('Access denied! User role required.');
+          setCurrentComponent('homepage');
+          return <HomePage setCurrentComponent={setCurrentComponent} />;
+        }
+        return (
+          <div className="user-page-container">
+            <div className="user-header d-flex justify-content-between align-items-center p-3 bg-light">
+              <button className="btn btn-secondary" onClick={() => setCurrentComponent('homepage')}>
+                <i className="fa-solid fa-arrow-left me-2"></i>Back
+              </button>
+              <div className="user-info">
+                <span className="me-2">Welcome, {userName}</span>
+                <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                  Log out
+                </button>
+              </div>
+            </div>
+            <User userId={parseInt(localStorage.getItem('userId') || '0')} />
+          </div>
         );
       case 'homepage':
       default:
@@ -358,25 +436,6 @@ const Navigation = ({
     return (
       <div className="login-page-container">
         <LoginForm onBack={handleBackFromLogin} onLoginSuccess={handleLoginSuccess} />
-      </div>
-    );
-  }
-
-  if (showAdminPage) {
-    return (
-      <div className="admin-page-container">
-        <div className="admin-header d-flex justify-content-between align-items-center p-3 bg-light">
-          <button className="btn btn-secondary" onClick={handleBackFromAdmin}>
-            <i className="fa-solid fa-arrow-left me-2"></i>Back
-          </button>
-          <div className="user-info">
-            <span className="me-2">Welcome, {userName}</span>
-            <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
-              Log out
-            </button>
-          </div>
-        </div>
-        <Admin onCategoryChange={() => window.dispatchEvent(new Event('categoryUpdated'))} />
       </div>
     );
   }
