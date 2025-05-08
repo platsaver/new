@@ -9,6 +9,7 @@ import ThoiSu from '../ThoiSu.jsx';
 import LoginForm from './LoginForm.jsx';
 import Admin from '../management_pages/Admin.jsx';
 import User from '../management_pages/UserControl.jsx';
+import Author from '../management_pages/Author.jsx';
 import SearchResults from './SearchResult.jsx';
 import ArticleDetail from '../components/ArticleDetail.jsx';
 import SubCategory from '../SubCategory.jsx';
@@ -62,6 +63,9 @@ const Navigation = ({
       }
       if (userRole === 'nguoidung') {
         roleNavItems.push({ path: '#', text: 'User Profile', component: 'user' });
+      }
+      if (userRole === 'author') {
+        roleNavItems.push({ path: '#', text: 'Author Dashboard', component: 'author' });
       }
     }
 
@@ -248,6 +252,17 @@ const Navigation = ({
         return;
       }
       setCurrentComponent('user');
+    } else if (componentName === 'author') {
+      if (!userName) {
+        message.error('Vui lòng đăng nhập để truy cập trang Author!');
+        setShowLoginPage(true);
+        return;
+      }
+      if (userRole !== 'author') {
+        message.error('Access denied! Author role required.');
+        return;
+      }
+      setCurrentComponent('author');
     } else if (componentName === 'category' && categoryData) {
       setSelectedCategory(categoryData);
       setCurrentComponent(componentName);
@@ -295,6 +310,7 @@ const Navigation = ({
         setUserName(null);
         setUserRole(null);
         localStorage.removeItem('userId');
+        setCurrentComponent('homepage'); // Reset to homepage after logout
         window.dispatchEvent(new Event('userLoggedOut'));
       } else {
         message.error(data.error || 'Logout failed!');
@@ -339,6 +355,12 @@ const Navigation = ({
       );
     }
 
+    // Default to homepage if no valid role-based component is accessible
+    if (!userName && ['admin', 'user', 'author'].includes(currentComponent)) {
+      setCurrentComponent('homepage');
+      return <HomePage setCurrentComponent={setCurrentComponent} />;
+    }
+
     switch (currentComponent) {
       case 'category':
         return <ThoiSu previewCategory={selectedCategory} setCurrentComponent={setCurrentComponent} />;
@@ -372,7 +394,8 @@ const Navigation = ({
       case 'admin':
         if (userRole !== 'admin') {
           message.error('Access denied! Admin role required.');
-          return null; // Không chuyển về homepage, chỉ hiển thị thông báo
+          setCurrentComponent('homepage'); // Fallback to homepage on access denial
+          return <HomePage setCurrentComponent={setCurrentComponent} />;
         }
         return (
           <div className="admin-full-layout">
@@ -393,7 +416,8 @@ const Navigation = ({
       case 'user':
         if (userRole !== 'nguoidung') {
           message.error('Access denied! User role required.');
-          return null; // Không chuyển về homepage, chỉ hiển thị thông báo
+          setCurrentComponent('homepage'); // Fallback to homepage on access denial
+          return <HomePage setCurrentComponent={setCurrentComponent} />;
         }
         return (
           <div className="user-full-layout">
@@ -409,6 +433,28 @@ const Navigation = ({
               </div>
             </div>
             <User userId={parseInt(localStorage.getItem('userId') || '0')} />
+          </div>
+        );
+      case 'author':
+        if (userRole !== 'author') {
+          message.error('Access denied! Author role required.');
+          setCurrentComponent('homepage'); // Fallback to homepage on access denial
+          return <HomePage setCurrentComponent={setCurrentComponent} />;
+        }
+        return (
+          <div className="author-full-layout">
+            <div className="author-header d-flex justify-content-between align-items-center p-3 bg-dark text-white">
+              <button className="btn btn-secondary" onClick={() => setCurrentComponent('homepage')}>
+                <i className="fa-solid fa-arrow-left me-2"></i>Back
+              </button>
+              <div className="user-info">
+                <span className="me-2">Welcome, {userName}</span>
+                <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
+                  Log out
+                </button>
+              </div>
+            </div>
+            <Author />
           </div>
         );
       case 'homepage':
@@ -429,7 +475,7 @@ const Navigation = ({
 
   return (
     <>
-      {currentComponent !== 'admin' && currentComponent !== 'user' && (
+      {currentComponent !== 'admin' && currentComponent !== 'user' && currentComponent !== 'author' && (
         <div className="sticky-top">
           <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
@@ -494,7 +540,7 @@ const Navigation = ({
         </div>
       )}
       <div id="wrapper" className={isWrapperToggled ? 'toggled' : ''}>
-        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+        {currentComponent !== 'admin' && currentComponent !== 'user' && currentComponent !== 'author' && (
           <div id="sidebar-wrapper" className={isSidebarActive ? 'active' : ''}>
             {loading ? (
               <div className="text-center p-4">
@@ -521,13 +567,13 @@ const Navigation = ({
             )}
           </div>
         )}
-        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+        {currentComponent !== 'admin' && currentComponent !== 'user' && currentComponent !== 'author' && (
           <div
             className={`sidebar-overlay ${isSidebarActive ? 'active' : ''}`}
             onClick={handleCloseSidebar}
           ></div>
         )}
-        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+        {currentComponent !== 'admin' && currentComponent !== 'user' && currentComponent !== 'author' && (
           <div className="d-none d-sm-block">
             <div>
               <h2 className="branding text-center">
@@ -563,7 +609,7 @@ const Navigation = ({
             </nav>
           </div>
         )}
-        {currentComponent !== 'admin' && currentComponent !== 'user' && (
+        {currentComponent !== 'admin' && currentComponent !== 'user' && currentComponent !== 'author' && (
           <div className="d-block d-sm-none bg-light border-bottom sticky-top">
             <nav className="navbar navbar-expand">
               <div className="container-fluid">
