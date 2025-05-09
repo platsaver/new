@@ -5,13 +5,12 @@ import {
   UserOutlined,
   CommentOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, Tabs } from 'antd';
+import { Button, Layout, Menu, theme } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
 import UserProfile from './UserProfile';
 import UserCommentManagement from './UserCommentManagement';
 
 const { Header, Sider, Content } = Layout;
-const { TabPane } = Tabs;
 
 const User = ({ userId }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -26,6 +25,17 @@ const User = ({ userId }) => {
 
   const handleMenuClick = (e) => {
     setSelectedTab(e.key);
+  };
+
+  const renderContent = () => {
+    switch (selectedTab) {
+      case 'profile':
+        return <UserProfile userId={userId} />;
+      case 'comments':
+        return <UserCommentManagement userId={userId} />;
+      default:
+        return <UserProfile userId={userId} />;
+    }
   };
 
   return (
@@ -77,17 +87,7 @@ const User = ({ userId }) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <Tabs
-            activeKey={selectedTab}
-            onChange={(key) => setSelectedTab(key)}
-          >
-            <TabPane tab="Profile" key="profile">
-              <UserProfile userId={userId} />
-            </TabPane>
-            <TabPane tab="Comments" key="comments">
-              <UserCommentManagement userId={userId} />
-            </TabPane>
-          </Tabs>
+          {renderContent()}
         </Content>
       </Layout>
     </Layout>

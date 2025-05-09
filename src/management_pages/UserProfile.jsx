@@ -27,6 +27,11 @@ const UserProfile = ({ userId }) => {
 
   // Fetch user information
   const fetchUser = async () => {
+    if (!userId || isNaN(userId)) {
+      message.error('Invalid user ID');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await fetch(`${baseUrl}/api/users/${userId}`, {
@@ -43,7 +48,17 @@ const UserProfile = ({ userId }) => {
 
       const data = await response.json();
       if (data.success) {
-        setUser(data.data);
+        // Map API response fields to match UI expectations
+        const userData = {
+          UserID: data.data.userid,
+          UserName: data.data.username,
+          Role: data.data.role,
+          Email: data.data.email,
+          CreatedAtDate: data.data.createdatdate,
+          UpdatedAtDate: data.data.updatedatdate,
+          AvatarURL: data.data.avatarurl,
+        };
+        setUser(userData);
       } else {
         message.error(data.message || 'Failed to fetch user');
       }
@@ -76,7 +91,17 @@ const UserProfile = ({ userId }) => {
       }
 
       const updatedUser = await response.json();
-      setUser(updatedUser);
+      // Assuming the API returns the updated user in the same format as GET /api/users/:userId
+      const userData = {
+        UserID: updatedUser.userid,
+        UserName: updatedUser.username,
+        Role: updatedUser.role,
+        Email: updatedUser.email,
+        CreatedAtDate: updatedUser.createdatdate,
+        UpdatedAtDate: updatedUser.updatedatdate,
+        AvatarURL: updatedUser.avatarurl,
+      };
+      setUser(userData);
       message.success('User information updated successfully');
       form.resetFields();
       fetchUser(); // Refresh user data
@@ -110,6 +135,7 @@ const UserProfile = ({ userId }) => {
       message.success(data.message || 'Avatar uploaded successfully');
     } catch (error) {
       console.error('Error uploading avatar:', error);
+      message.error(`Error uploading avatar: ${error.message}`);
     } finally {
       setAvatarUploading(false);
     }
