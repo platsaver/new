@@ -136,10 +136,14 @@ const AuthApp = ({ onLoginSuccess, onBack }) => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <ReCAPTCHA
-                    sitekey="6LefqiUrAAAAAMXyO4sfUFkBBkp5XH_ot8OxPNh5" // Replace with your actual site key
-                    onChange={handleCaptchaChange}
-                  />
+                  <Row className="justify-content-md-center">
+                    <Col md={12} className="text-center">
+                      <ReCAPTCHA
+                        sitekey="6LefqiUrAAAAAMXyO4sfUFkBBkp5XH_ot8OxPNh5" // Replace with your actual site key
+                        onChange={handleCaptchaChange}
+                      />
+                    </Col>
+                  </Row>
                 </Form.Item>
 
                 <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>

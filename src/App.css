@@ -1155,3 +1155,31 @@ h1, h2, h3, h4, h5, h6,
       margin-bottom: 1rem;
   }
 }
+
+body.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+body.dark .navbar,
+body.dark .sidebar-nav,
+body.dark .custom-nav,
+body.dark .bg-light {
+  background-color: #333333 !important;
+}
+
+body.dark .nav-link,
+body.dark .btn-link,
+body.dark .form-control {
+  color: #ffffff !important;
+}
+
+body.dark .form-control {
+  background-color: #444444;
+  border-color: #555555;
+}

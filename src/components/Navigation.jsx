@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Button } from 'react-bootstrap'; // Thêm import Button từ react-bootstrap
 import 'boxicons/css/boxicons.min.css';
 import 'boxicons';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -39,9 +40,22 @@ const Navigation = ({
   const [pagination, setPagination] = useState({ total: 0, limit: 10, offset: 0, pages: 1 });
   const [selectedPostId, setSelectedPostId] = useState(localStorage.getItem('selectedPostID') || null);
   const [currentSubCategory, setCurrentSubCategory] = useState(selectedSubCategory);
+  // Thêm state cho theme
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
+
+  // Effect để áp dụng theme class vào body và lưu vào localStorage
+  useEffect(() => {
+    document.body.className = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Hàm toggle theme
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
 
   const getNavItems = () => {
     const baseNavItems = [
@@ -514,6 +528,15 @@ const Navigation = ({
                   style={{ width: '26px', height: '26px', cursor: 'pointer' }}
                   onClick={handleUserIconClick}
                 ></box-icon>
+                <Button
+                  variant={theme === 'light' ? 'dark' : 'light'}
+                  size="sm"
+                  onClick={toggleTheme}
+                  className="ms-2"
+                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                >
+                  {theme === 'light' ? <i className="fa-solid fa-moon"></i> : <i className="fa-solid fa-sun"></i>}
+                </Button>
                 <div className="d-flex align-items-center ms-3" ref={searchRef}>
                   <box-icon
                     name="search"
@@ -651,6 +674,15 @@ const Navigation = ({
                     style={{ width: '24px', height: '24px', cursor: 'pointer' }}
                     onClick={handleUserIconClick}
                   ></box-icon>
+                  <Button
+                    variant={theme === 'light' ? 'dark' : 'light'}
+                    size="sm"
+                    onClick={toggleTheme}
+                    className="me-2"
+                    title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                  >
+                    {theme === 'light' ? <i className="fa-solid fa-moon"></i> : <i className="fa-solid fa-sun"></i>}
+                  </Button>
                   <div className="d-flex align-items-center ms-3" ref={mobileSearchRef}>
                     <box-icon
                       name="search"
