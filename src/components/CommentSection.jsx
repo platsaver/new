@@ -12,10 +12,13 @@ const CommentSection = () => {
   const [submitError, setSubmitError] = useState(null);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [userName, setUserName] = useState(null);
-  
-  // Lấy userID và postID từ localStorage
+  const [userProfilesMap, setUserProfilesMap] = useState({}); // Map of userId to { username, avatarURL }
+
   const userId = localStorage.getItem("userId");
   const postId = localStorage.getItem("selectedPostID");
+
+  // Default avatar URL for users without an avatar
+  const defaultAvatar = "https://via.placeholder.com/40?text=User"; // Placeholder image
 
   // Check authentication status
   useEffect(() => {
@@ -25,24 +28,53 @@ const CommentSection = () => {
           method: 'GET',
           credentials: 'include',
         });
-
         const data = await response.json();
-
         if (response.ok && data.isAuthenticated) {
           setUserName(data.user.username);
+          localStorage.setItem('userId', data.user.id);
         } else {
           setUserName(null);
+          localStorage.removeItem('userId');
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
         setUserName(null);
+        localStorage.removeItem('userId');
       }
     };
-
     checkAuthStatus();
   }, []);
 
-  // Lấy danh sách bình luận khi component được mount
+  // Listen for user login events to sync auth status
+  useEffect(() => {
+    const handleUserLoginEvent = () => {
+      const checkAuthStatus = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/api/check-auth', {
+            method: 'GET',
+            credentials: 'include',
+          });
+          const data = await response.json();
+          if (response.ok && data.isAuthenticated) {
+            setUserName(data.user.username);
+            localStorage.setItem('userId', data.user.id);
+          } else {
+            setUserName(null);
+            localStorage.removeItem('userId');
+          }
+        } catch (error) {
+          console.error('Error checking auth status:', error);
+          setUserName(null);
+          localStorage.removeItem('userId');
+        }
+      };
+      checkAuthStatus();
+    };
+    window.addEventListener('userLoggedIn', handleUserLoginEvent);
+    return () => window.removeEventListener('userLoggedIn', handleUserLoginEvent);
+  }, []);
+
+  // Fetch comments when component mounts
   useEffect(() => {
     const fetchComments = async () => {
       if (!postId) {
@@ -50,12 +82,9 @@ const CommentSection = () => {
         setLoading(false);
         return;
       }
-
       try {
         const response = await fetch(`http://localhost:3000/api/comments/${postId}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
         const data = await response.json();
         setComments(data);
         setLoading(false);
@@ -65,48 +94,67 @@ const CommentSection = () => {
         setLoading(false);
       }
     };
-
     fetchComments();
   }, [postId]);
 
-  // Xử lý gửi bình luận
+  // Fetch user profiles (username and avatarURL) for all userIds in comments
+  useEffect(() => {
+    const fetchUserProfiles = async () => {
+      const userIds = [...new Set(comments.map(comment => comment.userid))]; // Unique userIds
+      const updatedUserProfilesMap = { ...userProfilesMap };
+
+      for (const id of userIds) {
+        if (!updatedUserProfilesMap[id]) {
+          try {
+            const response = await fetch(`http://localhost:3000/api/users/${id}/profile`);
+            if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+            const data = await response.json();
+            updatedUserProfilesMap[id] = {
+              username: data.username,
+              avatarURL: `http://localhost:3000${data.avatarURL}`,
+            };
+          } catch (error) {
+            console.error(`Error fetching profile for userId ${id}:`, error);
+            updatedUserProfilesMap[id] = {
+              username: `User_${id}`, // Fallback username
+              avatarURL: null, // Fallback to null, will use default avatar
+            };
+          }
+        }
+      }
+      setUserProfilesMap(updatedUserProfilesMap);
+    };
+
+    if (comments.length > 0) {
+      fetchUserProfiles();
+    }
+  }, [comments, userProfilesMap]);
+
+  // Handle comment submission
   const handleSubmitComment = async () => {
     if (!userId) {
       message.warning("Vui lòng đăng nhập để bình luận!");
       setShowLoginForm(true);
       return;
     }
-
     if (!postId) {
       message.error("Không tìm thấy bài viết để bình luận!");
       return;
     }
-
     if (!commentContent.trim()) {
       message.warning("Vui lòng nhập nội dung bình luận!");
       return;
     }
-
     try {
       const response = await fetch("http://localhost:3000/api/comments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          postId,
-          userId,
-          content: commentContent,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId, userId, content: commentContent }),
         credentials: 'include',
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
       const newComment = await response.json();
-      setComments((prevComments) => [newComment, ...prevComments]);
+      setComments([newComment, ...comments]);
       setCommentContent("");
       setSubmitError(null);
       message.success("Bình luận đã được gửi thành công!");
@@ -130,7 +178,6 @@ const CommentSection = () => {
     setUserName(username);
     setShowLoginForm(false);
     message.success("Đăng nhập thành công!");
-    // Force reload auth status to get the latest userId
     window.dispatchEvent(new Event('userLoggedIn'));
   };
 
@@ -155,8 +202,6 @@ const CommentSection = () => {
           </a>
         )}
       </div>
-
-      {/* Form nhập bình luận */}
       <div className="comment-input-wrapper">
         <textarea
           className="comment-textbox"
@@ -173,8 +218,6 @@ const CommentSection = () => {
         />
       </div>
       {submitError && <p className="error-message" style={{ color: "red" }}>{submitError}</p>}
-
-      {/* Hiển thị danh sách bình luận */}
       <div className="comments-list">
         {loading ? (
           <p>Đang tải bình luận...</p>
@@ -182,11 +225,21 @@ const CommentSection = () => {
           <p className="error-message" style={{ color: "red" }}>{error}</p>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment.commentid} className="comment-item" style={{ marginBottom: "15px", padding: "10px", borderBottom: "1px solid #ddd" }}>
-              <p>
-                <strong>{comment.userid}</strong> <span style={{ color: "#888", fontSize: "0.9em" }}>({new Date(comment.createdatdate).toLocaleString("vi-VN")})</span>
-              </p>
-              <p>{comment.content}</p>
+            <div key={comment.commentid} className="comment-item" style={{ marginBottom: "15px", padding: "10px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "flex-start" }}>
+              <img
+                src={userProfilesMap[comment.userid]?.avatarURL || defaultAvatar}
+                alt="User Avatar"
+                style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px", objectFit: "cover" }}
+              />
+              <div>
+                <p>
+                  <strong>{userProfilesMap[comment.userid]?.username || `User_${comment.userid}`}</strong>{' '}
+                  <span style={{ color: "#888", fontSize: "0.9em" }}>
+                    ({new Date(comment.createdatdate).toLocaleString("vi-VN")})
+                  </span>
+                </p>
+                <p>{comment.content}</p>
+              </div>
             </div>
           ))
         ) : (

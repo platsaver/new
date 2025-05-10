@@ -42,7 +42,6 @@ const CommentManagement = () => {
           PostID: item.postid,
           UserID: item.userid,
           Username: item.username || 'Unknown',
-          PostTitle: item.posttitle || 'N/A',
           Content: item.content,
           Status: item.status || 'pending',
           CreatedAtDate: item.createdatdate
@@ -288,7 +287,6 @@ const CommentManagement = () => {
       key: 'CommentID',
     },
     {
-      title: 'Post Title',
       dataIndex: 'PostTitle',
       key: 'PostTitle',
     },
@@ -340,7 +338,7 @@ const CommentManagement = () => {
       key: 'PostTitle',
     },
     {
-      title: 'Author',
+      title: 'User',
       dataIndex: 'Username',
       key: 'Username',
     },
@@ -359,16 +357,6 @@ const CommentManagement = () => {
       title: 'Status',
       dataIndex: 'Status',
       key: 'Status',
-    },
-    {
-      title: 'Created At',
-      dataIndex: 'CreatedAtDate',
-      key: 'CreatedAtDate',
-    },
-    {
-      title: 'Updated At',
-      dataIndex: 'UpdatedAtDate',
-      key: 'UpdatedAtDate',
     },
   ];
 
@@ -404,16 +392,6 @@ const CommentManagement = () => {
       title: 'Status',
       dataIndex: 'Status',
       key: 'Status',
-    },
-    {
-      title: 'Created At',
-      dataIndex: 'CreatedAtDate',
-      key: 'CreatedAtDate',
-    },
-    {
-      title: 'Updated At',
-      dataIndex: 'UpdatedAtDate',
-      key: 'UpdatedAtDate',
     },
     {
       title: 'Actions',

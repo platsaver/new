@@ -50,7 +50,7 @@ const User = ({ userId }) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        style={{ height: '100vh' }}
+        style={{ height: '175vh' }}
       >
         <div className="demo-logo-vertical" />
         <Menu

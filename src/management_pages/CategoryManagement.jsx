@@ -434,12 +434,6 @@ const CategoryManagement = () => {
     { title: 'Category', dataIndex: 'CategoryName', key: 'CategoryName' },
     { title: 'Name', dataIndex: 'SubCategoryName', key: 'SubCategoryName' },
     {
-      title: 'Banner URL',
-      dataIndex: 'BannerURL',
-      key: 'BannerURL',
-      render: (url) => (url ? url : 'No banner'),
-    },
-    {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (

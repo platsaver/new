@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -20,10 +20,11 @@ import User from './User.jsx';
 import Dashboard from './Dashboard.jsx';
 import CategoryManagement from './CategoryManagement.jsx';
 import SearchForm from './SearchForm.jsx';
-import { Button, Layout, Menu, theme, Row, Col } from 'antd';
+import { Button, Layout, Menu, theme, Row, Col, message } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
-import MediaManagement from './MediaManagement.jsx'
+import MediaManagement from './MediaManagement.jsx';
 import CommentManagement from './CommentManagement.jsx';
+import UserProfile from './UserProfile.jsx';
 import TagManagement from './TagManagement.jsx';
 
 const { Header, Sider, Content } = Layout;
@@ -31,9 +32,49 @@ const { Header, Sider, Content } = Layout;
 const App = ({ onLogout }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedTab, setSelectedTab] = useState('4');
+  const [userData, setUserData] = useState(null); // Store user data
+  const [loading, setLoading] = useState(true); // Track loading state
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  // Fetch authenticated user data on mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/check-auth', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const data = await response.json();
+        if (response.ok && data.isAuthenticated) {
+          setUserData({
+            userId: data.user.id,
+            username: data.user.username,
+            avatarURL: data.user.avatarURL || null,
+            role: data.user.role,
+          });
+          localStorage.setItem('userId', data.user.id);
+        } else {
+          setUserData(null);
+          localStorage.removeItem('userId');
+          message.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+          onLogout(); // Trigger logout if not authenticated
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setUserData(null);
+        localStorage.removeItem('userId');
+        message.error('Lỗi khi lấy thông tin người dùng.');
+        onLogout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [onLogout]);
 
   const handleBreakpoint = (broken) => {
     setCollapsed(broken);
@@ -44,6 +85,14 @@ const App = ({ onLogout }) => {
   };
 
   const renderContent = () => {
+    if (loading) {
+      return <div>Đang tải thông tin người dùng...</div>;
+    }
+
+    if (!userData) {
+      return <div>Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.</div>;
+    }
+
     switch (selectedTab) {
       case '1':
         return (
@@ -54,13 +103,12 @@ const App = ({ onLogout }) => {
                 <Button2 />
                 <Button3 />
               </Col>
-              <Col>
-                <SearchForm />
-              </Col>
             </Row>
             <ListPost />
           </>
         );
+      case '2':
+        return <UserProfile userId={userData.userId} username={userData.username} avatarURL={userData.avatarURL} />;
       case '3':
         return <User />;
       case '4':
@@ -102,6 +150,7 @@ const App = ({ onLogout }) => {
           items={[
             { key: '4', icon: <DashboardOutlined />, label: 'Dashboard' },
             { key: '1', icon: <FormOutlined />, label: 'Post Management' },
+            { key: '2', icon: <UserOutlined />, label: 'User Profile' },
             { key: '3', icon: <UserOutlined />, label: 'User Management' },
             { key: '5', icon: <ContainerOutlined />, label: 'Category Management' },
             { key: '6', icon: <FileImageOutlined />, label: 'Media Management' },

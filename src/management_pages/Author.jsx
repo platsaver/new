@@ -4,7 +4,8 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
   CommentOutlined,
-  FormOutlined
+  FormOutlined,
+  FileImageOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, Row, Col } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
@@ -14,6 +15,7 @@ import ManagePostsButton from './Button3-1.jsx';
 import ListPost from './ListPost2.jsx';
 import UserCommentManagement from './UserCommentManagement.jsx';
 import UserProfile from './UserProfile.jsx';
+import MediaManagement from './MediaManagement.jsx'
 
 const { Header, Sider, Content } = Layout;
 
@@ -53,6 +55,8 @@ const Author = () => {
         return <UserCommentManagement userId={userId} />;
       case '3':
         return <UserProfile userId={userId} />;
+      case '4':
+        return <MediaManagement />;
       default:
         return <ListPost />;
     }
@@ -70,7 +74,7 @@ const Author = () => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        style={{ height: '100vh' }}
+        style={{ height: '175vh' }}
       >
         <div className="demo-logo-vertical" />
         <Menu
@@ -83,6 +87,7 @@ const Author = () => {
             { key: '1', icon: <FormOutlined />, label: 'Posts' },
             { key: '2', icon: <CommentOutlined />, label: 'Comments' },
             { key: '3', icon: <UserOutlined />, label: 'Profile' },
+            {key: '4', icon: <FileImageOutlined />, label: 'Media Management'},
           ]}
         />
       </Sider>

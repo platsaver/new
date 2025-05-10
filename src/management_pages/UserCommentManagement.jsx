@@ -172,26 +172,6 @@ const UserCommentManagement = ({ userId }) => {
       key: 'Status',
     },
     {
-      title: 'Created At',
-      dataIndex: 'CreatedAtDate',
-      key: 'CreatedAtDate',
-    },
-    {
-      title: 'Updated At',
-      dataIndex: 'UpdatedAtDate',
-      key: 'UpdatedAtDate',
-    },
-    {
-      title: 'Moderation Note',
-      dataIndex: 'ModerationNote',
-      key: 'ModerationNote',
-    },
-    {
-      title: 'Moderator',
-      dataIndex: 'ModeratorName',
-      key: 'ModeratorName',
-    },
-    {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (

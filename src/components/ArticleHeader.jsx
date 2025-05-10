@@ -45,7 +45,7 @@ const ArticleHeader = () => {
         <ul className="categories">
           {post.categories.map((category, index) => (
             <li key={index}>
-              <a href="category.html" className="category">
+              <a className="category">
                 <span>{category}</span>
               </a>
             </li>

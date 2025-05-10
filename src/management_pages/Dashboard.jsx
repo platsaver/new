@@ -23,19 +23,19 @@ const Dashboard = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/dashboard-featured-posts');
-      console.log('API response status:', response.status);
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('API error response:', errorData);
-        throw new Error(`Failed to fetch posts: ${errorData.error || response.statusText}`);
+      // Fetch recent posts from dashboard-featured-posts (unchanged)
+      const featuredResponse = await fetch('http://localhost:3000/api/dashboard-featured-posts');
+      console.log('API response status (featured):', featuredResponse.status);
+      if (!featuredResponse.ok) {
+        const errorData = await featuredResponse.json();
+        console.error('API error response (featured):', errorData);
+        throw new Error(`Failed to fetch featured posts: ${errorData.error || featuredResponse.statusText}`);
       }
-      const posts = await response.json();
-      console.log('Fetched posts:', posts);
+      const featuredPosts = await featuredResponse.json();
+      console.log('Fetched featured posts:', featuredPosts);
 
-      // Get 5 most recent posts
-      const recent = posts.slice(0, 5).map(post => {
-        console.log('Processing post:', post);
+      const recent = featuredPosts.slice(0, 5).map(post => {
+        console.log('Processing featured post:', post);
         return {
           PostID: post.PostID,
           title: post.Title,
@@ -46,29 +46,39 @@ const Dashboard = () => {
       console.log('Recent posts:', recent);
       setRecentPosts(recent);
 
-      // Aggregate posts by month for chart
-      const postsByMonth = posts.reduce((acc, post) => {
-        const date = new Date(post.CreatedAtDate);
-        const month = date.toLocaleString('default', { month: 'short' });
-        acc[month] = (acc[month] || 0) + 1;
-        return acc;
-      }, {});
-      console.log('Posts by month:', postsByMonth);
-
-      const chart = Object.entries(postsByMonth).map(([month, posts]) => ({
-        month,
-        posts,
-      })).sort((a, b) => {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        return months.indexOf(a.month) - months.indexOf(b.month);
-      });
-      console.log('Chart data:', chart);
-
-      setChartData(chart.slice(-4)); // Show last 4 months
-    } catch (error) {
-      console.error('Error in fetchPosts:', error.message, error.stack);
-      message.error(`Failed to fetch posts: ${error.message}`);
+      // Fetch published posts for chart from /posts/published
+    const publishedResponse = await fetch('http://localhost:3000/posts/published');
+    if (!publishedResponse.ok) {
+      const errorData = await publishedResponse.json();
+      throw new Error(`Failed to fetch published posts: ${errorData.error || publishedResponse.statusText}`);
     }
+    const publishedPosts = await publishedResponse.json();
+
+    // Aggregate published posts by day with error handling
+    const postsByDay = publishedPosts.reduce((acc, post) => {
+      try {
+        const date = new Date(post.createdatdate); // Match API field name
+        if (isNaN(date.getTime())) {
+          console.warn(`Invalid date for post ${post.postid}: ${post.createdatdate}`);
+          return acc;
+        }
+        const day = date.toISOString().split('T')[0]; // YYYY-MM-DD
+        acc[day] = (acc[day] || 0) + 1;
+        return acc;
+      } catch (error) {
+        console.error(`Error processing date for post ${post.postid}:`, error);
+        return acc;
+      }
+    }, {});
+
+    const chart = Object.entries(postsByDay)
+      .map(([day, posts]) => ({ day, posts }))
+      .sort((a, b) => new Date(a.day) - new Date(b.day));
+    setChartData(chart.slice(-7));
+  } catch (error) {
+    console.error('Error in fetchPosts:', error.message, error.stack);
+    message.error(`Failed to fetch posts: ${error.message}`);
+  }
   };
 
   // Fetch data on mount
@@ -145,7 +155,7 @@ const Dashboard = () => {
       <Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
         <Col xs={24} lg={12}>
           <Card
-            title="Post Trends"
+            title="Post Trends (Last 7 Days)"
             bordered={false}
             style={{
               boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
@@ -162,7 +172,7 @@ const Dashboard = () => {
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
+              <XAxis dataKey="day" />
               <YAxis />
               <Tooltip />
               <Legend />
