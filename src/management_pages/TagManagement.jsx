@@ -296,7 +296,7 @@ const fetchPostTags = async () => {
           danger
           onClick={() => deletePostTag(record.PostID, record.TagID)}
         >
-          Remove Association
+          Remove
         </Button>
       ),
     },
@@ -320,7 +320,7 @@ const fetchPostTags = async () => {
             style={{ marginBottom: 16, backgroundColor: '#4e73df' }}
             onClick={() => showTagModal()}
           >
-            Add Tag
+            Add
           </Button>
           <Table
             columns={tagColumns}
@@ -346,7 +346,7 @@ const fetchPostTags = async () => {
                 }
               }}
             >
-              Create Association
+              Create
             </Button>
             <Button 
               onClick={() => fetchPostTags()}

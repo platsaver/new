@@ -103,7 +103,7 @@ const CategoryManagement = () => {
           CategoryID: sub.categoryid,
           SubCategoryName: sub.subcategoryname,
           BannerURL: sub.bannerurl || null,
-          CategoryName: sub.category || 'Unknown Category',
+          CategoryName: sub.categoryname || 'Unknown Category',
         }));
 
       console.log('Mapped subcategories:', validSubcategories);

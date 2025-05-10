@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Space, Table, message, Button, Modal, Form, Input, Select, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import '@ant-design/v5-patch-for-react-19';
-import { Spin } from 'antd';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Thêm Bootstrap CSS
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -114,7 +113,6 @@ const User = () => {
     }
   };
 
-  // Show modal for updating username/password
   const showUpdateModal = (user) => {
     setSelectedUser(user);
     setIsModalOpen(true);
@@ -123,7 +121,6 @@ const User = () => {
     });
   };
 
-  // Handle modal form submission
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
@@ -133,19 +130,16 @@ const User = () => {
     }
   };
 
-  // Handle modal cancel
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
     setSelectedUser(null);
   };
 
-  // Load users on mount
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Table columns
   const columns = [
     {
       title: 'Username',
@@ -201,17 +195,24 @@ const User = () => {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="container mt-4">
       {error && (
-        <div style={{ color: 'red', marginBottom: '16px' }}>{error}</div>
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
       )}
-      <Spin spinning={loading}>
-        <Table
-          columns={columns}
-          dataSource={users}
-          locale={{ emptyText: 'No users found' }}
-        />
-      </Spin>
+      <div className="row">
+        <div className="col-12">
+          <Table
+            columns={columns}
+            dataSource={users}
+            loading={loading}
+            locale={{ emptyText: 'No users found' }}
+            scroll={{ x: 800 }} // Thêm scroll ngang cho responsive
+            className="table-responsive" // Bootstrap class để responsive
+          />
+        </div>
+      </div>
       <Modal
         title="Update User"
         open={isModalOpen}
