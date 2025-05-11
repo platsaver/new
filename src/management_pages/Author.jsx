@@ -5,7 +5,8 @@ import {
   UserOutlined,
   CommentOutlined,
   FormOutlined,
-  FileImageOutlined
+  FileImageOutlined,
+  TagsOutlined
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, Row, Col } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
@@ -15,7 +16,8 @@ import ManagePostsButton from './Button3-1.jsx';
 import ListPost from './ListPost2.jsx';
 import UserCommentManagement from './UserCommentManagement.jsx';
 import UserProfile from './UserProfile.jsx';
-import MediaManagement from './MediaManagement.jsx'
+import MediaManagement from './MediaManagement.jsx';
+import TagManagement from './TagManagement.jsx';
 
 const { Header, Sider, Content } = Layout;
 
@@ -57,6 +59,8 @@ const Author = () => {
         return <UserProfile userId={userId} />;
       case '4':
         return <MediaManagement />;
+      case '5':
+        return < TagManagement/>;
       default:
         return <ListPost />;
     }
@@ -88,6 +92,7 @@ const Author = () => {
             { key: '2', icon: <CommentOutlined />, label: 'Comments' },
             { key: '3', icon: <UserOutlined />, label: 'Profile' },
             {key: '4', icon: <FileImageOutlined />, label: 'Media Management'},
+            { key: '5', icon: <TagsOutlined />, label: 'Tag Management' }
           ]}
         />
       </Sider>
