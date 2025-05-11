@@ -12,13 +12,12 @@ const CommentSection = () => {
   const [submitError, setSubmitError] = useState(null);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [userName, setUserName] = useState(null);
-  const [userProfilesMap, setUserProfilesMap] = useState({}); // Map of userId to { username, avatarURL }
+  const [userProfilesMap, setUserProfilesMap] = useState({});
 
   const userId = localStorage.getItem("userId");
   const postId = localStorage.getItem("selectedPostID");
 
-  // Default avatar URL for users without an avatar
-  const defaultAvatar = "https://via.placeholder.com/40?text=User"; // Placeholder image
+  const defaultAvatar = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"; // Placeholder image incase 
 
   // Check authentication status
   useEffect(() => {
@@ -97,7 +96,6 @@ const CommentSection = () => {
     fetchComments();
   }, [postId]);
 
-  // Fetch user profiles (username and avatarURL) for all userIds in comments
   useEffect(() => {
     const fetchUserProfiles = async () => {
       const userIds = [...new Set(comments.map(comment => comment.userid))]; // Unique userIds
@@ -116,8 +114,8 @@ const CommentSection = () => {
           } catch (error) {
             console.error(`Error fetching profile for userId ${id}:`, error);
             updatedUserProfilesMap[id] = {
-              username: `User_${id}`, // Fallback username
-              avatarURL: null, // Fallback to null, will use default avatar
+              username: `User_${id}`,
+              avatarURL: null,
             };
           }
         }
@@ -130,7 +128,6 @@ const CommentSection = () => {
     }
   }, [comments, userProfilesMap]);
 
-  // Handle comment submission
   const handleSubmitComment = async () => {
     if (!userId) {
       message.warning("Vui lòng đăng nhập để bình luận!");
