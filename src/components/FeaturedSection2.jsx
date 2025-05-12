@@ -4,56 +4,90 @@ import Article from './Article.jsx';
 const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const fetchFeaturedPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/featured-posts1/category/${categoryId}?t=${Date.now()}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache',
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch featured posts');
-        }
-        const data = await response.json();
-
-        if (!data.success || !Array.isArray(data.data)) {
-          throw new Error(data.message || 'Invalid data format');
-        }
-
-        const fetchedPosts = data.data.map(post => ({
-          ...post,
-          imageUrl: post.imageurl,
-        }));
-
-        // Reorder posts to prioritize images for the first two articles
-        const postsWithImages = fetchedPosts.filter(post => post.imageUrl);
-        const postsWithoutImages = fetchedPosts.filter(post => !post.imageUrl);
-        const reorderedPosts = [];
-
-        // First column (col-lg-6, index 0) - must have image if available
-        reorderedPosts[0] = postsWithImages.shift() || postsWithoutImages.shift() || null;
-
-        // Second column (col-lg-3, index 1) - must have image if available
-        reorderedPosts[1] = postsWithImages.shift() || postsWithoutImages.shift() || null;
-
-        // Third column (col-lg-3, indices 2 and 3) - prefer no images
-        reorderedPosts[2] = postsWithoutImages.shift() || postsWithImages.shift() || null;
-        reorderedPosts[3] = postsWithoutImages.shift() || postsWithImages.shift() || null;
-
-        // Filter out null values
-        setPosts(reorderedPosts.filter(Boolean));
-      } catch (error) {
-        console.error('Error fetching featured posts:', error);
-        setPosts([]);
+  // Hàm lấy danh sách featured posts
+  const fetchFeaturedPosts = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/featured-posts1/category/${categoryId}?t=${Date.now()}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch featured posts');
       }
-    };
+      const data = await response.json();
 
-    if (categoryId) {
-      fetchFeaturedPosts();
+      if (!data.success || !Array.isArray(data.data)) {
+        throw new Error(data.message || 'Invalid data format');
+      }
+
+      const fetchedPosts = data.data.map(post => ({
+        ...post,
+        imageUrl: post.imageurl,
+      }));
+
+      // Reorder posts to prioritize images for the first two articles
+      const postsWithImages = fetchedPosts.filter(post => post.imageUrl);
+      const postsWithoutImages = fetchedPosts.filter(post => !post.imageUrl);
+      const reorderedPosts = [];
+
+      // First column (col-lg-6, index 0) - must have image if available
+      reorderedPosts[0] = postsWithImages.shift() || postsWithoutImages.shift() || null;
+
+      // Second column (col-lg-3, index 1) - must have image if available
+      reorderedPosts[1] = postsWithImages.shift() || postsWithoutImages.shift() || null;
+
+      // Third column (col-lg-3, indices 2 and 3) - prefer no images
+      reorderedPosts[2] = postsWithoutImages.shift() || postsWithImages.shift() || null;
+      reorderedPosts[3] = postsWithoutImages.shift() || postsWithImages.shift() || null;
+
+      // Filter out null values
+      setPosts(reorderedPosts.filter(Boolean));
+    } catch (error) {
+      console.error('Error fetching featured posts:', error);
+      setPosts([]);
     }
-  }, [categoryId]);
+  };
+
+  useEffect(() => {
+    if (categoryId) {
+      // Lấy danh sách ban đầu
+      fetchFeaturedPosts();
+
+      // Thiết lập kết nối SSE
+      const source = new EventSource('http://localhost:3000/events');
+
+      // Xử lý sự kiện postCreated
+      source.addEventListener('postCreated', (event) => {
+        const newPost = JSON.parse(event.data);
+        // Chỉ cập nhật nếu bài viết mới thuộc categoryId và là featured
+        if (newPost.categoryid === categoryId && newPost.featured) {
+          fetchFeaturedPosts(); // Tải lại danh sách để đảm bảo thứ tự
+        }
+      });
+
+      // Xử lý sự kiện postUpdated
+      source.addEventListener('postUpdated', (event) => {
+        const updatedPost = JSON.parse(event.data);
+        // Kiểm tra xem bài viết có trong danh sách hiện tại hoặc có thay đổi trạng thái featured/category
+        const isInCurrentPosts = posts.some((post) => post.postid === updatedPost.id);
+        if ((isInCurrentPosts || updatedPost.featured) && updatedPost.categoryid === categoryId) {
+          fetchFeaturedPosts(); // Tải lại danh sách để phản ánh thay đổi
+        }
+      });
+
+      // Xử lý lỗi SSE
+      source.onerror = () => {
+        console.error('SSE connection error');
+      };
+
+      // Dọn dẹp khi component unmount
+      return () => {
+        source.close();
+      };
+    }
+  }, [categoryId, posts]); // Thêm posts vào dependency array để cập nhật khi posts thay đổi
 
   return (
     <section className="featured">
@@ -64,7 +98,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
             <div className="collection">
               {posts[0] && (
                 <Article
-                  postID={posts[0].postid} // Thêm postID
+                  postID={posts[0].postid}
                   imageUrl={posts[0].imageUrl || undefined}
                   categories={posts[0].categories}
                   title={posts[0].title}
@@ -72,7 +106,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
                   timestamp={posts[0].timestamp.replace('+07', 'GMT+7')}
                   excerpt={posts[0].excerpt || 'No description available'}
                   link={posts[0].link}
-                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>
@@ -83,7 +117,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
             <div className="collection">
               {posts[1] && (
                 <Article
-                  postID={posts[1].postid} // Thêm postID
+                  postID={posts[1].postid}
                   imageUrl={posts[1].imageUrl || undefined}
                   categories={posts[1].categories}
                   title={posts[1].title}
@@ -91,7 +125,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
                   timestamp={posts[1].timestamp.replace('+07', 'GMT+7').split(',')[0]}
                   excerpt={posts[1].excerpt || 'No description available'}
                   link={posts[1].link}
-                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>
@@ -102,7 +136,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
             <div className="collection">
               {posts[2] && (
                 <Article
-                  postID={posts[2].postid} // Thêm postID
+                  postID={posts[2].postid}
                   imageUrl={undefined}
                   categories={posts[2].categories}
                   title={posts[2].title}
@@ -110,12 +144,12 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
                   timestamp={posts[2].timestamp.replace('+07', 'GMT+7')}
                   excerpt={posts[2].excerpt || 'No description available'}
                   link={posts[2].link}
-                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
               {posts[3] && (
                 <Article
-                  postID={posts[3].postid} // Thêm postID
+                  postID={posts[3].postid}
                   imageUrl={undefined}
                   categories={posts[3].categories}
                   title={posts[3].title}
@@ -124,7 +158,7 @@ const FeaturedSection2 = ({ categoryId, setCurrentComponent }) => {
                   excerpt={posts[3].excerpt || 'No description available'}
                   link={posts[3].link}
                   isLast={true}
-                  setCurrentComponent={setCurrentComponent} // Truyền setCurrentComponent
+                  setCurrentComponent={setCurrentComponent}
                 />
               )}
             </div>

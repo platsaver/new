@@ -9,54 +9,127 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchSubCategories = async () => {
-      try {
-        const url = previewCategory
-          ? `${API_BASE_URL}/api/subcategories?categoryId=${previewCategory.CategoryID}&t=${Date.now()}`
-          : `${API_BASE_URL}/api/subcategories?t=${Date.now()}`;
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache',
-          },
-        });
+  const fetchSubCategories = async () => {
+    try {
+      const url = previewCategory
+        ? `${API_BASE_URL}/api/subcategories?categoryId=${previewCategory.CategoryID}&t=${Date.now()}`
+        : `${API_BASE_URL}/api/subcategories?t=${Date.now()}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error(data.message || 'Failed to fetch subcategories');
-        }
-
-        const validSubCategories = Array.isArray(data.data)
-          ? data.data
-              .filter(sub => !previewCategory || sub.categoryid === previewCategory.CategoryID)
-              .map(sub => ({
-                SubCategoryID: sub.subcategoryid,
-                CategoryID: sub.categoryid,
-                SubCategoryName: sub.subcategoryname,
-                BannerURL: sub.bannerurl ? `${API_BASE_URL}${sub.bannerurl}` : null,
-                CategoryName: sub.categoryname || (previewCategory ? previewCategory.CategoryName : 'Thời sự'),
-              }))
-          : [];
-
-        setSubCategories(validSubCategories);
-        setLoading(false);
-
-        console.log('Fetched subcategories:', validSubCategories);
-      } catch (err) {
-        console.error('Error fetching subcategories:', err);
-        setError(err.message);
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
       }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || 'Failed to fetch subcategories');
+      }
+
+      const validSubCategories = Array.isArray(data.data)
+        ? data.data
+            .filter(sub => !previewCategory || sub.categoryid === previewCategory.CategoryID)
+            .map(sub => ({
+              SubCategoryID: sub.subcategoryid,
+              CategoryID: sub.categoryid,
+              SubCategoryName: sub.subcategoryname,
+              BannerURL: sub.bannerurl ? `${API_BASE_URL}${sub.bannerurl}` : null,
+              CategoryName: sub.categoryname || (previewCategory ? previewCategory.CategoryName : 'Thời sự'),
+            }))
+        : [];
+
+      setSubCategories(validSubCategories);
+      setLoading(false);
+
+      console.log('Fetched subcategories:', validSubCategories);
+    } catch (err) {
+      console.error('Error fetching subcategories:', err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubCategories();
+
+    // Thiết lập kết nối SSE
+    const source = new EventSource(`${API_BASE_URL}/events`);
+
+    // Category events
+    source.addEventListener('categoryCreated', (event) => {
+      const newCategory = JSON.parse(event.data);
+      if (!previewCategory || newCategory.categoryId === previewCategory.CategoryID) {
+        fetchSubCategories(); // Refetch to include any new subcategories under this category
+      }
+    });
+
+    source.addEventListener('categoryUpdated', (event) => {
+      const updatedCategory = JSON.parse(event.data);
+      if (!previewCategory || updatedCategory.categoryId === previewCategory.CategoryID) {
+        fetchSubCategories(); // Refetch to update category name in subcategories
+      }
+    });
+
+    source.addEventListener('categoryDeleted', (event) => {
+      const { categoryId } = JSON.parse(event.data);
+      if (!previewCategory || categoryId === previewCategory.CategoryID) {
+        setSubCategories((prev) => prev.filter((sub) => sub.CategoryID !== categoryId));
+      }
+    });
+
+    // Subcategory events
+    source.addEventListener('subcategoryCreated', (event) => {
+      const newSubcategory = JSON.parse(event.data);
+      if (!previewCategory || newSubcategory.categoryId === previewCategory.CategoryID) {
+        setSubCategories((prev) => [
+          ...prev,
+          {
+            SubCategoryID: newSubcategory.subCategoryId,
+            CategoryID: newSubcategory.categoryId,
+            SubCategoryName: newSubcategory.subCategoryName,
+            BannerURL: newSubcategory.bannerUrl ? `${API_BASE_URL}${newSubcategory.bannerUrl}` : null,
+            CategoryName: previewCategory ? previewCategory.CategoryName : 'Thời sự'
+          }
+        ]);
+      }
+    });
+
+    source.addEventListener('subcategoryUpdated', (event) => {
+      const updatedSubcategory = JSON.parse(event.data);
+      if (!previewCategory || updatedSubcategory.categoryId === previewCategory.CategoryID) {
+        setSubCategories((prev) =>
+          prev.map((sub) =>
+            sub.SubCategoryID === updatedSubcategory.subCategoryId
+              ? {
+                  ...sub,
+                  CategoryID: updatedSubcategory.categoryId,
+                  SubCategoryName: updatedSubcategory.subCategoryName,
+                  BannerURL: updatedSubcategory.bannerUrl ? `${API_BASE_URL}${updatedSubcategory.bannerUrl}` : null
+                }
+              : sub
+          )
+        );
+      }
+    });
+
+    source.addEventListener('subcategoryDeleted', (event) => {
+      const { subCategoryId } = JSON.parse(event.data);
+      setSubCategories((prev) => prev.filter((sub) => sub.SubCategoryID !== subCategoryId));
+    });
+
+    source.onerror = () => {
+      console.error('SSE connection error');
     };
 
-    fetchSubCategories();
+    return () => {
+      source.close();
+    };
   }, [previewCategory]);
 
   const fetchNewsForCategory = async (subCategoryId) => {
@@ -145,20 +218,46 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews, setCurrentCom
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const loadArticles = async () => {
+    try {
+      const fetchedArticles = await fetchNews(subCategoryId);
+      setArticles(fetchedArticles);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message || 'Failed to load articles');
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        const fetchedArticles = await fetchNews(subCategoryId);
-        setArticles(fetchedArticles);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message || 'Failed to load articles');
-        setLoading(false);
+    loadArticles();
+
+    // Thiết lập kết nối SSE cho bài viết
+    const source = new EventSource(`${API_BASE_URL}/events`);
+
+    source.addEventListener('postCreated', (event) => {
+      const newPost = JSON.parse(event.data);
+      if (newPost.subcategoryid === subCategoryId && newPost.status === 'Published') {
+        loadArticles(); // Refetch articles to include the new post
       }
+    });
+
+    source.addEventListener('postUpdated', (event) => {
+      const updatedPost = JSON.parse(event.data);
+      const isInCurrentArticles = articles.some((article) => article.postid === updatedPost.id);
+      if ((isInCurrentArticles || updatedPost.status === 'Published') && updatedPost.subcategoryid === subCategoryId) {
+        loadArticles(); // Refetch articles to reflect the update
+      }
+    });
+
+    source.onerror = () => {
+      console.error('SSE connection error');
     };
 
-    loadArticles();
-  }, [subCategoryId, fetchNews]);
+    return () => {
+      source.close();
+    };
+  }, [subCategoryId, fetchNews, articles]);
 
   const defaultIcon = null;
 
