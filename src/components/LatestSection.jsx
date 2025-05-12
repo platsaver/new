@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE_URL = 'http://localhost:3000';
+
 // Latest News Section Component
 const LatestSection = ({ setCurrentComponent }) => {
   const [latestArticles, setLatestArticles] = useState([]);
@@ -25,6 +27,38 @@ const LatestSection = ({ setCurrentComponent }) => {
     };
 
     fetchLatestPosts();
+
+    // SSE Event Handling
+    const source = new EventSource(`${API_BASE_URL}/events`);
+
+    source.addEventListener('postCreated', (event) => {
+      console.log('postCreated event data:', JSON.parse(event.data));
+      fetchLatestPosts(); // Refetch to include the new post
+    });
+
+    source.addEventListener('postUpdated', (event) => {
+      console.log('postUpdated event data:', JSON.parse(event.data));
+      fetchLatestPosts(); // Refetch to reflect the update
+    });
+
+    source.addEventListener('mediaUpdated', (event) => {
+      console.log('mediaUpdated event data:', JSON.parse(event.data));
+      fetchLatestPosts(); // Refetch to reflect the updated image
+    });
+
+    source.addEventListener('postDeleted', (event) => {
+      const deletedPost = JSON.parse(event.data);
+      console.log('postDeleted event data:', deletedPost);
+      fetchLatestPosts(); // Refetch to remove the deleted post
+    });
+
+    source.onerror = () => {
+      console.error('SSE connection error');
+    };
+
+    return () => {
+      source.close();
+    };
   }, []); // Empty dependency array means this effect runs once on mount
 
   // Xử lý nhấp vào bài viết
