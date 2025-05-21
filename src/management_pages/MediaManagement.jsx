@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Table, message, Typography, Empty, Upload, Image, Modal, Select } from 'antd';
 import { DeleteOutlined, UploadOutlined, EditOutlined } from '@ant-design/icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -10,6 +11,7 @@ const MediaManagement = () => {
   const [media, setMedia] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState(null);
@@ -54,6 +56,7 @@ const MediaManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching media:', error);
+      setError('Failed to load media. Please try again later.');
       message.error(`Error fetching media: ${error.message}`);
       setMedia([]);
     } finally {
@@ -82,6 +85,7 @@ const MediaManagement = () => {
       setPosts(validPosts);
     } catch (error) {
       console.error('Error fetching published posts:', error);
+      setError('Failed to load published posts. Please try again later.');
       message.error(`Error fetching published posts: ${error.message}`);
       setPosts([]);
     }
@@ -231,47 +235,58 @@ const MediaManagement = () => {
   ];
 
   return (
-    <>
-      <Card
-        title={<Title level={4} style={{ color: '#4e73df' }}>Media Management</Title>}
-        bordered={false}
-        style={{
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-          borderRadius: '8px',
-          background: '#fff',
-        }}
-      >
-        <Upload
-          customRequest={handleUpload}
-          fileList={fileList}
-          onChange={({ fileList }) => setFileList(fileList)}
-          accept="image/*"
-          showUploadList={false}
-        >
-          <Button
-            type="primary"
-            icon={<UploadOutlined />}
-            style={{ marginBottom: 16, backgroundColor: '#4e73df' }}
+    <div className="container mt-4">
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      <div className="row">
+        <div className="col-12">
+          <Card
+            title={<Title level={4} style={{ color: '#4e73df' }}>Media Management</Title>}
+            bordered={false}
+            style={{
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+              borderRadius: '8px',
+              background: '#fff',
+            }}
           >
-            Upload Media
-          </Button>
-        </Upload>
-        <Table
-          columns={columns}
-          dataSource={media}
-          loading={loading}
-          rowKey="MediaID"
-          pagination={{ pageSize: 10 }}
-          locale={{
-            emptyText: (
-              <Empty
-                description="No media found"
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            ),
-          }}
-        />
-      </Card>
+            <Upload
+              customRequest={handleUpload}
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
+              accept="image/*"
+              showUploadList={false}
+            >
+              <Button
+                type="primary"
+                icon={<UploadOutlined />}
+                style={{ marginBottom: 16, backgroundColor: '#4e73df' }}
+              >
+                Upload Media
+              </Button>
+            </Upload>
+            <Table
+              columns={columns}
+              dataSource={media}
+              loading={loading}
+              rowKey="MediaID"
+              pagination={{ pageSize: 10 }}
+              locale={{
+                emptyText: (
+                  <Empty
+                    description="No media found"
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  />
+                ),
+              }}
+              scroll={{ x: 800 }}
+              className="table-responsive"
+            />
+          </Card>
+        </div>
+      </div>
 
       <Modal
         title="Associate Post with Media"
@@ -298,7 +313,7 @@ const MediaManagement = () => {
           ))}
         </Select>
       </Modal>
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Table, Modal, Form, Input, message, Typography, Empty, Tabs, Select, Upload } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -11,6 +12,7 @@ const CategoryManagement = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
@@ -67,6 +69,7 @@ const CategoryManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setError('Failed to load categories. Please try again later.');
       message.error(`Error fetching categories: ${error.message}`);
       setCategories([]);
     } finally {
@@ -458,58 +461,83 @@ const CategoryManagement = () => {
   ];
 
   return (
-    <div className="category-management">
-      <Title level={2}>Category Management</Title>
-      <Tabs 
-        activeKey={activeTab} 
-        onChange={setActiveTab}
-        tabBarExtraContent={
-          activeTab === 'categories' ? (
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />} 
-              onClick={() => showModal()}
-            >
-              Add Category
-            </Button>
-          ) : (
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />} 
-              onClick={() => showSubModal()}
-            >
-              Add Subcategory
-            </Button>
-          )
-        }
-      >
-        <TabPane tab="Categories" key="categories">
-          <Card>
-            <Table
-              columns={categoryColumns}
-              dataSource={categories}
-              rowKey="CategoryID"
-              loading={loading}
-              locale={{
-                emptyText: <Empty description="No categories found" />,
-              }}
-            />
-          </Card>
-        </TabPane>
-        <TabPane tab="Subcategories" key="subcategories">
-          <Card>
-            <Table
-              columns={subcategoryColumns}
-              dataSource={subcategories}
-              rowKey="SubCategoryID"
-              loading={subLoading}
-              locale={{
-                emptyText: <Empty description="No subcategories found" />,
-              }}
-            />
-          </Card>
-        </TabPane>
-      </Tabs>
+    <div className="container mt-4">
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      <div className="row">
+        <div className="col-12">
+          <Title level={2}>Category Management</Title>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          <Tabs 
+            activeKey={activeTab} 
+            onChange={setActiveTab}
+            tabBarExtraContent={
+              activeTab === 'categories' ? (
+                <Button 
+                  type="primary" 
+                  icon={<PlusOutlined />} 
+                  onClick={() => showModal()}
+                >
+                  Add Category
+                </Button>
+              ) : (
+                <Button 
+                  type="primary" 
+                  icon={<PlusOutlined />} 
+                  onClick={() => showSubModal()}
+                >
+                  Add Subcategory
+                </Button>
+              )
+            }
+          >
+            <TabPane tab="Categories" key="categories">
+              <div className="row">
+                <div className="col-12">
+                  <Card>
+                    <Table
+                      columns={categoryColumns}
+                      dataSource={categories}
+                      rowKey="CategoryID"
+                      loading={loading}
+                      locale={{
+                        emptyText: <Empty description="No categories found" />,
+                      }}
+                      scroll={{ x: 800 }}
+                      className="table-responsive"
+                    />
+                  </Card>
+                </div>
+              </div>
+            </TabPane>
+            <TabPane tab="Subcategories" key="subcategories">
+              <div className="row">
+                <div className="col-12">
+                  <Card>
+                    <Table
+                      columns={subcategoryColumns}
+                      dataSource={subcategories}
+                      rowKey="SubCategoryID"
+                      loading={subLoading}
+                      locale={{
+                        emptyText: <Empty description="No subcategories found" />,
+                      }}
+                      scroll={{ x: 800 }}
+                      className="table-responsive"
+                    />
+                  </Card>
+                </div>
+              </div>
+            </TabPane>
+          </Tabs>
+        </div>
+      </div>
 
       {/* Category Modal */}
       <Modal

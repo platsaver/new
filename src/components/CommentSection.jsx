@@ -17,7 +17,7 @@ const CommentSection = () => {
   const userId = localStorage.getItem("userId");
   const postId = localStorage.getItem("selectedPostID");
 
-  const defaultAvatar = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"; // Placeholder image incase 
+  const defaultAvatar = "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
 
   // Check authentication status
   useEffect(() => {
@@ -96,6 +96,7 @@ const CommentSection = () => {
     fetchComments();
   }, [postId]);
 
+  // Fetch user profiles
   useEffect(() => {
     const fetchUserProfiles = async () => {
       const userIds = [...new Set(comments.map(comment => comment.userid))]; // Unique userIds
@@ -109,7 +110,7 @@ const CommentSection = () => {
             const data = await response.json();
             updatedUserProfilesMap[id] = {
               username: data.username,
-              avatarURL: `http://localhost:3000${data.avatarURL}`,
+              avatarURL: data.avatarURL, // Use API response directly
             };
           } catch (error) {
             console.error(`Error fetching profile for userId ${id}:`, error);
@@ -227,6 +228,7 @@ const CommentSection = () => {
                 src={userProfilesMap[comment.userid]?.avatarURL || defaultAvatar}
                 alt="User Avatar"
                 style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px", objectFit: "cover" }}
+                onError={(e) => { e.target.src = defaultAvatar; }} // Fallback to default avatar on error
               />
               <div>
                 <p>

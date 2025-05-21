@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Col, Row, Table, Typography, message } from 'antd';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const { Title } = Typography;
 
@@ -47,38 +47,38 @@ const Dashboard = () => {
       setRecentPosts(recent);
 
       // Fetch published posts for chart from /posts/published
-    const publishedResponse = await fetch('http://localhost:3000/posts/published');
-    if (!publishedResponse.ok) {
-      const errorData = await publishedResponse.json();
-      throw new Error(`Failed to fetch published posts: ${errorData.error || publishedResponse.statusText}`);
-    }
-    const publishedPosts = await publishedResponse.json();
+      const publishedResponse = await fetch('http://localhost:3000/posts/published');
+      if (!publishedResponse.ok) {
+        const errorData = await publishedResponse.json();
+        throw new Error(`Failed to fetch published posts: ${errorData.error || publishedResponse.statusText}`);
+      }
+      const publishedPosts = await publishedResponse.json();
 
-    // Aggregate published posts by day with error handling
-    const postsByDay = publishedPosts.reduce((acc, post) => {
-      try {
-        const date = new Date(post.createdatdate); // Match API field name
-        if (isNaN(date.getTime())) {
-          console.warn(`Invalid date for post ${post.postid}: ${post.createdatdate}`);
+      // Aggregate published posts by day with error handling
+      const postsByDay = publishedPosts.reduce((acc, post) => {
+        try {
+          const date = new Date(post.createdatdate); // Match API field name
+          if (isNaN(date.getTime())) {
+            console.warn(`Invalid date for post ${post.postid}: ${post.createdatdate}`);
+            return acc;
+          }
+          const day = date.toISOString().split('T')[0]; // YYYY-MM-DD
+          acc[day] = (acc[day] || 0) + 1;
+          return acc;
+        } catch (error) {
+          console.error(`Error processing date for post ${post.postid}:`, error);
           return acc;
         }
-        const day = date.toISOString().split('T')[0]; // YYYY-MM-DD
-        acc[day] = (acc[day] || 0) + 1;
-        return acc;
-      } catch (error) {
-        console.error(`Error processing date for post ${post.postid}:`, error);
-        return acc;
-      }
-    }, {});
+      }, {});
 
-    const chart = Object.entries(postsByDay)
-      .map(([day, posts]) => ({ day, posts }))
-      .sort((a, b) => new Date(a.day) - new Date(b.day));
-    setChartData(chart.slice(-7));
-  } catch (error) {
-    console.error('Error in fetchPosts:', error.message, error.stack);
-    message.error(`Failed to fetch posts: ${error.message}`);
-  }
+      const chart = Object.entries(postsByDay)
+        .map(([day, posts]) => ({ day, posts }))
+        .sort((a, b) => new Date(a.day) - new Date(b.day));
+      setChartData(chart.slice(-7));
+    } catch (error) {
+      console.error('Error in fetchPosts:', error.message, error.stack);
+      message.error(`Failed to fetch posts: ${error.message}`);
+    }
   };
 
   // Fetch data on mount
@@ -165,19 +165,19 @@ const Dashboard = () => {
             headStyle={{ color: '#4e73df', fontWeight: 'bold' }}
             loading={loading}
           >
-            <LineChart
-              width={500}
-              height={300}
-              data={chartData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="posts" stroke="#4e73df" activeDot={{ r: 8 }} />
-            </LineChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={chartData}
+                margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip />
+                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Line type="monotone" dataKey="posts" stroke="#4e73df" activeDot={{ r: 8 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </Card>
         </Col>
         <Col xs={24} lg={12}>
@@ -197,6 +197,7 @@ const Dashboard = () => {
               dataSource={recentPosts}
               pagination={false}
               rowKey="PostID"
+              scroll={{ x: 600 }} // Ensure table is scrollable on small screens
             />
           </Card>
         </Col>

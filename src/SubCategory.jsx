@@ -7,6 +7,7 @@ const SubCategory = ({ subCategoryId, title, setCurrentComponent }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageRefreshKey, setImageRefreshKey] = useState(Date.now());
 
   const fetchArticles = async () => {
     try {
@@ -31,7 +32,7 @@ const SubCategory = ({ subCategoryId, title, setCurrentComponent }) => {
       if (Array.isArray(data)) {
         const mappedArticles = data.map(article => ({
           postid: article.postid,
-          imageurl: article.mediaurl ? `${API_BASE_URL}${article.mediaurl}?t=${Date.now()}` : 'https://via.placeholder.com/240x144',
+          imageurl: article.mediaurl ? `${API_BASE_URL}${article.mediaurl}?t=${imageRefreshKey}` : 'https://via.placeholder.com/240x144',
           title: article.title || 'Untitled',
           link: `#post-${article.postid}`,
         }));
@@ -74,6 +75,38 @@ const SubCategory = ({ subCategoryId, title, setCurrentComponent }) => {
       }
     });
 
+    source.addEventListener('mediaUpdated', (event) => {
+      const updatedMedia = JSON.parse(event.data);
+      console.log('mediaUpdated event data:', updatedMedia);
+      fetch(`${API_BASE_URL}/posts/${updatedMedia.postId}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Error fetching post ${updatedMedia.postId}: ${res.statusText}`);
+          }
+          return res.json();
+        })
+        .then(post => {
+          console.log(`Fetched post ${updatedMedia.postId} for mediaUpdated:`, post);
+          if (post.subcategoryid === subCategoryId) {
+            console.log(`Refetching articles for subcategory ${subCategoryId} due to mediaUpdated event for post ${updatedMedia.postId}`);
+            setImageRefreshKey(Date.now());
+            fetchArticles();
+          }
+        })
+        .catch(err => console.error('Error fetching post for mediaUpdated:', err));
+    });
+
+    source.addEventListener('postDeleted', (event) => {
+      const deletedPost = JSON.parse(event.data);
+      console.log('postDeleted event data:', deletedPost);
+      // Kiểm tra xem bài viết bị xóa có trong danh sách articles hay không
+      const isPostInArticles = articles.some(article => article.postid === deletedPost.postId);
+      if (isPostInArticles) {
+        console.log(`Refetching articles for subcategory ${subCategoryId} due to postDeleted event for post ${deletedPost.postId}`);
+        fetchArticles(); // Làm mới danh sách bài viết
+      }
+    });
+
     source.onerror = () => {
       console.error('SSE connection error');
     };
@@ -81,7 +114,7 @@ const SubCategory = ({ subCategoryId, title, setCurrentComponent }) => {
     return () => {
       source.close();
     };
-  }, [subCategoryId]);
+  }, [subCategoryId, imageRefreshKey, articles]); // Thêm articles vào dependencies
 
   const defaultIcon = null;
 

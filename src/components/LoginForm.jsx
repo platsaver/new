@@ -99,18 +99,18 @@ const AuthApp = ({ onLoginSuccess, onBack }) => {
 
   // Render LoginForm
   return (
-    <Container className="d-flex justify-content-center align-items-center min-vh-100">
-      <Row className="w-100">
-        <Col md={{ span: 6, offset: 3 }}>
-          <Card className="p-4 shadow">
+    <Container fluid className="d-flex justify-content-center align-items-center min-vh-100 px-2">
+      <Row className="w-100 justify-content-center">
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="p-3 p-sm-4 shadow">
             <Card.Body>
               <h3 className="text-center mb-4">Login</h3>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form
                 form={form}
                 name="login"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
+                labelCol={{ span: 8, xs: { span: 24 }, sm: { span: 8 } }}
+                wrapperCol={{ span: 16, xs: { span: 24 }, sm: { span: 16 } }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -135,9 +135,9 @@ const AuthApp = ({ onLoginSuccess, onBack }) => {
                   <Input.Password disabled={loading} />
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <Row className="justify-content-md-center">
-                    <Col md={12} className="text-center">
+                <Form.Item wrapperCol={{ span: 24 }}>
+                  <Row className="justify-content-center">
+                    <Col xs="auto">
                       <ReCAPTCHA
                         sitekey="6LefqiUrAAAAAMXyO4sfUFkBBkp5XH_ot8OxPNh5" // Replace with your actual site key
                         onChange={handleCaptchaChange}
@@ -146,28 +146,33 @@ const AuthApp = ({ onLoginSuccess, onBack }) => {
                   </Row>
                 </Form.Item>
 
-                <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+                <Form.Item
+                  name="remember"
+                  valuePropName="checked"
+                  wrapperCol={{ span: 24 }}
+                  className="text-center"
+                >
                   <Checkbox disabled={loading}>Remember me</Checkbox>
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Form.Item wrapperCol={{ span: 24 }} className="text-center">
                   <Button
                     type="primary"
                     htmlType="submit"
                     disabled={loading}
                     loading={loading}
-                    style={{ marginRight: '10px' }}
+                    className="me-2 mb-2 mb-sm-0"
                   >
                     Login
                   </Button>
                   <Button
                     onClick={handleShowRegister}
                     disabled={loading}
-                    style={{ marginRight: '10px' }}
+                    className="me-2 mb-2 mb-sm-0"
                   >
                     Register
                   </Button>
-                  <Button onClick={onBack} disabled={loading}>
+                  <Button onClick={onBack} disabled={loading} className="mb-2 mb-sm-0">
                     Back
                   </Button>
                 </Form.Item>

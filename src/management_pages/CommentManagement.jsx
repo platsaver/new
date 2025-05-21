@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Table, message, Typography, Empty, Modal, Form, Input, Select, Tabs, Popconfirm } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -11,6 +12,7 @@ const CommentManagement = () => {
   const [moderatedComments, setModeratedComments] = useState([]);
   const [manageComments, setManageComments] = useState([]);
   const [loading, setLoading] = useState({ pending: false, history: false, manage: false });
+  const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('moderate'); // 'moderate' or 'edit'
   const [selectedComment, setSelectedComment] = useState(null);
@@ -55,6 +57,7 @@ const CommentManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching pending comments:', error);
+      setError('Failed to load pending comments. Please try again later.');
       message.error(`Error fetching pending comments: ${error.message}`);
       setPendingComments([]);
     } finally {
@@ -107,6 +110,7 @@ const CommentManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching moderation history:', error);
+      setError('Failed to load moderation history. Please try again later.');
       message.error(`Error fetching moderation history: ${error.message}`);
       setModeratedComments([]);
     } finally {
@@ -159,6 +163,7 @@ const CommentManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching comments for management:', error);
+      setError('Failed to load comments for management. Please try again later.');
       message.error(`Error fetching comments: ${error.message}`);
       setManageComments([]);
     } finally {
@@ -423,122 +428,151 @@ const CommentManagement = () => {
   ];
 
   return (
-    <Card
-      title={<Title level={4} style={{ color: '#4e73df' }}>Comment Management</Title>}
-      bordered={false}
-      style={{
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        borderRadius: '8px',
-        background: '#fff',
-      }}
-    >
-      <Tabs defaultActiveKey="moderate">
-        <TabPane tab="Moderate" key="moderate">
-          <Table
-            columns={moderateColumns}
-            dataSource={pendingComments}
-            loading={loading.pending}
-            rowKey="CommentID"
-            pagination={{ pageSize: 10 }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="No pending comments found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
+    <div className="container mt-4">
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      <div className="row">
+        <div className="col-12">
+          <Card
+            title={<Title level={4} style={{ color: '#4e73df' }}>Comment Management</Title>}
+            bordered={false}
+            style={{
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+              borderRadius: '8px',
+              background: '#fff',
             }}
-          />
-        </TabPane>
-        <TabPane tab="Moderation History" key="history">
-          <Table
-            columns={historyColumns}
-            dataSource={moderatedComments}
-            loading={loading.history}
-            rowKey="CommentID"
-            pagination={{ pageSize: 10 }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="No moderated comments found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
-            }}
-          />
-        </TabPane>
-        <TabPane tab="Manage" key="manage">
-          <Table
-            columns={manageColumns}
-            dataSource={manageComments}
-            loading={loading.manage}
-            rowKey="CommentID"
-            pagination={{ pageSize: 10 }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="No comments found"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
-            }}
-          />
-        </TabPane>
-      </Tabs>
-      <Modal
-        title={modalMode === 'moderate' ? 'Moderate Comment' : 'Edit Comment'}
-        open={isModalOpen}
-        onOk={() => form.submit()}
-        onCancel={() => {
-          setIsModalOpen(false);
-          setSelectedComment(null);
-          setModalMode('moderate');
-          form.resetFields();
-        }}
-        okText="Submit"
-        cancelText="Cancel"
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) =>
-            modalMode === 'moderate'
-              ? moderateComment(selectedComment?.CommentID, values)
-              : updateComment(selectedComment?.CommentID, values)
-          }
-        >
-          {modalMode === 'moderate' ? (
-            <>
-              <Form.Item
-                name="status"
-                label="Status"
-                rules={[{ required: true, message: 'Please select a status' }]}
-              >
-                <Select>
-                  <Select.Option value="approved">Approved</Select.Option>
-                  <Select.Option value="rejected">Rejected</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                name="moderationNote"
-                label="Moderation Note"
-                rules={[{ required: true, message: 'Please enter a moderation note' }]}
-              >
-                <Input.TextArea rows={4} placeholder="Enter moderation note" />
-              </Form.Item>
-            </>
-          ) : (
-            <Form.Item
-              name="content"
-              label="Comment Content"
-              rules={[{ required: true, message: 'Please enter comment content' }]}
+          >
+            <Tabs defaultActiveKey="moderate">
+              <TabPane tab="Moderate" key="moderate">
+                <div className="row">
+                  <div className="col-12">
+                    <Table
+                      columns={moderateColumns}
+                      dataSource={pendingComments}
+                      loading={loading.pending}
+                      rowKey="CommentID"
+                      pagination={{ pageSize: 10 }}
+                      locale={{
+                        emptyText: (
+                          <Empty
+                            description="No pending comments found"
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          />
+                        ),
+                      }}
+                      scroll={{ x: 800 }}
+                      className="table-responsive"
+                    />
+                  </div>
+                </div>
+              </TabPane>
+              <TabPane tab="Moderation History" key="history">
+                <div className="row">
+                  <div className="col-12">
+                    <Table
+                      columns={historyColumns}
+                      dataSource={moderatedComments}
+                      loading={loading.history}
+                      rowKey="CommentID"
+                      pagination={{ pageSize: 10 }}
+                      locale={{
+                        emptyText: (
+                          <Empty
+                            description="No moderated comments found"
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          />
+                        ),
+                      }}
+                      scroll={{ x: 800 }}
+                      className="table-responsive"
+                    />
+                  </div>
+                </div>
+              </TabPane>
+              <TabPane tab="Manage" key="manage">
+                <div className="row">
+                  <div className="col-12">
+                    <Table
+                      columns={manageColumns}
+                      dataSource={manageComments}
+                      loading={loading.manage}
+                      rowKey="CommentID"
+                      pagination={{ pageSize: 10 }}
+                      locale={{
+                        emptyText: (
+                          <Empty
+                            description="No comments found"
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          />
+                        ),
+                      }}
+                      scroll={{ x: 800 }}
+                      className="table-responsive"
+                    />
+                  </div>
+                </div>
+              </TabPane>
+            </Tabs>
+            <Modal
+              title={modalMode === 'moderate' ? 'Moderate Comment' : 'Edit Comment'}
+              open={isModalOpen}
+              onOk={() => form.submit()}
+              onCancel={() => {
+                setIsModalOpen(false);
+                setSelectedComment(null);
+                setModalMode('moderate');
+                form.resetFields();
+              }}
+              okText="Submit"
+              cancelText="Cancel"
             >
-              <Input.TextArea rows={4} placeholder="Enter comment content" />
-            </Form.Item>
-          )}
-        </Form>
-      </Modal>
-    </Card>
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={(values) =>
+                  modalMode === 'moderate'
+                    ? moderateComment(selectedComment?.CommentID, values)
+                    : updateComment(selectedComment?.CommentID, values)
+                }
+              >
+                {modalMode === 'moderate' ? (
+                  <>
+                    <Form.Item
+                      name="status"
+                      label="Status"
+                      rules={[{ required: true, message: 'Please select a status' }]}
+                    >
+                      <Select>
+                        <Select.Option value="approved">Approved</Select.Option>
+                        <Select.Option value="rejected">Rejected</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="moderationNote"
+                      label="Moderation Note"
+                      rules={[{ required: true, message: 'Please enter a moderation note' }]}
+                    >
+                      <Input.TextArea rows={4} placeholder="Enter moderation note" />
+                    </Form.Item>
+                  </>
+                ) : (
+                  <Form.Item
+                    name="content"
+                    label="Comment Content"
+                    rules={[{ required: true, message: 'Please enter comment content' }]}
+                  >
+                    <Input.TextArea rows={4} placeholder="Enter comment content" />
+                  </Form.Item>
+                )}
+              </Form>
+            </Modal>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 
