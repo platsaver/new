@@ -496,8 +496,10 @@ const Navigation = ({
           <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
               <a className="menu-toggle btn" href="#" onClick={handleToggleSidebar}>
-                <i className="fa-solid fa-bars"></i>
-                <span className="menu-text">Danh mục</span>
+                <div className={theme === 'light' ? 'text-dark' : 'text-light'}>
+                  <i className="fa-solid fa-bars"></i>
+                  <span className="menu-text">Danh mục</span>
+                </div>
               </a>
               <h2
                 className="custom-branding text-center position-absolute top-50 start-50 translate-middle"
@@ -584,7 +586,7 @@ const Navigation = ({
                           : handleChangeComponent(e, item.component)
                       }
                     >
-                      {item.text}
+                      <span className={theme === 'light' ? 'text-dark' : 'text-light'}>{item.text}</span>
                     </a>
                   </li>
                 ))}

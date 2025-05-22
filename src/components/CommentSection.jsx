@@ -4,7 +4,7 @@ import { faComment, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import LoginForm from "./LoginForm.jsx";
 import { message } from "antd";
 
-const CommentSection = () => {
+const CommentSection = ({ theme }) => {
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +99,7 @@ const CommentSection = () => {
   // Fetch user profiles
   useEffect(() => {
     const fetchUserProfiles = async () => {
-      const userIds = [...new Set(comments.map(comment => comment.userid))]; // Unique userIds
+      const userIds = [...new Set(comments.map(comment => comment.userid))];
       const updatedUserProfilesMap = { ...userProfilesMap };
 
       for (const id of userIds) {
@@ -110,7 +110,7 @@ const CommentSection = () => {
             const data = await response.json();
             updatedUserProfilesMap[id] = {
               username: data.username,
-              avatarURL: data.avatarURL, // Use API response directly
+              avatarURL: data.avatarURL,
             };
           } catch (error) {
             console.error(`Error fetching profile for userId ${id}:`, error);
@@ -181,28 +181,32 @@ const CommentSection = () => {
 
   if (showLoginForm) {
     return (
-      <div className="login-page-container">
-        <LoginForm onBack={handleBackFromLogin} onLoginSuccess={handleLoginSuccess} />
+      <div className={`login-page-container ${theme === 'light' ? 'bg-light' : 'bg-dark'}`}>
+        <LoginForm onBack={handleBackFromLogin} onLoginSuccess={handleLoginSuccess} theme={theme} />
       </div>
     );
   }
 
   return (
-    <div className="comment-section">
+    <div className={`comment-section ${theme === 'light' ? 'bg-light text-dark' : 'bg-dark text-light'}`}>
       <div className="comment-header">
         <div className="comment-title">
           <FontAwesomeIcon icon={faComment} className="comment-icon" />
-          <span>Bình luận ({comments.length})</span>
+          <span className={theme === 'light' ? 'text-dark' : 'text-light'}>Bình luận ({comments.length})</span>
         </div>
         {!userName && (
-          <a href="#" className="login-to-comment" onClick={handleLoginClick}>
+          <a
+            href="#"
+            className={`login-to-comment ${theme === 'light' ? 'text-primary' : 'text-info'}`}
+            onClick={handleLoginClick}
+          >
             Đăng nhập để bình luận
           </a>
         )}
       </div>
       <div className="comment-input-wrapper">
         <textarea
-          className="comment-textbox"
+          className={`comment-textbox ${theme === 'light' ? 'bg-white text-dark border-light' : 'bg-dark text-light border-dark'}`}
           placeholder="Ý kiến của bạn ...."
           value={commentContent}
           onChange={(e) => setCommentContent(e.target.value)}
@@ -215,34 +219,52 @@ const CommentSection = () => {
           style={{ cursor: userName ? "pointer" : "not-allowed", opacity: userName ? 1 : 0.5 }}
         />
       </div>
-      {submitError && <p className="error-message" style={{ color: "red" }}>{submitError}</p>}
+      {submitError && (
+        <p className="error-message" style={{ color: theme === 'light' ? '#dc3545' : '#f87171' }}>
+          {submitError}
+        </p>
+      )}
       <div className="comments-list">
         {loading ? (
-          <p>Đang tải bình luận...</p>
+          <p className={theme === 'light' ? 'text-dark' : 'text-light'}>Đang tải bình luận...</p>
         ) : error ? (
-          <p className="error-message" style={{ color: "red" }}>{error}</p>
+          <p className="error-message" style={{ color: theme === 'light' ? '#dc3545' : '#f87171' }}>
+            {error}
+          </p>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment.commentid} className="comment-item" style={{ marginBottom: "15px", padding: "10px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "flex-start" }}>
+            <div
+              key={comment.commentid}
+              className={`comment-item ${theme === 'light' ? 'border-light' : 'border-dark'}`}
+              style={{
+                marginBottom: "15px",
+                padding: "10px",
+                borderBottom: `1px solid ${theme === 'light' ? '#ddd' : '#444'}`,
+                display: "flex",
+                alignItems: "flex-start",
+              }}
+            >
               <img
                 src={userProfilesMap[comment.userid]?.avatarURL || defaultAvatar}
                 alt="User Avatar"
                 style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px", objectFit: "cover" }}
-                onError={(e) => { e.target.src = defaultAvatar; }} // Fallback to default avatar on error
+                onError={(e) => { e.target.src = defaultAvatar; }}
               />
               <div>
                 <p>
-                  <strong>{userProfilesMap[comment.userid]?.username || `User_${comment.userid}`}</strong>{' '}
-                  <span style={{ color: "#888", fontSize: "0.9em" }}>
+                  <strong className={theme === 'light' ? 'text-dark' : 'text-light'}>
+                    {userProfilesMap[comment.userid]?.username || `User_${comment.userid}`}
+                  </strong>{' '}
+                  <span style={{ color: theme === 'light' ? '#888' : '#aaa', fontSize: "0.9em" }}>
                     ({new Date(comment.createdatdate).toLocaleString("vi-VN")})
                   </span>
                 </p>
-                <p>{comment.content}</p>
+                <p className={theme === 'light' ? 'text-dark' : 'text-light'}>{comment.content}</p>
               </div>
             </div>
           ))
         ) : (
-          <p>Chưa có bình luận nào.</p>
+          <p className={theme === 'light' ? 'text-dark' : 'text-light'}>Chưa có bình luận nào.</p>
         )}
       </div>
     </div>

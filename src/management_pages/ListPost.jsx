@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Avatar, List, Space, Spin, Alert, Typography } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
-import 'antd/dist/reset.css'; // Ensure Ant Design styles are included
+import 'antd/dist/reset.css';
 
-const { Title } = Typography; // Import Ant Design Typography for custom heading styles
+const { Title } = Typography;
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -18,6 +18,18 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Format post data to match List component structure
+  const formatPost = (post, index) => ({
+    href: post.slug ? `/posts/${post.slug}` : `/posts/${post.id || index + 1}`,
+    title: post.title || `Post ${index + 1}`,
+    avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${post.id || index}`,
+    description:
+      post.content?.slice(0, 100) + (post.content?.length > 100 ? '...' : '') ||
+      'No description available',
+    content: post.content || 'No content available',
+  });
+
+  // Initial fetch of posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -27,18 +39,7 @@ const App = () => {
           throw new Error(`Failed to fetch posts: ${response.statusText}`);
         }
         const posts = await response.json();
-
-        // Map the API response to match the List component structure
-        const formattedData = posts.map((post, i) => ({
-          href: post.slug ? `/posts/${post.slug}` : 'https://ant.design', // Derive href from slug
-          title: post.title || `Post ${i + 1}`, // Use title or fallback
-          avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`, // Generate avatar
-          description:
-            post.content?.slice(0, 100) + (post.content?.length > 100 ? '...' : '') ||
-            'No description available', // Extract snippet from content
-          content: post.content || 'No content available', // Use content or fallback
-        }));
-
+        const formattedData = posts.map((post, i) => formatPost(post, i));
         setData(formattedData);
       } catch (err) {
         setError(err.message);
@@ -50,7 +51,36 @@ const App = () => {
     fetchPosts();
   }, []);
 
-  // Function to render HTML content safely
+  // Set up SSE connection
+  useEffect(() => {
+    const eventSource = new EventSource('http://localhost:3000/events');
+
+    eventSource.onopen = () => {
+      console.log('SSE connection opened');
+    };
+
+    eventSource.addEventListener('postCreated', (event) => {
+      try {
+        const newPost = JSON.parse(event.data);
+        setData((prevData) => [formatPost(newPost, prevData.length), ...prevData]);
+      } catch (err) {
+        console.error('Error parsing SSE data:', err);
+      }
+    });
+
+    eventSource.onerror = (err) => {
+      console.error('SSE error:', err);
+      setError('Failed to connect to real-time updates');
+      eventSource.close();
+    };
+
+    // Clean up SSE connection on component unmount
+    return () => {
+      eventSource.close();
+      console.log('SSE connection closed');
+    };
+  }, []);
+
   const renderHTML = (htmlContent) => {
     return { __html: htmlContent };
   };
@@ -68,7 +98,7 @@ const App = () => {
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: page => {
+        onChange: (page) => {
           console.log(page);
         },
         pageSize: 3,
@@ -79,7 +109,7 @@ const App = () => {
           <b>ant design</b> footer part
         </div>
       }
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item
           key={item.title}
           actions={[
@@ -93,7 +123,6 @@ const App = () => {
             title={<a href={item.href}>{item.title}</a>}
             description={item.description}
           />
-          {/* Change 1: Render HTML content using dangerouslySetInnerHTML */}
           <div
             className="post-content"
             dangerouslySetInnerHTML={renderHTML(item.content)}

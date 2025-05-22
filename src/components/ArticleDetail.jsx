@@ -69,7 +69,7 @@ const ArticleDetail = ({ postId, setCurrentComponent, theme }) => {
               </div>
             </div>
             
-            <CommentSection />
+            <CommentSection theme={theme}/>
           </section>
         </div>
       </div>

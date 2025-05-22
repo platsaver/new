@@ -18,6 +18,18 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Format post data to match List component structure
+  const formatPost = (post, index) => ({
+    href: post.slug ? `/posts/${post.slug}` : `/posts/${post.id || index + 1}`,
+    title: post.title || `Post ${index + 1}`,
+    avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${post.id || index}`,
+    description:
+      post.content?.slice(0, 100) + (post.content?.length > 100 ? '...' : '') ||
+      'No description available',
+    content: post.content || 'No content available',
+  });
+
+  // Initial fetch of posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -32,18 +44,7 @@ const App = () => {
           throw new Error(errorResponse.error || `Failed to fetch posts: ${response.statusText}`);
         }
         const posts = await response.json();
-
-        // Map the API response to match the List component structure
-        const formattedData = posts.map((post, i) => ({
-          href: post.slug ? `/posts/${post.slug}` : 'https://ant.design',
-          title: post.title || `Post ${i + 1}`,
-          avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
-          description:
-            post.content?.slice(0, 100) + (post.content?.length > 100 ? '...' : '') ||
-            'No description available',
-          content: post.content || 'No content available',
-        }));
-
+        const formattedData = posts.map((post, i) => formatPost(post, i));
         setData(formattedData);
       } catch (err) {
         setError(err.message);
@@ -55,7 +56,45 @@ const App = () => {
     fetchPosts();
   }, []);
 
-  // Function to render HTML content safely
+  // Set up SSE connection
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (!userId || isNaN(parseInt(userId))) {
+      console.warn('No valid userId for SSE');
+      return;
+    }
+
+    const eventSource = new EventSource('http://localhost:3000/events');
+
+    eventSource.onopen = () => {
+      console.log('SSE connection opened');
+    };
+
+    eventSource.addEventListener('postCreated', (event) => {
+      try {
+        const newPost = JSON.parse(event.data);
+        // Only add the post if it belongs to the current user
+        if (newPost.userid === parseInt(userId)) {
+          setData((prevData) => [formatPost(newPost, prevData.length), ...prevData]);
+        }
+      } catch (err) {
+        console.error('Error parsing SSE data:', err);
+      }
+    });
+
+    eventSource.onerror = (err) => {
+      console.error('SSE error:', err);
+      setError('Failed to connect to real-time updates');
+      eventSource.close();
+    };
+
+    // Clean up SSE connection on component unmount
+    return () => {
+      eventSource.close();
+      console.log('SSE connection closed');
+    };
+  }, []);
+
   const renderHTML = (htmlContent) => {
     return { __html: htmlContent };
   };
@@ -73,7 +112,7 @@ const App = () => {
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: page => {
+        onChange: (page) => {
           console.log(page);
         },
         pageSize: 3,
@@ -84,11 +123,11 @@ const App = () => {
           <b>ant design</b> footer part
         </div>
       }
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item
           key={item.title}
           actions={[
-            <IconText icon={StarOutlined} text lider="156" key="list-vertical-star-o" />,
+            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
             <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
             <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
           ]}
