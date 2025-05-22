@@ -1183,3 +1183,18 @@ body.dark .form-control {
   background-color: #444444;
   border-color: #555555;
 }
+
+.card {
+  background-color: var(--bs-body-bg);
+  border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .card {
+  background-color: #333; /* Màu nền tối */
+  border-color: #666; /* Màu viền tối */
+}
+
+[data-bs-theme="light"] .card {
+  background-color: #fff; /* Màu nền sáng */
+  border-color: #ccc; /* Màu viền sáng */
+}

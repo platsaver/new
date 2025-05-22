@@ -395,6 +395,7 @@ const Navigation = ({
             pagination={pagination}
             onBack={handleBackFromSearch}
             setCurrentComponent={setCurrentComponent}
+            theme={theme}
           />
         );
       case 'articleDetail':
