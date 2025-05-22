@@ -403,6 +403,7 @@ const Navigation = ({
             key={selectedPostId}
             postId={selectedPostId}
             setCurrentComponent={setCurrentComponent}
+            theme={theme}
           />
         );
       case 'admin':
@@ -473,7 +474,7 @@ const Navigation = ({
         );
       case 'homepage':
       default:
-        return <HomePage setCurrentComponent={setCurrentComponent} />;
+        return <HomePage setCurrentComponent={setCurrentComponent} theme={theme}/>;
     }
   };
 
@@ -600,7 +601,7 @@ const Navigation = ({
           <div className="d-none d-sm-block">
             <div>
               <h2 className="branding text-center">
-                <a href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
+                <a className={theme === 'light' ? 'text-dark' : 'text-light'} href="#" onClick={(e) => handleChangeComponent(e, 'homepage')}>
                   The Hanoi Times
                 </a>
               </h2>

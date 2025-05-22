@@ -397,7 +397,7 @@ h1, h2, h3, h4, h5, h6,
 }
 .custom-branding {
   font-family: 'Chomsky'; /* Đảm bảo font được tải */
-  color: black;
+  color: inherit;
   font-size: 25px;
   padding-top: 7px;
   opacity: 0; /* Ẩn ban đầu */

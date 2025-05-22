@@ -7,7 +7,7 @@ import LatestSection from './components/LatestSection.jsx';
 
 const API_BASE_URL = 'http://localhost:3000';
 
-const NewsApp = ({ setCurrentComponent }) => {
+const NewsApp = ({ setCurrentComponent,theme }) => {
   const [businessArticles, setBusinessArticles] = useState([]);
   const [realEstateArticles, setRealEstateArticles] = useState([]);
   const [lawArticles, setLawArticles] = useState([]);
@@ -183,7 +183,7 @@ const NewsApp = ({ setCurrentComponent }) => {
             setCurrentComponent={setCurrentComponent}
           />
           
-          <LatestSection setCurrentComponent={setCurrentComponent} />
+          <LatestSection setCurrentComponent={setCurrentComponent} theme={theme}/>
         </div>
       </div>
     </>

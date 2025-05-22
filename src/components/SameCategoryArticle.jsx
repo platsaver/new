@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { message, Spin } from 'antd';
 
-const SameCategoryArticle = ({ setCurrentComponent }) => {
+const SameCategoryArticle = ({ setCurrentComponent, theme }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -87,7 +87,7 @@ const SameCategoryArticle = ({ setCurrentComponent }) => {
 
   return (
     <div className="same-category-section">
-      <h3><span>Cùng chuyên mục</span></h3>
+      <h3><span style={{color: '#FF0000'}}>Cùng chuyên mục</span></h3>
       <div className="same-category-container">
         {articles.map((article, index) => (
           <div className="same-category-item" key={index}>
@@ -99,7 +99,9 @@ const SameCategoryArticle = ({ setCurrentComponent }) => {
               }}
             >
               <img src={article.imgSrc} alt={article.alt} />
-              <h4>{article.title}</h4>
+              <h4 className={theme === 'light' ? 'text-dark' : 'text-light'}>
+                {article.title}
+              </h4>
             </a>
           </div>
         ))}

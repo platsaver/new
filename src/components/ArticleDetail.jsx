@@ -5,7 +5,7 @@ import CommentSection from './CommentSection';
 import SameCategoryArticle from './SameCategoryArticle.jsx';
 import RelatedArticle from './RelatedArticle.jsx';
 
-const ArticleDetail = ({ postId, setCurrentComponent }) => {
+const ArticleDetail = ({ postId, setCurrentComponent, theme }) => {
   const [articleData, setArticleData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,7 +65,7 @@ const ArticleDetail = ({ postId, setCurrentComponent }) => {
                 <ArticleContent
                   content={articleData.content}
                 />
-                <RelatedArticle setCurrentComponent={setCurrentComponent} />
+                <RelatedArticle setCurrentComponent={setCurrentComponent} theme={theme}/>
               </div>
             </div>
             
@@ -73,7 +73,7 @@ const ArticleDetail = ({ postId, setCurrentComponent }) => {
           </section>
         </div>
       </div>
-      <SameCategoryArticle setCurrentComponent={setCurrentComponent} />
+      <SameCategoryArticle setCurrentComponent={setCurrentComponent} theme={theme}/>
     </>
   );
 };

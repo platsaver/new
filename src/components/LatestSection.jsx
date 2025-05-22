@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const API_BASE_URL = 'http://localhost:3000';
 
 // Latest News Section Component
-const LatestSection = ({ setCurrentComponent }) => {
+const LatestSection = ({ setCurrentComponent, theme }) => {
   const [latestArticles, setLatestArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -102,7 +102,7 @@ const LatestSection = ({ setCurrentComponent }) => {
                         handleArticleClick(article.postId);
                       }}
                     >
-                      {article.title}
+                      <span className={theme === 'light' ? 'text-dark' : 'text-light'}>{article.title}</span>
                     </a>
                   </h2>
                   <p>{article.excerpt}</p>
