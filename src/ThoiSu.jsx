@@ -63,64 +63,93 @@ const ThoiSu = ({ previewCategory, setCurrentComponent }) => {
 
     // Category events
     source.addEventListener('categoryCreated', (event) => {
-      const newCategory = JSON.parse(event.data);
-      if (!previewCategory || newCategory.categoryId === previewCategory.CategoryID) {
-        fetchSubCategories(); // Refetch to include any new subcategories under this category
+      try {
+        const newCategory = JSON.parse(event.data);
+        if (!previewCategory || newCategory.categoryId === previewCategory.CategoryID) {
+          fetchSubCategories(); // Refetch to include any new subcategories under this category
+        }
+      } catch (err) {
+        console.error('Error parsing categoryCreated event:', err);
       }
     });
 
     source.addEventListener('categoryUpdated', (event) => {
-      const updatedCategory = JSON.parse(event.data);
-      if (!previewCategory || updatedCategory.categoryId === previewCategory.CategoryID) {
-        fetchSubCategories(); // Refetch to update category name in subcategories
+      try {
+        const updatedCategory = JSON.parse(event.data);
+        if (!previewCategory || updatedCategory.categoryId === previewCategory.CategoryID) {
+          fetchSubCategories(); // Refetch to update category name in subcategories
+        }
+      } catch (err) {
+        console.error('Error parsing categoryUpdated event:', err);
       }
     });
 
     source.addEventListener('categoryDeleted', (event) => {
-      const { categoryId } = JSON.parse(event.data);
-      if (!previewCategory || categoryId === previewCategory.CategoryID) {
-        setSubCategories((prev) => prev.filter((sub) => sub.CategoryID !== categoryId));
+      try {
+        const { categoryId } = JSON.parse(event.data);
+        if (!previewCategory || categoryId === previewCategory.CategoryID) {
+          setSubCategories((prev) => prev.filter((sub) => sub.CategoryID !== categoryId));
+        }
+      } catch (err) {
+        console.error('Error parsing categoryDeleted event:', err);
       }
     });
 
     // Subcategory events
     source.addEventListener('subcategoryCreated', (event) => {
-      const newSubcategory = JSON.parse(event.data);
-      if (!previewCategory || newSubcategory.categoryId === previewCategory.CategoryID) {
-        setSubCategories((prev) => [
-          ...prev,
-          {
-            SubCategoryID: newSubcategory.subCategoryId,
-            CategoryID: newSubcategory.categoryId,
-            SubCategoryName: newSubcategory.subCategoryName,
-            BannerURL: newSubcategory.bannerUrl ? `${API_BASE_URL}${newSubcategory.bannerUrl}` : null,
-            CategoryName: previewCategory ? previewCategory.CategoryName : 'Thời sự'
-          }
-        ]);
+      console.log('Received subcategoryCreated event:', event.data);
+      try {
+        const newSubcategory = JSON.parse(event.data);
+        console.log('Parsed subcategory:', newSubcategory);
+        if (!previewCategory || newSubcategory.categoryId === previewCategory.CategoryID) {
+          console.log('Adding subcategory to state:', newSubcategory);
+          setSubCategories((prev) => [
+            ...prev,
+            {
+              SubCategoryID: newSubcategory.subCategoryId,
+              CategoryID: newSubcategory.categoryId,
+              SubCategoryName: newSubcategory.subCategoryName,
+              BannerURL: newSubcategory.bannerUrl ? `${API_BASE_URL}${newSubcategory.bannerUrl}` : null,
+              CategoryName: previewCategory ? previewCategory.CategoryName : 'Thời sự'
+            }
+          ]);
+        } else {
+          console.log('Subcategory filtered out:', newSubcategory, previewCategory);
+        }
+      } catch (err) {
+        console.error('Error parsing subcategoryCreated event:', err);
       }
     });
 
     source.addEventListener('subcategoryUpdated', (event) => {
-      const updatedSubcategory = JSON.parse(event.data);
-      if (!previewCategory || updatedSubcategory.categoryId === previewCategory.CategoryID) {
-        setSubCategories((prev) =>
-          prev.map((sub) =>
-            sub.SubCategoryID === updatedSubcategory.subCategoryId
-              ? {
-                  ...sub,
-                  CategoryID: updatedSubcategory.categoryId,
-                  SubCategoryName: updatedSubcategory.subCategoryName,
-                  BannerURL: updatedSubcategory.bannerUrl ? `${API_BASE_URL}${updatedSubcategory.bannerUrl}` : null
-                }
-              : sub
-          )
-        );
+      try {
+        const updatedSubcategory = JSON.parse(event.data);
+        if (!previewCategory || updatedSubcategory.categoryId === previewCategory.CategoryID) {
+          setSubCategories((prev) =>
+            prev.map((sub) =>
+              sub.SubCategoryID === updatedSubcategory.subCategoryId
+                ? {
+                    ...sub,
+                    CategoryID: updatedSubcategory.categoryId,
+                    SubCategoryName: updatedSubcategory.subCategoryName,
+                    BannerURL: updatedSubcategory.bannerUrl ? `${API_BASE_URL}${updatedSubcategory.bannerUrl}` : null
+                  }
+                : sub
+            )
+          );
+        }
+      } catch (err) {
+        console.error('Error parsing subcategoryUpdated event:', err);
       }
     });
 
     source.addEventListener('subcategoryDeleted', (event) => {
-      const { subCategoryId } = JSON.parse(event.data);
-      setSubCategories((prev) => prev.filter((sub) => sub.SubCategoryID !== subCategoryId));
+      try {
+        const { subCategoryId } = JSON.parse(event.data);
+        setSubCategories((prev) => prev.filter((sub) => sub.SubCategoryID !== subCategoryId));
+      } catch (err) {
+        console.error('Error parsing subcategoryDeleted event:', err);
+      }
     });
 
     source.onerror = () => {
@@ -236,17 +265,25 @@ const CategorySectionWrapper = ({ subCategoryId, title, fetchNews, setCurrentCom
     const source = new EventSource(`${API_BASE_URL}/events`);
 
     source.addEventListener('postCreated', (event) => {
-      const newPost = JSON.parse(event.data);
-      if (newPost.subcategoryid === subCategoryId && newPost.status === 'Published') {
-        loadArticles(); // Refetch articles to include the new post
+      try {
+        const newPost = JSON.parse(event.data);
+        if (newPost.subcategoryid === subCategoryId && newPost.status === 'Published') {
+          loadArticles(); // Refetch articles to include the new post
+        }
+      } catch (err) {
+        console.error('Error parsing postCreated event:', err);
       }
     });
 
     source.addEventListener('postUpdated', (event) => {
-      const updatedPost = JSON.parse(event.data);
-      const isInCurrentArticles = articles.some((article) => article.postid === updatedPost.id);
-      if ((isInCurrentArticles || updatedPost.status === 'Published') && updatedPost.subcategoryid === subCategoryId) {
-        loadArticles(); // Refetch articles to reflect the update
+      try {
+        const updatedPost = JSON.parse(event.data);
+        const isInCurrentArticles = articles.some((article) => article.postid === updatedPost.id);
+        if ((isInCurrentArticles || updatedPost.status === 'Published') && updatedPost.subcategoryid === subCategoryId) {
+          loadArticles(); // Refetch articles to reflect the update
+        }
+      } catch (err) {
+        console.error('Error parsing postUpdated event:', err);
       }
     });
 
